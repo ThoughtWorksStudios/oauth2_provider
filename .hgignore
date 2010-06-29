@@ -1,0 +1,4 @@
+syntax: glob
+provider/db/*
+provider/log/*
+provider/tmp/*
