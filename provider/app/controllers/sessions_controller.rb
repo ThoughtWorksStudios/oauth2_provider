@@ -1,6 +1,9 @@
 class SessionsController < ApplicationController
   
+  skip_before_filter :login_required, :only => ['index', 'create']
+
   def index
+    # renders the login page
   end
   
   def create
@@ -8,9 +11,15 @@ class SessionsController < ApplicationController
       self.current_user = user
       flash[:notice] = 'Welcome!'
       redirect_to '/'
+      return
     else
       flash.now[:error] =  "Couldn't locate a user with those credentials"
-      render :action => :index
+      redirect_to :action => :index
     end
+  end
+  
+  def clear_session
+    super
+    redirect_to :action => :index
   end
 end

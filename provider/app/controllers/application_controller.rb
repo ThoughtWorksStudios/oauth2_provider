@@ -10,4 +10,12 @@ class ApplicationController < ActionController::Base
   
   include SimplestAuth::Controller
   
+  before_filter :login_required
+  
+  private
+    
+  def new_session_url
+    url_for(:controller => 'sessions', :action => 'create')
+  end
+  
 end
