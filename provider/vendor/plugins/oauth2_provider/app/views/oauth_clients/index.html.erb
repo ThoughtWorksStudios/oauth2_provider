@@ -1,0 +1,24 @@
+<h1>Listing oauth_clients</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Client</th>
+    <th>Client secret</th>
+    <th>Redirect uri</th>
+  </tr>
+
+<% @oauth_clients.each do |oauth_client| %>
+  <tr>
+    <td><%=h oauth_client.name %></td>
+    <td><%=h oauth_client.redirect_uri %></td>
+    <td><%= link_to 'Show', oauth_client %></td>
+    <td><%= link_to 'Edit', edit_oauth_client_path(oauth_client) %></td>
+    <td><%= link_to 'Destroy', oauth_client, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New oauth_client', new_oauth_client_path %>
