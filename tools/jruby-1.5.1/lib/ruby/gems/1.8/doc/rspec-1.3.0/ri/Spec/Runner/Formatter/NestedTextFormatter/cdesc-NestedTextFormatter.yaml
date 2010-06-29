@@ -1,0 +1,28 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: new
+comment: 
+constants: 
+  - !ruby/object:RI::Constant 
+    comment: 
+    name: INDENT
+    value: "'  '"
+full_name: Spec::Runner::Formatter::NestedTextFormatter
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: current_indentation
+  - !ruby/object:RI::MethodSummary 
+    name: example_failed
+  - !ruby/object:RI::MethodSummary 
+    name: example_group_started
+  - !ruby/object:RI::MethodSummary 
+    name: example_passed
+  - !ruby/object:RI::MethodSummary 
+    name: example_pending
+name: NestedTextFormatter
+superclass: BaseTextFormatter

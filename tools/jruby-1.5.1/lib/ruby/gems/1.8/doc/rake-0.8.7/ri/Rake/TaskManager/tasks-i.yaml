@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: List of all defined tasks in this application.
+full_name: Rake::TaskManager#tasks
+is_singleton: false
+name: tasks
+params: ()
+visibility: public

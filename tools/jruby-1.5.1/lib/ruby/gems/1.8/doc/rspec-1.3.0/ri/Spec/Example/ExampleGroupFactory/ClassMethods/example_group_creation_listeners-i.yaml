@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Example::ExampleGroupFactory::ClassMethods#example_group_creation_listeners
+is_singleton: false
+name: example_group_creation_listeners
+params: ()
+visibility: public

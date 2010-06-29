@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Autotest::Rspec#normalize
+is_singleton: false
+name: normalize
+params: (files_to_test)
+visibility: public

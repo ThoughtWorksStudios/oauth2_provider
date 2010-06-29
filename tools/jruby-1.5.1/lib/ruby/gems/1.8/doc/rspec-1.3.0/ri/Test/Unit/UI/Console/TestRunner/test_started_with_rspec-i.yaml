@@ -1,0 +1,11 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: 
+  - !ruby/object:RI::AliasName 
+    name: test_started
+block_params: 
+comment: 
+full_name: Test::Unit::UI::Console::TestRunner#test_started_with_rspec
+is_singleton: false
+name: test_started_with_rspec
+params: (name)
+visibility: public

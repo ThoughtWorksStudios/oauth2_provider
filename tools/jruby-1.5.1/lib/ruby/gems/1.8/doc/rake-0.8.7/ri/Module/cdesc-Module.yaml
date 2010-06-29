@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Rake extensions to Module.
+constants: []
+
+full_name: Module
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: const_missing
+  - !ruby/object:RI::MethodSummary 
+    name: rake_extension
+name: Module
+superclass: Object

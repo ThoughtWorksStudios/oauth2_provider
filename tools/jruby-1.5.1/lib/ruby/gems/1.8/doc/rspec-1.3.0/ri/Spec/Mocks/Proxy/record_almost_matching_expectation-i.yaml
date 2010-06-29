@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::Proxy#record_almost_matching_expectation
+is_singleton: false
+name: record_almost_matching_expectation
+params: (expectation, sym, *args, &block)
+visibility: public

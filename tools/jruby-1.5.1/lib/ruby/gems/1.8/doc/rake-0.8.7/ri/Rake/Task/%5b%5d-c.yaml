@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Return a task with the given name. If the task is not currently known, try to synthesize one from the defined rules. If no rules are found, but an existing file matches the task name, assume it is a file task with no dependencies or actions.
+full_name: Rake::Task::[]
+is_singleton: true
+name: "[]"
+params: (task_name)
+visibility: public

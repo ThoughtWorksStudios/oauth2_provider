@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::Proxy#ok_to_invoke_stub?
+is_singleton: false
+name: ok_to_invoke_stub?
+params: (stub, expectation)
+visibility: public

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Formatter::BaseTextFormatter#format_backtrace
+is_singleton: false
+name: format_backtrace
+params: (backtrace)
+visibility: public

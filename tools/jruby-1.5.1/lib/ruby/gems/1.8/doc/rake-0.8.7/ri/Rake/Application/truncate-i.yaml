@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::Application#truncate
+is_singleton: false
+name: truncate
+params: (string, width)
+visibility: public

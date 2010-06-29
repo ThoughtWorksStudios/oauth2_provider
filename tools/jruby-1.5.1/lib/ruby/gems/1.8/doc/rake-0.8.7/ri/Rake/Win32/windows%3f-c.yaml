@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: True if running on a windows system.
+full_name: Rake::Win32::windows?
+is_singleton: true
+name: windows?
+params: ()
+visibility: public

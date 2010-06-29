@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Display the tasks and prerequisites
+full_name: Rake::Application#display_prerequisites
+is_singleton: false
+name: display_prerequisites
+params: ()
+visibility: public

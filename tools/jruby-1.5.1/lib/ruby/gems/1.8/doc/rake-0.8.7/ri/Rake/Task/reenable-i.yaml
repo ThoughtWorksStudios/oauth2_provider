@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Reenable the task, allowing its tasks to be executed if the task is invoked again.
+full_name: Rake::Task#reenable
+is_singleton: false
+name: reenable
+params: ()
+visibility: public

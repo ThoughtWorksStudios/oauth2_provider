@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::InvocationChain::append
+is_singleton: true
+name: append
+params: (value, chain)
+visibility: public

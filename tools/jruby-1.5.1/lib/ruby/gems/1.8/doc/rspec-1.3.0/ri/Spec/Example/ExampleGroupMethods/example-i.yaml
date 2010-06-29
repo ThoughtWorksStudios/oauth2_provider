@@ -1,0 +1,15 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: 
+  - !ruby/object:RI::AliasName 
+    name: it
+  - !ruby/object:RI::AliasName 
+    name: specify
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Creates an instance of the current example group class and adds it to a collection of examples of the current example group.
+full_name: Spec::Example::ExampleGroupMethods#example
+is_singleton: false
+name: example
+params: (description=nil, options={}, backtrace=nil, &implementation)
+visibility: public

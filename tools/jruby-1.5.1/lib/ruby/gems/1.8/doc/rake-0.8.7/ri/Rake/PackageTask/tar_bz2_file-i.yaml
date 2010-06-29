@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::PackageTask#tar_bz2_file
+is_singleton: false
+name: tar_bz2_file
+params: ()
+visibility: public

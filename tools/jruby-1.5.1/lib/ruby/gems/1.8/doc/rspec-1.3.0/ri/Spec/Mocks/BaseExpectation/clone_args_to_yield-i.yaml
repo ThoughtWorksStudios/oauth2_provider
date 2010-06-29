@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::BaseExpectation#clone_args_to_yield
+is_singleton: false
+name: clone_args_to_yield
+params: (args)
+visibility: protected

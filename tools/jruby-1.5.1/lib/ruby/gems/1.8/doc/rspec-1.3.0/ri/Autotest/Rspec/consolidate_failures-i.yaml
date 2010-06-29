@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Autotest::Rspec#consolidate_failures
+is_singleton: false
+name: consolidate_failures
+params: (failed)
+visibility: public

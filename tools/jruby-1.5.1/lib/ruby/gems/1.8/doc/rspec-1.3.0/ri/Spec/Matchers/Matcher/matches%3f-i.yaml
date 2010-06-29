@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Used internally by objects returns by <tt>should</tt> and <tt>should_not</tt>.
+full_name: Spec::Matchers::Matcher#matches?
+is_singleton: false
+name: matches?
+params: (actual)
+visibility: public

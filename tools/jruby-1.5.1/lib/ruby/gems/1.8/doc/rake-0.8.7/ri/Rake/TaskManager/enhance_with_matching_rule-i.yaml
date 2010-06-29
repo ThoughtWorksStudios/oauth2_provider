@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: If a rule can be found that matches the task name, enhance the task with the prerequisites and actions from the rule. Set the source attribute of the task appropriately for the rule. Return the enhanced task or nil of no rule was found.
+full_name: Rake::TaskManager#enhance_with_matching_rule
+is_singleton: false
+name: enhance_with_matching_rule
+params: (task_name, level=0)
+visibility: public

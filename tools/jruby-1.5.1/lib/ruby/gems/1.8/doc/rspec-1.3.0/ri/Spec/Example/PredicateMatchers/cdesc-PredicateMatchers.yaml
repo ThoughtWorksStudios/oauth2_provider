@@ -1,0 +1,16 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Example::PredicateMatchers
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: predicate_matchers
+name: PredicateMatchers
+superclass: 

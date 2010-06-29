@@ -1,0 +1,19 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  receiver.should_not(matcher)\n    =&gt; Passes unless matcher.matches?(receiver)\n\n  receiver.should_not == expected\n    =&gt; Passes unless (receiver == expected)\n\n  receiver.should_not === expected\n    =&gt; Passes unless (receiver === expected)\n\n  receiver.should_not =~ regexp\n    =&gt; Passes unless (receiver =~ regexp)\n"
+  - !ruby/struct:SM::Flow::P 
+    body: See Spec::Matchers for more information about matchers
+full_name: Kernel#should_not
+is_singleton: false
+name: should_not
+params: |
+  should_not(matcher)
+  should_not == expected
+  should_not === expected
+  should_not =~ expected
+
+visibility: public

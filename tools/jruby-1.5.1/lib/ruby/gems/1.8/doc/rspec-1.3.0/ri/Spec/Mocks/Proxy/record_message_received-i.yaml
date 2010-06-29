@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::Proxy#record_message_received
+is_singleton: false
+name: record_message_received
+params: (sym, args, block)
+visibility: public

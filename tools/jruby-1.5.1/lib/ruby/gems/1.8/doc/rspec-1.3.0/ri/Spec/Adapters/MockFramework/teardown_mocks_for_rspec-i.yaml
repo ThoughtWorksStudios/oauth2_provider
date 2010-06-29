@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Adapters::MockFramework#teardown_mocks_for_rspec
+is_singleton: false
+name: teardown_mocks_for_rspec
+params: ()
+visibility: public

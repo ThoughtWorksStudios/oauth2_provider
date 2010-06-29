@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Example::Subject::ExampleMethods
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: should
+  - !ruby/object:RI::MethodSummary 
+    name: should_not
+  - !ruby/object:RI::MethodSummary 
+    name: subject
+name: ExampleMethods
+superclass: 

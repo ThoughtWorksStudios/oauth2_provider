@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Example::ExampleMatcher#example_regexp
+is_singleton: false
+name: example_regexp
+params: ()
+visibility: protected

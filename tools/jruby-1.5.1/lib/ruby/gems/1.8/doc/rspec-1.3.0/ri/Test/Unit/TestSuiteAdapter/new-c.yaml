@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Test::Unit::TestSuiteAdapter::new
+is_singleton: true
+name: new
+params: (example_group)
+visibility: public

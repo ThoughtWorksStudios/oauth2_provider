@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::MessageExpectation#clear_actual_received_count!
+is_singleton: false
+name: clear_actual_received_count!
+params: ()
+visibility: protected

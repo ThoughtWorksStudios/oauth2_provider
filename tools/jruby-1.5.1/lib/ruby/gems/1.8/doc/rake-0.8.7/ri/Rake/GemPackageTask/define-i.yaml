@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Create the Rake tasks and actions specified by this GemPackageTask. (<tt>define</tt> is automatically called if a block is given to <tt>new</tt>).
+full_name: Rake::GemPackageTask#define
+is_singleton: false
+name: define
+params: ()
+visibility: public

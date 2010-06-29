@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::AltSystem#repair_command
+is_singleton: false
+name: repair_command
+params: (cmd)
+visibility: public

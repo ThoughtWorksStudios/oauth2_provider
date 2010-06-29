@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: First source from a rule (nil if no sources)
+full_name: Rake::Task#source
+is_singleton: false
+name: source
+params: ()
+visibility: public

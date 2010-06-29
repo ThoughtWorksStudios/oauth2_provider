@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Alias for #unstub!"
+full_name: Spec::Mocks::Methods#unstub
+is_singleton: false
+name: unstub
+params: (message)
+visibility: public

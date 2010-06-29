@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::InvocationChain#member?
+is_singleton: false
+name: member?
+params: (obj)
+visibility: public

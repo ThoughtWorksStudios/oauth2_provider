@@ -1,0 +1,17 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Error indicating an ill-formed task declaration.
+constants: []
+
+full_name: Rake::TaskArgumentError
+includes: []
+
+instance_methods: []
+
+name: TaskArgumentError
+superclass: ArgumentError

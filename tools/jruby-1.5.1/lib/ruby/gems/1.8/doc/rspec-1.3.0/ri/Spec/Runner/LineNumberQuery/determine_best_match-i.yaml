@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::LineNumberQuery#determine_best_match
+is_singleton: false
+name: determine_best_match
+params: (file, line_number)
+visibility: protected

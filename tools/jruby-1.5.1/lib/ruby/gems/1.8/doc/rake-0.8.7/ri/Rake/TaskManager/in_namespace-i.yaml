@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: (ns)
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Evaluate the block in a nested namespace named <tt>name</tt>. Create an anonymous namespace if <tt>name</tt> is nil.
+full_name: Rake::TaskManager#in_namespace
+is_singleton: false
+name: in_namespace
+params: (name) {|ns| ...}
+visibility: public

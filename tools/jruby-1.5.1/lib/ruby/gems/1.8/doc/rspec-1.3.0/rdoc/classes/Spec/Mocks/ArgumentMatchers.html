@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Spec::Mocks::ArgumentMatchers</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Spec::Mocks::ArgumentMatchers</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/spec/mocks/argument_matchers_rb.html">
+                lib/spec/mocks/argument_matchers.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+<a href="ArgumentMatchers.html">ArgumentMatchers</a> are messages that you
+can include in message expectations to match arguments against a broader
+check than simple equality.
+</p>
+<p>
+With the exception of <a
+href="ArgumentMatchers.html#M000191">any_args</a>() and <a
+href="ArgumentMatchers.html#M000190">no_args</a>(), the matchers are all
+positional - they match against the arg in the given position.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000200">a_kind_of</a>&nbsp;&nbsp;
+      <a href="#M000198">an_instance_of</a>&nbsp;&nbsp;
+      <a href="#M000191">any_args</a>&nbsp;&nbsp;
+      <a href="#M000192">anything</a>&nbsp;&nbsp;
+      <a href="#M000194">boolean</a>&nbsp;&nbsp;
+      <a href="#M000193">duck_type</a>&nbsp;&nbsp;
+      <a href="#M000195">hash_including</a>&nbsp;&nbsp;
+      <a href="#M000196">hash_not_including</a>&nbsp;&nbsp;
+      <a href="#M000197">instance_of</a>&nbsp;&nbsp;
+      <a href="#M000199">kind_of</a>&nbsp;&nbsp;
+      <a href="#M000190">no_args</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="ArgumentMatchers/AnyArgMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::AnyArgMatcher</a><br />
+Class <a href="ArgumentMatchers/AnyArgsMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::AnyArgsMatcher</a><br />
+Class <a href="ArgumentMatchers/BooleanMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::BooleanMatcher</a><br />
+Class <a href="ArgumentMatchers/DuckTypeMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::DuckTypeMatcher</a><br />
+Class <a href="ArgumentMatchers/EqualityProxy.html" class="link">Spec::Mocks::ArgumentMatchers::EqualityProxy</a><br />
+Class <a href="ArgumentMatchers/HashIncludingMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::HashIncludingMatcher</a><br />
+Class <a href="ArgumentMatchers/HashNotIncludingMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::HashNotIncludingMatcher</a><br />
+Class <a href="ArgumentMatchers/InstanceOf.html" class="link">Spec::Mocks::ArgumentMatchers::InstanceOf</a><br />
+Class <a href="ArgumentMatchers/KindOf.html" class="link">Spec::Mocks::ArgumentMatchers::KindOf</a><br />
+Class <a href="ArgumentMatchers/MatcherMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::MatcherMatcher</a><br />
+Class <a href="ArgumentMatchers/NoArgsMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::NoArgsMatcher</a><br />
+Class <a href="ArgumentMatchers/RegexpMatcher.html" class="link">Spec::Mocks::ArgumentMatchers::RegexpMatcher</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000200" class="method-detail">
+        <a name="M000200"></a>
+
+        <div class="method-heading">
+          <span class="method-name">a_kind_of</span><span class="method-args">(klass)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="ArgumentMatchers.html#M000199">kind_of</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000198" class="method-detail">
+        <a name="M000198"></a>
+
+        <div class="method-heading">
+          <span class="method-name">an_instance_of</span><span class="method-args">(klass)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="ArgumentMatchers.html#M000197">instance_of</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000191" class="method-detail">
+        <a name="M000191"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000191.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000191.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(any_args())<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if object receives :message with any args at all. This is really a
+more explicit variation of object.should_receive(:message)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000192" class="method-detail">
+        <a name="M000192"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000192.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000192.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(anything())<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes as long as there is an argument.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000194" class="method-detail">
+        <a name="M000194"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000194.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000194.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(boolean())<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if the argument is <a
+href="ArgumentMatchers.html#M000194">boolean</a>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000193" class="method-detail">
+        <a name="M000193"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000193.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000193.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(duck_type(:hello))<br />
+object.should_receive(:message).with(duck_type(:hello, :goodbye))<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if the argument responds to the specified messages.
+</p>
+<h2>Examples</h2>
+<pre>
+  array = []
+  display = mock('display')
+  display.should_receive(:present_names).with(duck_type(:length, :each))
+  =&gt; passes
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000195" class="method-detail">
+        <a name="M000195"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000195.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000195.html');return false;">
+          <span class="method-name">hash_including</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+:call-seq:
+</p>
+<pre>
+  object.should_receive(:message).with(hash_including(:key =&gt; val))
+  object.should_receive(:message).with(hash_including(:key))
+  object.should_receive(:message).with(hash_including(:key, :key2 =&gt; val2))
+</pre>
+<p>
+Passes if the argument is a hash that includes the specified key(s) or
+key/value pairs. If the hash includes other keys, it will still pass.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000196" class="method-detail">
+        <a name="M000196"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000196.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000196.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(hash_not_including(:key => val))<br />
+object.should_receive(:message).with(hash_not_including(:key))<br />
+object.should_receive(:message).with(hash_not_including(:key, :key2 => :val2))<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if the argument is a hash that doesn&#8216;t include the specified
+key(s) or key/value
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000197" class="method-detail">
+        <a name="M000197"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000197.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000197.html');return false;">
+          <span class="method-name">instance_of</span><span class="method-args">(klass)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if arg.instance_of?(klass)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000199" class="method-detail">
+        <a name="M000199"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000199.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000199.html');return false;">
+          <span class="method-name">kind_of</span><span class="method-args">(klass)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if arg.kind_of?(klass)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000190" class="method-detail">
+        <a name="M000190"></a>
+
+        <div class="method-heading">
+          <a href="ArgumentMatchers.src/M000190.html" target="Code" class="method-signature"
+            onclick="popupCode('ArgumentMatchers.src/M000190.html');return false;">
+          <span class="method-name">object.should_receive(:message).with(no_args())<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Passes if no arguments are passed along with the message
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

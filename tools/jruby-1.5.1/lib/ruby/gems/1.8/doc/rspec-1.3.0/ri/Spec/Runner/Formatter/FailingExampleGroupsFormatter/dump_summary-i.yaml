@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Formatter::FailingExampleGroupsFormatter#dump_summary
+is_singleton: false
+name: dump_summary
+params: (duration, example_count, failure_count, pending_count)
+visibility: public

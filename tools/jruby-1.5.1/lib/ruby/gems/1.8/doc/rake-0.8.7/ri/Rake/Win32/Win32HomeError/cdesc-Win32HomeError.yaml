@@ -1,0 +1,17 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Error indicating a problem in locating the home directory on a Win32 system.
+constants: []
+
+full_name: Rake::Win32::Win32HomeError
+includes: []
+
+instance_methods: []
+
+name: Win32HomeError
+superclass: RuntimeError

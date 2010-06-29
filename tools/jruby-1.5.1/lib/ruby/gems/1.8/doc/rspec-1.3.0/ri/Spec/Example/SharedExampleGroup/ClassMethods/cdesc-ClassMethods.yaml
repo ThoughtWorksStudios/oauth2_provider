@@ -1,0 +1,24 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Example::SharedExampleGroup::ClassMethods
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: clear
+  - !ruby/object:RI::MethodSummary 
+    name: count
+  - !ruby/object:RI::MethodSummary 
+    name: find
+  - !ruby/object:RI::MethodSummary 
+    name: include?
+  - !ruby/object:RI::MethodSummary 
+    name: register
+name: ClassMethods
+superclass: 

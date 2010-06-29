@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::BacktraceTweaker#clean_up_double_slashes
+is_singleton: false
+name: clean_up_double_slashes
+params: (line)
+visibility: public

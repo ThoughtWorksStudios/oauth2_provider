@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Link all files matching <tt>wildcard</tt> into the directory <tt>dest_dir</tt>.
+full_name: Sys#link_files
+is_singleton: false
+name: link_files
+params: (wildcard, dest_dir)
+visibility: public

@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Name of arguments for this task.
+full_name: Rake::Task#arg_names
+is_singleton: false
+name: arg_names
+params: ()
+visibility: public

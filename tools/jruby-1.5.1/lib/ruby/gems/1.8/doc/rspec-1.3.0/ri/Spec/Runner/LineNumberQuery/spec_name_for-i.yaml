@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::LineNumberQuery#spec_name_for
+is_singleton: false
+name: spec_name_for
+params: (file, line_number)
+visibility: public

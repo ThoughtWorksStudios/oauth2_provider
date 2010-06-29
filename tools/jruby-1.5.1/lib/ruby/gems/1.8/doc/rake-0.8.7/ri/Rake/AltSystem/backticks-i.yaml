@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::AltSystem#backticks
+is_singleton: false
+name: backticks
+params: (cmd)
+visibility: public

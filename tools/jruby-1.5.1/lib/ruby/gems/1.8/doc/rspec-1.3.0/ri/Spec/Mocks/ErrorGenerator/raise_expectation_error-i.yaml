@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::ErrorGenerator#raise_expectation_error
+is_singleton: false
+name: raise_expectation_error
+params: (sym, expected_received_count, actual_received_count, *args)
+visibility: public

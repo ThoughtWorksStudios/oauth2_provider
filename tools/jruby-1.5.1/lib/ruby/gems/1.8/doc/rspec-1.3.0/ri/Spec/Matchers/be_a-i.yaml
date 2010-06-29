@@ -1,0 +1,13 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: 
+  - !ruby/object:RI::AliasName 
+    name: be_an
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: passes if target.kind_of?(klass)
+full_name: Spec::Matchers#be_a
+is_singleton: false
+name: be_a
+params: (klass)
+visibility: public

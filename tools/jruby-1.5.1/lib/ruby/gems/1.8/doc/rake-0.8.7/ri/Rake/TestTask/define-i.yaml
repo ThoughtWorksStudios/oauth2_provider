@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Create the tasks defined by this task lib.
+full_name: Rake::TestTask#define
+is_singleton: false
+name: define
+params: ()
+visibility: public

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::OptionParser#order!
+is_singleton: false
+name: order!
+params: (argv, &blk)
+visibility: public

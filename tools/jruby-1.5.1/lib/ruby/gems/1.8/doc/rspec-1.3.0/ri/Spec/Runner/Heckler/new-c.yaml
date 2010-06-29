@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Heckler::new
+is_singleton: true
+name: new
+params: (klass_name, method_name, rspec_options)
+visibility: public

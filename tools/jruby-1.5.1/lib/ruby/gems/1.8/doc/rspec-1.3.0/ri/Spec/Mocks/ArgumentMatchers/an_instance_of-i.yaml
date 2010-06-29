@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Alias for #instance_of"
+full_name: Spec::Mocks::ArgumentMatchers#an_instance_of
+is_singleton: false
+name: an_instance_of
+params: (klass)
+visibility: public

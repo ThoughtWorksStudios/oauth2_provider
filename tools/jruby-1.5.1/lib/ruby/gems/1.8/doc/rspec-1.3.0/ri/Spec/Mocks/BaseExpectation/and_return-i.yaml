@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::BaseExpectation#and_return
+is_singleton: false
+name: and_return
+params: (*values, &return_block)
+visibility: public

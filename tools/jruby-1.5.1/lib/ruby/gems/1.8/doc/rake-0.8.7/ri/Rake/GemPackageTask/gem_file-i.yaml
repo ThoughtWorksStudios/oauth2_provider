@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::GemPackageTask#gem_file
+is_singleton: false
+name: gem_file
+params: ()
+visibility: public

@@ -1,0 +1,34 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: 
+  - !ruby/object:RI::Attribute 
+    comment: 
+    name: best_match
+    rw: R
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: new
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Parses a spec file and finds the nearest example for a given line number.
+constants: []
+
+full_name: Spec::Runner::LineNumberQuery
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: consider_example_for_best_match
+  - !ruby/object:RI::MethodSummary 
+    name: consider_example_group_for_best_match
+  - !ruby/object:RI::MethodSummary 
+    name: determine_best_match
+  - !ruby/object:RI::MethodSummary 
+    name: example_line_for
+  - !ruby/object:RI::MethodSummary 
+    name: is_best_match?
+  - !ruby/object:RI::MethodSummary 
+    name: parse_location
+  - !ruby/object:RI::MethodSummary 
+    name: spec_name_for
+name: LineNumberQuery
+superclass: Object

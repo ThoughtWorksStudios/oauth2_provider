@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::SshDirPublisher::new
+is_singleton: true
+name: new
+params: (host, remote_dir, local_dir)
+visibility: public

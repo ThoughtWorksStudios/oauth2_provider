@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Reporter#start
+is_singleton: false
+name: start
+params: (number_of_examples)
+visibility: public

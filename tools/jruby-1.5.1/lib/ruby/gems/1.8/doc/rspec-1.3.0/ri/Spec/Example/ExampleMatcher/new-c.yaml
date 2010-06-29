@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Example::ExampleMatcher::new
+is_singleton: true
+name: new
+params: (example_group_description, example_name)
+visibility: public

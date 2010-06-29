@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Similar to the regular Ruby <tt>require</tt> command, but will check for *.rake files in addition to *.rb files.
+full_name: Rake::Application#rake_require
+is_singleton: false
+name: rake_require
+params: (file_name, paths=$LOAD_PATH, loaded=$")
+visibility: public

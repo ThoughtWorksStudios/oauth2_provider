@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Return the list of tasks defined in this and nested namespaces.
+full_name: Rake::NameSpace#tasks
+is_singleton: false
+name: tasks
+params: ()
+visibility: public

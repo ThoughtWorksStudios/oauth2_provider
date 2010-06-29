@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Return the list of scope names currently active in the task manager.
+full_name: Rake::TaskManager#current_scope
+is_singleton: false
+name: current_scope
+params: ()
+visibility: public

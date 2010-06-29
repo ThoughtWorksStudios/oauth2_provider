@@ -1,0 +1,16 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: version
+comment: 
+constants: []
+
+full_name: Spec::Ruby
+includes: []
+
+instance_methods: []
+
+name: Ruby
+superclass: 

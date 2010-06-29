@@ -1,0 +1,17 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Record and otherwise ignore all messages that aren't specified, with <tt>stub</tt>, +stub!+, or <tt>should_receive</tt>.
+  - !ruby/struct:SM::Flow::H 
+    level: 2
+    text: Returns
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  self\n"
+full_name: Spec::Mocks::Methods#as_null_object
+is_singleton: false
+name: as_null_object
+params: ()
+visibility: public

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::NegativeMessageExpectation#negative_expectation_for?
+is_singleton: false
+name: negative_expectation_for?
+params: (sym)
+visibility: public

@@ -1,0 +1,23 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: 
+  - !ruby/object:RI::AliasName 
+    name: be_kind_of
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Passes if actual.kind_of?(expected)
+  - !ruby/struct:SM::Flow::H 
+    level: 2
+    text: Examples
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  5.should be_kind_of(Fixnum)\n  5.should be_kind_of(Numeric)\n  5.should_not be_kind_of(Float)\n"
+full_name: Spec::Matchers#be_a_kind_of
+is_singleton: false
+name: be_a_kind_of
+params: |
+  should be_kind_of(expected)
+  should be_a_kind_of(expected)
+  should_not be_kind_of(expected)
+  should_not be_a_kind_of(expected)
+
+visibility: public

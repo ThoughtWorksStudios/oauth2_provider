@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Run the top level tasks of a Rake application.
+full_name: Rake::Application#top_level
+is_singleton: false
+name: top_level
+params: ()
+visibility: public

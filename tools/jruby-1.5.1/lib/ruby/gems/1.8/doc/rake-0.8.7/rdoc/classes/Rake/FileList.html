@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Rake::FileList</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Rake::FileList</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/rake_rb.html">
+                lib/rake.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+A <a href="FileList.html">FileList</a> is essentially an array with a few
+helper methods defined to make file manipulation a bit easier.
+</p>
+<p>
+FileLists are lazy. When given a list of glob patterns for possible files
+to be included in the file list, instead of searching the file structures
+to find the files, a <a href="FileList.html">FileList</a> holds the pattern
+for latter use.
+</p>
+<p>
+This allows us to define a number of <a href="FileList.html">FileList</a>
+to match any number of files, but only search out the actual files when
+then <a href="FileList.html">FileList</a> itself is actually used. The key
+is that the first time an element of the <a
+href="FileList.html">FileList</a>/Array is requested, the pending patterns
+are resolved into a real list of file names.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000719">*</a>&nbsp;&nbsp;
+      <a href="#M000714">==</a>&nbsp;&nbsp;
+      <a href="#M000734">[]</a>&nbsp;&nbsp;
+      <a href="#M000711">add</a>&nbsp;&nbsp;
+      <a href="#M000721">calculate_exclude_regexp</a>&nbsp;&nbsp;
+      <a href="#M000713">clear_exclude</a>&nbsp;&nbsp;
+      <a href="#M000728">egrep</a>&nbsp;&nbsp;
+      <a href="#M000712">exclude</a>&nbsp;&nbsp;
+      <a href="#M000732">exclude?</a>&nbsp;&nbsp;
+      <a href="#M000729">existing</a>&nbsp;&nbsp;
+      <a href="#M000730">existing!</a>&nbsp;&nbsp;
+      <a href="#M000727">ext</a>&nbsp;&nbsp;
+      <a href="#M000723">gsub</a>&nbsp;&nbsp;
+      <a href="#M000725">gsub!</a>&nbsp;&nbsp;
+      <a href="#M000733">import</a>&nbsp;&nbsp;
+      <a href="#M000710">include</a>&nbsp;&nbsp;
+      <a href="#M000717">is_a?</a>&nbsp;&nbsp;
+      <a href="#M000718">kind_of?</a>&nbsp;&nbsp;
+      <a href="#M000709">new</a>&nbsp;&nbsp;
+      <a href="#M000726">pathmap</a>&nbsp;&nbsp;
+      <a href="#M000720">resolve</a>&nbsp;&nbsp;
+      <a href="#M000722">sub</a>&nbsp;&nbsp;
+      <a href="#M000724">sub!</a>&nbsp;&nbsp;
+      <a href="#M000715">to_a</a>&nbsp;&nbsp;
+      <a href="#M000716">to_ary</a>&nbsp;&nbsp;
+      <a href="#M000731">to_s</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="Cloneable.html">Cloneable</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ARRAY_METHODS</td>
+          <td>=</td>
+          <td class="context-item-value">(Array.instance_methods - Object.instance_methods).map { |n| n.to_s }</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+List of array methods (that are not in <tt>Object</tt>) that need to be
+delegated.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MUST_DEFINE</td>
+          <td>=</td>
+          <td class="context-item-value">%w[to_a inspect]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+List of additional methods that must be delegated.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MUST_NOT_DEFINE</td>
+          <td>=</td>
+          <td class="context-item-value">%w[to_a to_ary partition *]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+List of methods that should not be delegated here (we define special
+versions of them explicitly below).
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">SPECIAL_RETURN</td>
+          <td>=</td>
+          <td class="context-item-value">%w[       map collect sort sort_by select find_all reject grep       compact flatten uniq values_at       + - &amp; |     ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+List of delegated methods that return <a
+href="FileList.html#M000709">new</a> array values which need wrapping.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DELEGATING_METHODS</td>
+          <td>=</td>
+          <td class="context-item-value">(ARRAY_METHODS + MUST_DEFINE - MUST_NOT_DEFINE).collect{ |s| s.to_s }.sort.uniq</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DEFAULT_IGNORE_PATTERNS</td>
+          <td>=</td>
+          <td class="context-item-value">[       /(^|[\/\\])CVS([\/\\]|$)/,       /(^|[\/\\])\.svn([\/\\]|$)/,       /\.bak$/,       /~$/</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DEFAULT_IGNORE_PROCS</td>
+          <td>=</td>
+          <td class="context-item-value">[       proc { |fn| fn =~ /(^|[\/\\])core$/ &amp;&amp; ! File.directory?(fn) }</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000734" class="method-detail">
+        <a name="M000734"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000734.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000734.html');return false;">
+          <span class="method-name">[]</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a <a href="FileList.html#M000709">new</a> file list including the
+files listed. Similar to:
+</p>
+<pre>
+  FileList.new(*args)
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000709" class="method-detail">
+        <a name="M000709"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000709.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000709.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(*patterns) {|self if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a file list from the globbable patterns given. If you wish to
+perform multiple includes or excludes at object build time, use the
+&quot;yield self&quot; pattern.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
+
+  pkg_files = FileList.new('lib/**/*') do |fl|
+    fl.exclude(/\bCVS\b/)
+  end
+</pre>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000719" class="method-detail">
+        <a name="M000719"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000719.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000719.html');return false;">
+          <span class="method-name">*</span><span class="method-args">(other)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Redefine * to return either a string or a <a
+href="FileList.html#M000709">new</a> file list.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000714" class="method-detail">
+        <a name="M000714"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000714.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000714.html');return false;">
+          <span class="method-name">==</span><span class="method-args">(array)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Define equality.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000711" class="method-detail">
+        <a name="M000711"></a>
+
+        <div class="method-heading">
+          <span class="method-name">add</span><span class="method-args">(*filenames)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="FileList.html#M000710">include</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000721" class="method-detail">
+        <a name="M000721"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000721.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000721.html');return false;">
+          <span class="method-name">calculate_exclude_regexp</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000713" class="method-detail">
+        <a name="M000713"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000713.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000713.html');return false;">
+          <span class="method-name">clear_exclude</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Clear all the <a href="FileList.html#M000712">exclude</a> patterns so that
+we <a href="FileList.html#M000712">exclude</a> nothing.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000728" class="method-detail">
+        <a name="M000728"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000728.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000728.html');return false;">
+          <span class="method-name">egrep</span><span class="method-args">(pattern, *options) {|fn, count, line| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Grep each of the files in the filelist using the given pattern. If a block
+is given, call the block on each matching line, passing the file name, line
+number, and the matching line of text. If no block is given, a standard
+emac style file:linenumber:line message will be printed to standard out.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000712" class="method-detail">
+        <a name="M000712"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000712.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000712.html');return false;">
+          <span class="method-name">exclude</span><span class="method-args">(*patterns, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Register a list of file name patterns that should be excluded from the
+list. Patterns may be regular expressions, glob patterns or regular
+strings. In addition, a block given to <a
+href="FileList.html#M000712">exclude</a> will remove entries that return
+true when given to the block.
+</p>
+<p>
+Note that glob patterns are expanded against the file system. If a file is
+explicitly added to a file list, but does not exist in the file system,
+then an glob pattern in the <a href="FileList.html#M000712">exclude</a>
+list will not <a href="FileList.html#M000712">exclude</a> the file.
+</p>
+<p>
+Examples:
+</p>
+<pre>
+  FileList['a.c', 'b.c'].exclude(&quot;a.c&quot;) =&gt; ['b.c']
+  FileList['a.c', 'b.c'].exclude(/^a/)  =&gt; ['b.c']
+</pre>
+<p>
+If &quot;a.c&quot; is a file, then &#8230;
+</p>
+<pre>
+  FileList['a.c', 'b.c'].exclude(&quot;a.*&quot;) =&gt; ['b.c']
+</pre>
+<p>
+If &quot;a.c&quot; is not a file, then &#8230;
+</p>
+<pre>
+  FileList['a.c', 'b.c'].exclude(&quot;a.*&quot;) =&gt; ['a.c', 'b.c']
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000732" class="method-detail">
+        <a name="M000732"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000732.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000732.html');return false;">
+          <span class="method-name">exclude?</span><span class="method-args">(fn)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Should the given file name be excluded?
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000729" class="method-detail">
+        <a name="M000729"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000729.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000729.html');return false;">
+          <span class="method-name">existing</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return a <a href="FileList.html#M000709">new</a> file list that only
+contains file names from the current file list that exist on the file
+system.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000730" class="method-detail">
+        <a name="M000730"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000730.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000730.html');return false;">
+          <span class="method-name">existing!</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Modify the current file list so that it contains only file name that exist
+on the file system.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000727" class="method-detail">
+        <a name="M000727"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000727.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000727.html');return false;">
+          <span class="method-name">ext</span><span class="method-args">(newext='')</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return a <a href="FileList.html#M000709">new</a> <a
+href="FileList.html">FileList</a> with <tt><a
+href="../String.html#M000578">String#ext</a></tt> method applied to each
+member of the array.
+</p>
+<p>
+This method is a shortcut for:
+</p>
+<pre>
+   array.collect { |item| item.ext(newext) }
+</pre>
+<p>
+<tt><a href="FileList.html#M000727">ext</a></tt> is a user added method for
+the Array class.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000723" class="method-detail">
+        <a name="M000723"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000723.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000723.html');return false;">
+          <span class="method-name">gsub</span><span class="method-args">(pat, rep)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return a <a href="FileList.html#M000709">new</a> <a
+href="FileList.html">FileList</a> with the results of running <tt><a
+href="FileList.html#M000723">gsub</a></tt> against each element of the
+original list.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  FileList['lib/test/file', 'x/y'].gsub(/\//, &quot;\\&quot;)
+     =&gt; ['lib\\test\\file', 'x\\y']
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000725" class="method-detail">
+        <a name="M000725"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000725.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000725.html');return false;">
+          <span class="method-name">gsub!</span><span class="method-args">(pat, rep)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as <tt><a href="FileList.html#M000723">gsub</a></tt> except that the
+original file list is modified.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000733" class="method-detail">
+        <a name="M000733"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000733.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000733.html');return false;">
+          <span class="method-name">import</span><span class="method-args">(array)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+@exclude_patterns = DEFAULT_IGNORE_PATTERNS.dup
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000710" class="method-detail">
+        <a name="M000710"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000710.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000710.html');return false;">
+          <span class="method-name">include</span><span class="method-args">(*filenames)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add file names defined by glob patterns to the file list. If an array is
+given, <a href="FileList.html#M000711">add</a> each element of the array.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  file_list.include(&quot;*.java&quot;, &quot;*.cfg&quot;)
+  file_list.include %w( math.c lib.h *.o )
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000717" class="method-detail">
+        <a name="M000717"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000717.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000717.html');return false;">
+          <span class="method-name">is_a?</span><span class="method-args">(klass)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Lie about our class.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000718" class="method-detail">
+        <a name="M000718"></a>
+
+        <div class="method-heading">
+          <span class="method-name">kind_of?</span><span class="method-args">(klass)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for is_a?
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000726" class="method-detail">
+        <a name="M000726"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000726.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000726.html');return false;">
+          <span class="method-name">pathmap</span><span class="method-args">(spec=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Apply the <a href="FileList.html#M000726">pathmap</a> spec to each of the
+included file names, returning a <a href="FileList.html#M000709">new</a>
+file list with the modified paths. (See <a
+href="../String.html#M000582">String#pathmap</a> for details.)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000720" class="method-detail">
+        <a name="M000720"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000720.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000720.html');return false;">
+          <span class="method-name">resolve</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Resolve all the pending adds now.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000722" class="method-detail">
+        <a name="M000722"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000722.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000722.html');return false;">
+          <span class="method-name">sub</span><span class="method-args">(pat, rep)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return a <a href="FileList.html#M000709">new</a> <a
+href="FileList.html">FileList</a> with the results of running <tt><a
+href="FileList.html#M000722">sub</a></tt> against each element of the
+oringal list.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  FileList['a.c', 'b.c'].sub(/\.c$/, '.o')  =&gt; ['a.o', 'b.o']
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000724" class="method-detail">
+        <a name="M000724"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000724.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000724.html');return false;">
+          <span class="method-name">sub!</span><span class="method-args">(pat, rep)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as <tt><a href="FileList.html#M000722">sub</a></tt> except that the
+oringal file list is modified.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000715" class="method-detail">
+        <a name="M000715"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000715.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000715.html');return false;">
+          <span class="method-name">to_a</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return the internal array object.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000716" class="method-detail">
+        <a name="M000716"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000716.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000716.html');return false;">
+          <span class="method-name">to_ary</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return the internal array object.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000731" class="method-detail">
+        <a name="M000731"></a>
+
+        <div class="method-heading">
+          <a href="FileList.src/M000731.html" target="Code" class="method-signature"
+            onclick="popupCode('FileList.src/M000731.html');return false;">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Convert a <a href="FileList.html">FileList</a> to a string by joining all
+elements with a space.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

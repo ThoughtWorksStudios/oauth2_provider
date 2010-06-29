@@ -1,0 +1,24 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: based on Bounded Spec InstanceExec (Mauricio Fernandez) http://eigenclass.org/hiki/bounded+space+instance_exec
+  - !ruby/object:SM::Flow::LIST 
+    contents: 
+      - !ruby/struct:SM::Flow::LI 
+        label: "-"
+        body: uses singleton_class of matcher instead of global InstanceExecHelper module
+      - !ruby/struct:SM::Flow::LI 
+        label: "-"
+        body: this keeps it scoped to this class only, which is the only place we need it
+      - !ruby/struct:SM::Flow::LI 
+        label: "-"
+        body: only necessary for ruby 1.8.6
+    type: :BULLET
+full_name: Spec::Matchers::InstanceExec#instance_exec
+is_singleton: false
+name: instance_exec
+params: (*args, &block)
+visibility: public

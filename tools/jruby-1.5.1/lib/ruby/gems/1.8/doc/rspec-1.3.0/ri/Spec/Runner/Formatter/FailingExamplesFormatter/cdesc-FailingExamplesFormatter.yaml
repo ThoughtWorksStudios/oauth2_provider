@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Runner::Formatter::FailingExamplesFormatter
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: dump_failure
+  - !ruby/object:RI::MethodSummary 
+    name: dump_summary
+  - !ruby/object:RI::MethodSummary 
+    name: example_failed
+name: FailingExamplesFormatter
+superclass: BaseTextFormatter

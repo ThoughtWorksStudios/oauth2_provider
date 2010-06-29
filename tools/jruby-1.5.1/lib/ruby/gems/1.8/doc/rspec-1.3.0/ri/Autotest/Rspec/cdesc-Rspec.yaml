@@ -1,0 +1,24 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: new
+comment: 
+constants: 
+  - !ruby/object:RI::Constant 
+    comment: 
+    name: SPEC_PROGRAM
+    value: File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec'))
+full_name: Autotest::Rspec
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: consolidate_failures
+  - !ruby/object:RI::MethodSummary 
+    name: make_test_cmd
+  - !ruby/object:RI::MethodSummary 
+    name: normalize
+name: Rspec
+superclass: Autotest

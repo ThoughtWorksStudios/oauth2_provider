@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::ErrorGenerator#opts
+is_singleton: false
+name: opts
+params: ()
+visibility: public

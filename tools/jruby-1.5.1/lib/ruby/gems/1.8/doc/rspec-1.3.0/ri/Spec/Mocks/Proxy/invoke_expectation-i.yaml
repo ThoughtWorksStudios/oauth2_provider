@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::Proxy#invoke_expectation
+is_singleton: false
+name: invoke_expectation
+params: (expectation, *args, &block)
+visibility: public

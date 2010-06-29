@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Load the makefile dependencies in <tt>fn</tt>.
+full_name: Rake::MakefileLoader#load
+is_singleton: false
+name: load
+params: (fn)
+visibility: public

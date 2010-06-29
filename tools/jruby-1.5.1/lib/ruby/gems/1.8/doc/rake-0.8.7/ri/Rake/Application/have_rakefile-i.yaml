@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: True if one of the files in RAKEFILES is in the current directory. If a match is found, it is copied into @rakefile.
+full_name: Rake::Application#have_rakefile
+is_singleton: false
+name: have_rakefile
+params: ()
+visibility: public

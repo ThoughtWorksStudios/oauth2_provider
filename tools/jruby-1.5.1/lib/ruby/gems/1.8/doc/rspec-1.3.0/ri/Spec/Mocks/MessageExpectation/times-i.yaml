@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Mocks::MessageExpectation#times
+is_singleton: false
+name: times
+params: (&block)
+visibility: public

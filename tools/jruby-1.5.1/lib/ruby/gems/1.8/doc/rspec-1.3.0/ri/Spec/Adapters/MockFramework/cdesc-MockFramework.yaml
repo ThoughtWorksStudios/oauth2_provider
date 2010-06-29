@@ -1,0 +1,47 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Adapters::MockFramework
+includes: 
+  - !ruby/object:RI::IncludedModule 
+    name: FlexMock::MockContainer
+  - !ruby/object:RI::IncludedModule 
+    name: Mocha::API
+  - !ruby/object:RI::IncludedModule 
+    name: Mocha::Standalone
+  - !ruby/object:RI::IncludedModule 
+    name: RR::Extensions::InstanceMethods
+  - !ruby/object:RI::IncludedModule 
+    name: Spec::Mocks::ExampleMethods
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: setup_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: setup_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: setup_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: setup_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: teardown_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: teardown_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: teardown_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: teardown_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: verify_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: verify_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: verify_mocks_for_rspec
+  - !ruby/object:RI::MethodSummary 
+    name: verify_mocks_for_rspec
+name: MockFramework
+superclass: 

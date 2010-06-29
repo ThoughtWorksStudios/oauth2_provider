@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: "@eval_context"
+comment: 
+full_name: Spec::Mocks::BaseExpectation#and_yield
+is_singleton: false
+name: and_yield
+params: (*args, &block) {|@eval_context| ...}
+visibility: public

@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Clear the existing actions on a rake task.
+full_name: Rake::Task#clear_actions
+is_singleton: false
+name: clear_actions
+params: ()
+visibility: public

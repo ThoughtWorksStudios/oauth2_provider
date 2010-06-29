@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: We will truncate output if we are outputting to a TTY or if we've been given an explicit column width to honor
+full_name: Rake::Application#truncate_output?
+is_singleton: false
+name: truncate_output?
+params: ()
+visibility: public

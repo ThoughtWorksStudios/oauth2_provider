@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Heckler#tests_pass?
+is_singleton: false
+name: tests_pass?
+params: ()
+visibility: public

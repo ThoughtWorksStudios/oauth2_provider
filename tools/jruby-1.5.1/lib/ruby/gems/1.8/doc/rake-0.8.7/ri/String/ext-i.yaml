@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Replace the file extension with <tt>newext</tt>. If there is no extension on the string, append the new extension to the end. If the new extension is not given, or is the empty string, remove any existing extension.
+  - !ruby/struct:SM::Flow::P 
+    body: <tt>ext</tt> is a user added method for the String class.
+full_name: String#ext
+is_singleton: false
+name: ext
+params: (newext='')
+visibility: public

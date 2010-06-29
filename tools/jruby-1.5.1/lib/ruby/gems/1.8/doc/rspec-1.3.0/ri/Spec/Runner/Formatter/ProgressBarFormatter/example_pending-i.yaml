@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Formatter::ProgressBarFormatter#example_pending
+is_singleton: false
+name: example_pending
+params: (example, message, deprecated_pending_location=nil)
+visibility: public

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Example::ExampleGroupFactory::ClassMethods#register_example_group
+is_singleton: false
+name: register_example_group
+params: (klass)
+visibility: public

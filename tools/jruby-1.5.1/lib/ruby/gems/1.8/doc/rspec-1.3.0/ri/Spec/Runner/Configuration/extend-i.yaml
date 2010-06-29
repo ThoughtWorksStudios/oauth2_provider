@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Works just like #include, but extends the example groups with the modules rather than including them."
+full_name: Spec::Runner::Configuration#extend
+is_singleton: false
+name: extend
+params: |
+  extend(Some::Helpers)
+  extend(Some::Helpers, More::Helpers)
+  extend(My::Helpers, :type => :key)
+
+visibility: public

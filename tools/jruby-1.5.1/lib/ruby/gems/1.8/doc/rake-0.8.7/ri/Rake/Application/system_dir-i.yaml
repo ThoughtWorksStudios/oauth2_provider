@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The directory path containing the system wide rakefiles.
+full_name: Rake::Application#system_dir
+is_singleton: false
+name: system_dir
+params: ()
+visibility: public

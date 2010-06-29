@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Alias for #raise_exception"
+full_name: Spec::Matchers#raise_error
+is_singleton: false
+name: raise_error
+params: (exception=Exception, message=nil, &block)
+visibility: public

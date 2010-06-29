@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::DrbCommandLine::port
+is_singleton: true
+name: port
+params: (options)
+visibility: public

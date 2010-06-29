@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Override the detected TTY output state (mostly for testing)
+full_name: Rake::Application#tty_output=
+is_singleton: false
+name: tty_output=
+params: ( tty_output_state )
+visibility: public

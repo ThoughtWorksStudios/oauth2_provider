@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Adds patterns to the list of patterns ignored in the backtrace when a failure is output by rspec. Example:"
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  config.ignore_backtrace_patterns /spork/, /shoulda/, &quot;/some/weird/path/&quot;\n"
+  - !ruby/struct:SM::Flow::P 
+    body: When quiet backtraces are turned on (default), this will exclude any lines that match any of the Regexps and Strings passed.
+full_name: Spec::Runner::Configuration#ignore_backtrace_patterns
+is_singleton: false
+name: ignore_backtrace_patterns
+params: (*patterns)
+visibility: public

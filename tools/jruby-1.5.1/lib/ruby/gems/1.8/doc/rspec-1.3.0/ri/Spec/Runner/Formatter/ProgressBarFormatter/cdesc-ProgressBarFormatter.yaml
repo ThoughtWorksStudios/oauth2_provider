@@ -1,0 +1,23 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Spec::Runner::Formatter::ProgressBarFormatter
+includes: 
+  - !ruby/object:RI::IncludedModule 
+    name: NOOPMethodMissing
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: example_failed
+  - !ruby/object:RI::MethodSummary 
+    name: example_passed
+  - !ruby/object:RI::MethodSummary 
+    name: example_pending
+  - !ruby/object:RI::MethodSummary 
+    name: start_dump
+name: ProgressBarFormatter
+superclass: BaseTextFormatter

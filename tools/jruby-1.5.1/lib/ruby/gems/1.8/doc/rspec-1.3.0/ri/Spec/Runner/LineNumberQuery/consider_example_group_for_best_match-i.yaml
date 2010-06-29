@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::LineNumberQuery#consider_example_group_for_best_match
+is_singleton: false
+name: consider_example_group_for_best_match
+params: (example_group, file, line_number)
+visibility: protected

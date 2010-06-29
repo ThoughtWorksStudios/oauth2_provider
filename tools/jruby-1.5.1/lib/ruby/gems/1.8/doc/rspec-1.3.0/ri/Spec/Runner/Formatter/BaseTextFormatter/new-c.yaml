@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Creates a new instance that will write to <tt>output</tt>. If <tt>output</tt> is a String, output will be written to the File with that name, otherwise <tt>output</tt> is exected to be an IO (or an object that responds to #puts and #write)."
+full_name: Spec::Runner::Formatter::BaseTextFormatter::new
+is_singleton: true
+name: new
+params: (options, output)
+visibility: public

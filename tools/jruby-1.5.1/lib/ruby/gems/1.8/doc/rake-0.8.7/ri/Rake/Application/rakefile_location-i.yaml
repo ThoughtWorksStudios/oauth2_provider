@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Rake::Application#rakefile_location
+is_singleton: false
+name: rakefile_location
+params: ()
+visibility: public

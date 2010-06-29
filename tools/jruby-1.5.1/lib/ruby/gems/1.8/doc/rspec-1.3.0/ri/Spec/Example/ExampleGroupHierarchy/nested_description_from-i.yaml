@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Example::ExampleGroupHierarchy#nested_description_from
+is_singleton: false
+name: nested_description_from
+params: (example_group)
+visibility: public

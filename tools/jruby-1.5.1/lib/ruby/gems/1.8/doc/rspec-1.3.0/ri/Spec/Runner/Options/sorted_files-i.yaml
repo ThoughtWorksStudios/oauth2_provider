@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Options#sorted_files
+is_singleton: false
+name: sorted_files
+params: ()
+visibility: protected

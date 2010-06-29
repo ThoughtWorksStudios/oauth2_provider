@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Find a matching task for <tt>task_name</tt>.
+full_name: Rake::TaskManager#[]
+is_singleton: false
+name: "[]"
+params: (task_name, scopes=nil)
+visibility: public

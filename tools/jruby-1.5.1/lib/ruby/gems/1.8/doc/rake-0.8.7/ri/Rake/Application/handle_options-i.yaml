@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Read and handle the command line options.
+full_name: Rake::Application#handle_options
+is_singleton: false
+name: handle_options
+params: ()
+visibility: public

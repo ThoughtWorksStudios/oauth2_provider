@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Spec::Runner::Options#ignore_backtrace_patterns
+is_singleton: false
+name: ignore_backtrace_patterns
+params: ()
+visibility: protected
