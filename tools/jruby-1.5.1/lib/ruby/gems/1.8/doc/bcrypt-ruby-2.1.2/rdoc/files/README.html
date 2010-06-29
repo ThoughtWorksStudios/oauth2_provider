@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Tue Jun 29 14:27:55 -0700 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>bcrypt-ruby</h1>
+<p>
+An easy way to keep your users&#8217; passwords secure.
+</p>
+<ul>
+<li><a href="http://bcrypt-ruby.rubyforge.org">bcrypt-ruby.rubyforge.org</a>/
+
+</li>
+<li><a
+href="http://github.com/codahale/bcrypt-ruby/tree/master">github.com/codahale/bcrypt-ruby/tree/master</a>
+
+</li>
+</ul>
+<h2>Why you should use bcrypt</h2>
+<p>
+If you store user passwords in the clear, then an attacker who steals a
+copy of your database has a giant list of emails and passwords. Some of
+your users will only have one password &#8212; for their email account, for
+their banking account, for your application. A simple hack could escalate
+into massive identity theft.
+</p>
+<p>
+It&#8216;s your responsibility as a web developer to make your web
+application secure &#8212; blaming your users for not being security
+experts is not a professional response to risk.
+</p>
+<p>
+bcrypt allows you to easily harden your application against these kinds of
+attacks.
+</p>
+<h2>How to install bcrypt</h2>
+<pre>
+  sudo gem install bcrypt-ruby
+</pre>
+<p>
+You&#8216;ll need a working compiler. (Win32 folks should use Cygwin or um,
+something else.)
+</p>
+<h2>How to use bcrypt in your Rails application</h2>
+<h3>The <tt>User</tt> model</h3>
+<pre>
+  require 'bcrypt'
+
+  class User &lt; ActiveRecord::Base
+    # users.password_hash in the database is a :string
+    include BCrypt
+
+    def password
+      @password ||= Password.new(password_hash)
+    end
+
+    def password=(new_password)
+      @password = Password.create(new_password)
+      self.password_hash = @password
+    end
+
+  end
+</pre>
+<h3>Creating an account</h3>
+<pre>
+  def create
+    @user = User.new(params[:user])
+    @user.password = params[:password]
+    @user.save!
+  end
+</pre>
+<h3>Authenticating a user</h3>
+<pre>
+  def login
+    @user = User.find_by_email(params[:email])
+    if @user.password == params[:password]
+      give_token
+    else
+      redirect_to home_url
+    end
+  end
+</pre>
+<h3>If a user forgets their password?</h3>
+<pre>
+  # assign them a random one and mail it to them, asking them to change it
+  def forgot_password
+    @user = User.find_by_email(params[:email])
+    random_password = Array.new(10).map { (65 + rand(58)).chr }.join
+    @user.password = random_password
+    @user.save!
+    Mailer.create_and_deliver_password_change(@user, random_password)
+  end
+</pre>
+<h2>How to use bcrypt-ruby in general</h2>
+<pre>
+  require 'bcrypt'
+
+  my_password = BCrypt::Password.create(&quot;my password&quot;) #=&gt; &quot;$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa&quot;
+
+  my_password.version              #=&gt; &quot;2a&quot;
+  my_password.cost                 #=&gt; 10
+  my_password == &quot;my password&quot;     #=&gt; true
+  my_password == &quot;not my password&quot; #=&gt; false
+
+  my_password = BCrypt::Password.new(&quot;$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa&quot;)
+  my_password == &quot;my password&quot;     #=&gt; true
+  my_password == &quot;not my password&quot; #=&gt; false
+</pre>
+<p>
+Check the rdocs for more details &#8212; <a
+href="../classes/BCrypt.html">BCrypt</a>, <a
+href="../classes/BCrypt/Password.html">BCrypt::Password</a>.
+</p>
+<h2>How bcrypt() works</h2>
+<p>
+bcrypt() is a hashing algorithm designed by Niels Provos and David
+Mazières of the OpenBSD Project.
+</p>
+<h3>Background</h3>
+<p>
+Hash algorithms take a chunk of data (e.g., your user&#8216;s password) and
+create a &quot;digital fingerprint,&quot; or hash, of it. Because this
+process is not reversible, there&#8216;s no way to go from the hash back to
+the password.
+</p>
+<p>
+In other words:
+</p>
+<pre>
+  hash(p) #=&gt; &lt;unique gibberish&gt;
+</pre>
+<p>
+You can store the hash and check it against a hash made of a potentially
+valid password:
+</p>
+<pre>
+  &lt;unique gibberish&gt; =? hash(just_entered_password)
+</pre>
+<h3>Rainbow Tables</h3>
+<p>
+But even this has weaknesses &#8212; attackers can just run lists of
+possible passwords through the same algorithm, store the results in a big
+database, and then look up the passwords by their hash:
+</p>
+<pre>
+  PrecomputedPassword.find_by_hash(&lt;unique gibberish&gt;).password #=&gt; &quot;secret1&quot;
+</pre>
+<h3>Salts</h3>
+<p>
+The solution to this is to add a small chunk of random data &#8212; called
+a salt &#8212; to the password before it&#8216;s hashed:
+</p>
+<pre>
+  hash(salt + p) #=&gt; &lt;really unique gibberish&gt;
+</pre>
+<p>
+The salt is then stored along with the hash in the database, and used to
+check potentially valid passwords:
+</p>
+<pre>
+  &lt;really unique gibberish&gt; =? hash(salt + just_entered_password)
+</pre>
+<p>
+bcrypt-ruby automatically handles the storage and generation of these salts
+for you.
+</p>
+<p>
+Adding a salt means that an attacker has to have a gigantic database for
+each unique salt &#8212; for a salt made of 4 letters, that&#8216;s 456,976
+different databases. Pretty much no one has that much storage space, so
+attackers try a different, slower method &#8212; throw a list of potential
+passwords at each individual password:
+</p>
+<pre>
+  hash(salt + &quot;aadvark&quot;) =? &lt;really unique gibberish&gt;
+  hash(salt + &quot;abacus&quot;)  =? &lt;really unique gibberish&gt;
+  etc.
+</pre>
+<p>
+This is much slower than the big database approach, but most hash
+algorithms are pretty quick &#8212; and therein lies the problem. Hash
+algorithms aren&#8216;t usually designed to be slow, they&#8216;re designed
+to turn gigabytes of data into secure fingerprints as quickly as possible.
+bcrypt(), though, is designed to be computationally expensive:
+</p>
+<pre>
+  Ten thousand iterations:
+               user     system      total        real
+  md5      0.070000   0.000000   0.070000 (  0.070415)
+  bcrypt  22.230000   0.080000  22.310000 ( 22.493822)
+</pre>
+<p>
+If an attacker was using Ruby to check each password, they could check
+~140,000 passwords a second with MD5 but only ~450 passwords a second with
+bcrypt().
+</p>
+<h3>Cost Factors</h3>
+<p>
+In addition, bcrypt() allows you to increase the amount of work required to
+hash a password as computers get faster. Old passwords will still work
+fine, but new passwords can keep up with the times.
+</p>
+<p>
+The default cost factor used by bcrypt-ruby is 10, which is fine for
+session-based authentication. If you are using a stateless authentication
+architecture (e.g., HTTP Basic Auth), you will want to lower the cost
+factor to reduce your server load and keep your request times down. This
+will lower the security provided you, but there are few alternatives.
+</p>
+<h2>More Information</h2>
+<p>
+bcrypt() is currently used as the default password storage hash in OpenBSD,
+widely regarded as the most secure operating system available.
+</p>
+<p>
+For a more technical explanation of the algorithm and its design criteria,
+please read Niels Provos and David Mazières&#8217; Usenix99 paper: <a
+href="http://www.usenix.org/events/usenix99/provos.html">www.usenix.org/events/usenix99/provos.html</a>
+</p>
+<p>
+If you&#8216;d like more down-to-earth advice regarding cryptography, I
+suggest reading <em>Practical Cryptography</em> by Niels Ferguson and Bruce
+Schneier: <a
+href="http://www.schneier.com/book-practical.html">www.schneier.com/book-practical.html</a>
+</p>
+<h1>Etc</h1>
+<table>
+<tr><td valign="top">Author  :</td><td>Coda Hale &lt;coda.hale@gmail.com&gt;
+
+</td></tr>
+<tr><td valign="top">Website :</td><td><a href="http://blog.codahale.com">blog.codahale.com</a>
+
+</td></tr>
+</table>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

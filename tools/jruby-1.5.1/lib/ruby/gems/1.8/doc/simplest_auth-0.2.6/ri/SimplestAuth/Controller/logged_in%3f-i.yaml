@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: SimplestAuth::Controller#logged_in?
+is_singleton: false
+name: logged_in?
+params: ()
+visibility: public

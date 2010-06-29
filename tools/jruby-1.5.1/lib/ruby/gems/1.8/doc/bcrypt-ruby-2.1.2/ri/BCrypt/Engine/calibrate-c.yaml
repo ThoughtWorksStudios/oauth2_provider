@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Returns the cost factor which will result in computation times less than <tt>upper_time_limit_in_ms</tt>.
+  - !ruby/struct:SM::Flow::P 
+    body: "Example:"
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  BCrypt.calibrate(200)  #=&gt; 10\n  BCrypt.calibrate(1000) #=&gt; 12\n\n  # should take less than 200ms\n  BCrypt::Password.create(&quot;woo&quot;, :cost =&gt; 10)\n\n  # should take less than 1000ms\n  BCrypt::Password.create(&quot;woo&quot;, :cost =&gt; 12)\n"
+full_name: BCrypt::Engine::calibrate
+is_singleton: true
+name: calibrate
+params: (upper_time_limit_in_ms)
+visibility: public

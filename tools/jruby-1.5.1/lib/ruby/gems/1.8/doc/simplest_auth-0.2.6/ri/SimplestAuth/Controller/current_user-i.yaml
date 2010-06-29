@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: SimplestAuth::Controller#current_user
+is_singleton: false
+name: current_user
+params: ()
+visibility: public

@@ -11,6 +11,8 @@
 <% @oauth_clients.each do |oauth_client| %>
   <tr>
     <td><%=h oauth_client.name %></td>
+    <td><%=h oauth_client.client_id %></td>
+    <td><%=h oauth_client.client_secret %></td>
     <td><%=h oauth_client.redirect_uri %></td>
     <td><%= link_to 'Show', oauth_client %></td>
     <td><%= link_to 'Edit', edit_oauth_client_path(oauth_client) %></td>

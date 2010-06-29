@@ -1,0 +1,26 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: SimplestAuth::Model::ClassMethods
+includes: []
+
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: active_record?
+  - !ruby/object:RI::MethodSummary 
+    name: authenticate
+  - !ruby/object:RI::MethodSummary 
+    name: authenticate_by
+  - !ruby/object:RI::MethodSummary 
+    name: data_mapper?
+  - !ruby/object:RI::MethodSummary 
+    name: mongo_mapper?
+  - !ruby/object:RI::MethodSummary 
+    name: session_key
+name: ClassMethods
+superclass: 

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: SimplestAuth::Model::ClassMethods#session_key
+is_singleton: false
+name: session_key
+params: ()
+visibility: public

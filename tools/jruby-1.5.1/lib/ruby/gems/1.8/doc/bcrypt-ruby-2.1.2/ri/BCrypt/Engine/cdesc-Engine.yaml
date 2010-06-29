@@ -1,0 +1,75 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: autodetect_cost
+  - !ruby/object:RI::MethodSummary 
+    name: autodetect_cost
+  - !ruby/object:RI::MethodSummary 
+    name: calibrate
+  - !ruby/object:RI::MethodSummary 
+    name: calibrate
+  - !ruby/object:RI::MethodSummary 
+    name: generate_salt
+  - !ruby/object:RI::MethodSummary 
+    name: generate_salt
+  - !ruby/object:RI::MethodSummary 
+    name: hash_secret
+  - !ruby/object:RI::MethodSummary 
+    name: hash_secret
+  - !ruby/object:RI::MethodSummary 
+    name: valid_salt?
+  - !ruby/object:RI::MethodSummary 
+    name: valid_salt?
+  - !ruby/object:RI::MethodSummary 
+    name: valid_secret?
+  - !ruby/object:RI::MethodSummary 
+    name: valid_secret?
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: A Ruby wrapper for the bcrypt() C extension calls and the Java calls.
+constants: 
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: The default computational expense parameter.
+    name: DEFAULT_COST
+    value: "10"
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: The minimum cost supported by the algorithm.
+    name: MIN_COST
+    value: "4"
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: Maximum possible size of bcrypt() salts.
+    name: MAX_SALT_LENGTH
+    value: "16"
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: The default computational expense parameter.
+    name: DEFAULT_COST
+    value: "10"
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: The minimum cost supported by the algorithm.
+    name: MIN_COST
+    value: "4"
+  - !ruby/object:RI::Constant 
+    comment: 
+      - !ruby/struct:SM::Flow::P 
+        body: Maximum possible size of bcrypt() salts.
+    name: MAX_SALT_LENGTH
+    value: "16"
+full_name: BCrypt::Engine
+includes: []
+
+instance_methods: []
+
+name: Engine
+superclass: Object

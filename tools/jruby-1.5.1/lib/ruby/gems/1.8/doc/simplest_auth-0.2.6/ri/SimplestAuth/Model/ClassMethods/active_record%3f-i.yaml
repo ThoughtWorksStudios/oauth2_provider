@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: SimplestAuth::Model::ClassMethods#active_record?
+is_singleton: false
+name: active_record?
+params: ()
+visibility: public

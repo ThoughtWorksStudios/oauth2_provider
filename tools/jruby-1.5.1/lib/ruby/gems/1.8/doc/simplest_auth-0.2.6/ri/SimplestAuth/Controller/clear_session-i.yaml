@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: SimplestAuth::Controller#clear_session
+is_singleton: false
+name: clear_session
+params: ()
+visibility: public
