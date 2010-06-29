@@ -1,4 +1,4 @@
 syntax: glob
-provider/db/*
+provider/db/*.sqlite3
 provider/log/*
 provider/tmp/*
