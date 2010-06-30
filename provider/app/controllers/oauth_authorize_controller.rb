@@ -2,7 +2,6 @@ class OauthAuthorizeController < ApplicationController
 
   include OauthProviderHelper
   
-  
   def authorize
     if params[:client_id].blank?
       redirect_to "#{redirect_uri}?error=invalid-request"

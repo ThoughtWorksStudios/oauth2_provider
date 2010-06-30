@@ -1,0 +1,4 @@
+syntax: glob
+provider/db/*.sqlite3
+provider/log/*
+provider/tmp/*

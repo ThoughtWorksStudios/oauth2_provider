@@ -25,7 +25,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
       :client_id => client.client_id, :authorize => '1'
 
     assert_response :redirect
-    assert @response.redirected_to  =! /http\:\/\/example\.com\/cb\?code\=.*/
+    assert @response.redirected_to  =~ /http\:\/\/example\.com\/cb\?code\=.*/
   end
   
   def test_should_return_access_denied_error_if_user_does_not_authorize
@@ -35,6 +35,24 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
       :client_id => client.client_id
 
     assert_redirected_to 'http://example.com/cb?error=access-denied'
+  end
+  
+  def test_subsequent_requests_for_authorization_code_receive_unique_codes
+    client = OauthClient.create!(:name => 'my application')
+    session[:user_id] = '13'
+    post :authorize, :redirect_uri => 'http://example.com/cb', 
+      :client_id => client.client_id, :authorize => '1'
+
+    auth_response_1 = @response.redirected_to
+    
+    @request = ActionController::TestRequest.new
+    post :authorize, :redirect_uri => 'http://example.com/cb', 
+      :client_id => client.client_id, :authorize => '1'
+    
+    auth_response_2 = @response.redirected_to
+    
+    assert auth_response_1 != auth_response_2
+    
   end
   
   
