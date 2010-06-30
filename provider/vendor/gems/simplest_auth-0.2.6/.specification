@@ -16,21 +16,6 @@ cert_chain: []
 
 date: 2009-12-20 00:00:00 -08:00
 default_executable: 
-dependencies: 
-- !ruby/object:Gem::Dependency 
-  name: bcrypt-ruby
-  prerelease: false
-  requirement: &id001 !ruby/object:Gem::Requirement 
-    requirements: 
-    - - ~>
-      - !ruby/object:Gem::Version 
-        segments: 
-        - 2
-        - 1
-        - 1
-        version: 2.1.1
-  type: :runtime
-  version_requirements: *id001
 description: 
 email: tony.pitale@viget.com
 executables: []

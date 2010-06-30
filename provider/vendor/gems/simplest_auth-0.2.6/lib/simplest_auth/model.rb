@@ -70,17 +70,15 @@ module SimplestAuth
     end
 
     module InstanceMethods
-      include BCrypt
-
       RecordNotFound = Class.new(StandardError) unless defined?(RecordNotFound)
 
       def authentic?(password)
-        Password.new(self.crypted_password) == password
+        self.crypted_password == password
       end
 
       private
       def hash_password
-        self.crypted_password = Password.create(self.password) if password_required?
+        self.crypted_password if password_required?
       end
 
       def password_required?
