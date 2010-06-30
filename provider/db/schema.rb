@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(:version => 20100629214507) do
     t.string   "name"
     t.string   "client_id"
     t.string   "client_secret"
-    t.string   "redirect_uri"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

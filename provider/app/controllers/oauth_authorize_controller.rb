@@ -2,19 +2,27 @@ class OauthAuthorizeController < ApplicationController
 
   include OauthProviderHelper
   
-  def index
-    # render :text => 'hello!'
   
-    client = OauthClient.find_by_client_id_and_redirect_uri(client_id, redirect_uri)
-    if !logged_in?
-      redirect_to '/login'
-    else
-      # ask confirmation
-      code = 'something'
-      redirect_to "#{client.redirect_uri}?code=#{code}"
+  def authorize
+    if params[:client_id].blank?
+      redirect_to "#{redirect_uri}?error=invalid-request"
+      return
     end
     
-    render :text => 'hello!'
+    client = OauthClient.find_by_client_id(client_id)
+    
+    if client.nil?
+      redirect_to "#{redirect_uri}?error=invalid-client-id"
+      return
+    end
+    
+    unless params[:authorize] == '1'
+      redirect_to "#{redirect_uri}?error=access-denied"
+      return
+    end
+    
+    redirect_to "#{redirect_uri}?code=#{SecureRandom.random_bytes}"
+
   end
   
 end

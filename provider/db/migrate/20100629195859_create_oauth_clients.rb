@@ -4,7 +4,6 @@ class CreateOauthClients < ActiveRecord::Migration
       t.string :name
       t.string :client_id
       t.string :client_secret
-      t.string :redirect_uri
 
       t.timestamps
     end
