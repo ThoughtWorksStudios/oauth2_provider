@@ -1,0 +1,6 @@
+<form action="<%= url_for(:action => :authorize) %>" method="post" id="oauth_authorize">
+  Allow this app to access your data? <input type="checkbox" name="authorize" id="authorize" value="1" />
+  <input type="hidden" name="client_id" id="client_id" value="<%= params[:client_id] %>" />
+  <input type="hidden" name="redirect_uri" id="redirect_uri" value="<%= params[:redirect_uri] %>" />
+  <input type="submit" value="Submit" />
+</form>
