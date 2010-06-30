@@ -35,4 +35,19 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  # copied from rails!
+  def assert_raise_with_message(expected_exception, expected_message)
+    begin
+      error_raised = false
+      yield
+    rescue expected_exception => error
+      error_raised = true
+      actual_message = error.message
+    end
+    assert error_raised
+    assert_equal expected_message, actual_message
+  end
+
 end
+

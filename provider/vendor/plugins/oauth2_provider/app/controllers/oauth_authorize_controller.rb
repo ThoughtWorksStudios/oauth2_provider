@@ -26,7 +26,7 @@ class OauthAuthorizeController < ApplicationController
     end
     
     if params[:redirect_uri].blank?
-      render :text => "You did not specify the 'redirect_uri' parameter", :status => :bad_request
+      render :text => "You did not specify the 'redirect_uri' parameter!", :status => :bad_request
       return false
     end
     
@@ -34,6 +34,11 @@ class OauthAuthorizeController < ApplicationController
     
     if client.nil?
       redirect_to "#{redirect_uri}?error=invalid-client-id"
+      return false
+    end
+    
+    if client.redirect_uri != redirect_uri
+      redirect_to "#{redirect_uri}?error=redirect-uri-mismatch"
       return false
     end
     
