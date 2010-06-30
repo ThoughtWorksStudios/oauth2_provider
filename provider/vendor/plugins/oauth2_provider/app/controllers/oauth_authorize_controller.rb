@@ -14,7 +14,11 @@ class OauthAuthorizeController < ApplicationController
       return
     end
     
-    redirect_to "#{redirect_uri}?code=#{ActiveSupport::SecureRandom.hex(32)}"
+    token = @client.oauth_tokens.create!(
+      :authorization_code => ActiveSupport::SecureRandom.hex(32),
+      :user_id => current_user_id
+    )
+    redirect_to "#{redirect_uri}?code=#{token.authorization_code}"
   end
   
   private
@@ -30,14 +34,14 @@ class OauthAuthorizeController < ApplicationController
       return false
     end
     
-    client = OauthClient.find_by_client_id(client_id)
+    @client = OauthClient.find_by_client_id(client_id)
     
-    if client.nil?
+    if @client.nil?
       redirect_to "#{redirect_uri}?error=invalid-client-id"
       return false
     end
     
-    if client.redirect_uri != redirect_uri
+    if @client.redirect_uri != redirect_uri
       redirect_to "#{redirect_uri}?error=redirect-uri-mismatch"
       return false
     end
