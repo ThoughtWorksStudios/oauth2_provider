@@ -4,7 +4,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../oauth_token_contr
 class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerTest
   
   def setup
-    Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
+    Clock.fake_now = Time.utc(2008, 1, 20, 1, 2, 3)
     @controller = OauthTokenController.new
     @client = OauthClient.create!(:name => 'my application', :redirect_uri => "http://example.com/cb")
     session[:user_id] = '13'
@@ -42,6 +42,15 @@ class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerT
       :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
     
+    assert_get_token_error('invalid-grant')
+  end
+  
+  def test_does_not_hand_out_oauth_token_after_authorization_code_expires
+    Clock.fake_now = Clock.now + 1.hour + 1.second
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
+      
     assert_get_token_error('invalid-grant')
   end
   
