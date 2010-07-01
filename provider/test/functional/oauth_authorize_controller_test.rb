@@ -5,6 +5,11 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
   def setup
     @client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
+    Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
+  end
+  
+  def teardown
+    Clock.reset
   end
   
   def test_index_contains_hidden_fields_for_client_id_and_redirect_uri
@@ -56,13 +61,16 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     assert_redirected_to 'http://example.com/cb?error=invalid-request'
   end
   
-  def test_authorize_should_return_authorization_code_if_user_authorizes_it
+  def test_authorize_should_return_authorization_code_with_expiry_if_user_authorizes_it
     session[:user_id] = '13'
     post :authorize, :redirect_uri => 'http://example.com/cb', 
       :client_id => @client.client_id, :authorize => '1'
 
     assert_response :redirect
-    assert @response.redirected_to  =~ /http\:\/\/example\.com\/cb\?code\=.*/
+    @client.reload
+    token = @client.oauth_tokens.first
+    assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.expires_in}",
+      @response.redirected_to
   end
 
   def test_authorize_returns_400_if_no_redirect_uri_is_supplied

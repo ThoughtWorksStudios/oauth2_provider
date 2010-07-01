@@ -2,6 +2,8 @@ class OauthAuthorizeController < ApplicationController
 
   include OauthProviderHelper
   
+  DEFAULT_EXPIRY_TIME = 1.hour
+  
   def index
     return unless validate_params
   end
@@ -18,7 +20,7 @@ class OauthAuthorizeController < ApplicationController
       :authorization_code => ActiveSupport::SecureRandom.hex(32),
       :user_id => current_user_id
     )
-    redirect_to "#{redirect_uri}?code=#{token.authorization_code}"
+    redirect_to "#{redirect_uri}?code=#{token.authorization_code}&expires_in=#{token.expires_in}"
   end
   
   private
