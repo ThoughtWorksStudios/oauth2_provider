@@ -1,4 +1,6 @@
 class OauthTokenController < ApplicationController
+
+  skip_before_filter :login_required, :only => ['get_token']
   
   include OauthProviderHelper
   
