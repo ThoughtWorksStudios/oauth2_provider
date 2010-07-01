@@ -10,7 +10,8 @@ class OauthTokenControllerTest < ActionController::TestCase
 
   def test_get_token_happy_path_request_of_access_token
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
-      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb"
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
 
     assert_response :success
     
@@ -25,58 +26,79 @@ class OauthTokenControllerTest < ActionController::TestCase
   
   def test_get_token_returns_error_when_passed_bogus_client_id
     post :get_token, :client_id => 'bogus', :client_secret => @client.client_secret,
-      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb"
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
    
     assert_get_token_error('invalid-client-credentials')
   end
   
   def test_get_token_returns_error_when_passed_no_client_id
     post :get_token, :client_secret => @client.client_secret,
-       :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb"
+       :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+       :grant_type => 'authorization-code'
 
     assert_get_token_error('invalid-client-credentials')
   end
   
   def test_get_token_returns_error_when_passed_bogus_client_secret
     post :get_token, :client_id => @client.client_id, :client_secret => 'bogus',
-      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb"
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
    
     assert_get_token_error('invalid-client-credentials')
   end
   
   def test_get_token_returns_error_when_passed_no_client_secret
     post :get_token, :client_id => @client.client_id,
-      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb"
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
    
     assert_get_token_error('invalid-client-credentials')
   end
   
   def test_get_token_returns_error_when_passed_bogus_authorization_code
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
-      :code => 'bogus', :redirect_uri => "http://example.com/cb"
+      :code => 'bogus', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
    
     assert_get_token_error('invalid-grant')
   end
   
   def test_get_token_returns_error_when_passed_no_authorization_code
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
-      :redirect_uri => "http://example.com/cb"
+      :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
     
     assert_get_token_error('invalid-grant')
   end
   
   def test_get_token_returns_error_when_passed_bogus_redirect_uri
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
-      :code => 'valid_authorization_code', :redirect_uri => "bogus"
+      :code => 'valid_authorization_code', :redirect_uri => "bogus",
+      :grant_type => 'authorization-code'
 
     assert_get_token_error('invalid-grant')
   end
   
   def test_get_token_returns_error_when_passed_no_redirect_uri
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
-      :code => 'valid_authorization_code'
+      :code => 'valid_authorization_code',
+      :grant_type => 'authorization-code'
 
     assert_get_token_error('invalid-grant')
+  end
+  
+  def test_get_token_returns_error_when_passed_bogus_grant
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret, 
+      :redirect_uri => "http://example.com/cb", :code => 'valid_authorization_code',
+      :grant_type => 'bogus'
+    assert_get_token_error('unsupported-grant-type')
+  end
+  
+  def test_get_token_returns_error_when_passed_no_grant
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret, 
+      :redirect_uri => "http://example.com/cb", :code => 'valid_authorization_code'
+    assert_get_token_error('unsupported-grant-type')
   end
   
   private

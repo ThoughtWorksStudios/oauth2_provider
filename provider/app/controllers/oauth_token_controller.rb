@@ -3,6 +3,12 @@ class OauthTokenController < ApplicationController
   include OauthProviderHelper
   
   def get_token
+    
+    unless params[:grant_type] == 'authorization-code'
+      render_error('unsupported-grant-type')
+      return
+    end
+    
     client = OauthClient.find_by_client_id_and_client_secret(
       client_id, client_secret
     )
