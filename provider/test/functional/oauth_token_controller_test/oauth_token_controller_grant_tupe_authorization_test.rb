@@ -21,8 +21,8 @@ class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerT
     assert_equal "private, max-age=0, must-revalidate", @response.headers['Cache-Control']
 
     token = ActiveSupport::JSON.decode(@response.body)
-    assert !token['access_token'].blank?
     assert !token.key?('expires_in')
+    assert_equal 64, token['access_token'].length
     assert !token.key?('refresh_token')
   end
   
