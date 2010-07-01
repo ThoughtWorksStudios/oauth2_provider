@@ -8,7 +8,13 @@
   <%= stylesheet_link_tag 'scaffold' %>
 </head>
 <body>
-Currently Logged in: <%= current_user.email if logged_in? %>
+<% if logged_in? %>
+  <%= current_user.email %> <a href="<%= url_for(:controller => :sessions, :action => :clear_session) %>">logout</a>
+<% else %>
+  <a href="<%= url_for(:controller => :users, :action => :new) %>">Sign up</a> |
+  <a href="<%= url_for(:controller => :sessions, :action => :index) %>">Login</a>
+<% end %>
+
 <p style="color: green"><%= flash[:notice] %></p>
 
 <%= yield %>

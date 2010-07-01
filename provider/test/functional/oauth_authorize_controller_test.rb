@@ -2,25 +2,29 @@ require 'test_helper'
 
 class OauthAuthorizeControllerTest < ActionController::TestCase
   
+  def setup
+    @client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+    @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
+  end
+  
   def test_index_contains_hidden_fields_for_client_id_and_redirect_uri
-    client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
-    session[:user_id] = '13'
-    get :index, :redirect_uri => 'http://example.com/cb', :client_id => client.client_id
+    session[:user_id] = @user.id
+    get :index, :redirect_uri => 'http://example.com/cb', :client_id => @client.client_id
     
     assert_select '#oauth_authorize' do 
-      assert_select "#client_id[value='#{client.client_id}']"
+      assert_select "#client_id[value='#{@client.client_id}']"
       assert_select "#redirect_uri[value='http://example.com/cb']"
     end
   end
 
   def test_index_redirects_with_error_code_when_bogus_client_id_passed
-    session[:user_id] = "13"
+    session[:user_id] = @user.id
     get :index, :redirect_uri => 'http://example.com/cb', :client_id => 'bogus'
     assert_redirected_to 'http://example.com/cb?error=invalid-client-id'
   end
   
   def test_index_redirects_with_error_code_when_no_client_id_passed
-    session[:user_id] = "13"
+    session[:user_id] = @user.id
     get :index, :redirect_uri => 'http://example.com/cb'
     assert_redirected_to 'http://example.com/cb?error=invalid-request'
   end
@@ -28,26 +32,26 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
   def test_index_returns_400_if_no_redirect_uri_is_supplied
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
-    get :index, :client_id => client.client_id, :authorize => '1'
+    get :index, :client_id => @client.client_id, :authorize => '1'
     assert_response :bad_request
   end
   
   def test_index_redirects_with_error_code_when_mismatched_uri
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
-    get :index, :redirect_uri => 'bogus', :client_id => client.client_id
+    get :index, :redirect_uri => 'bogus', :client_id => @client.client_id
     
     assert_redirected_to 'bogus?error=redirect-uri-mismatch'
   end
 
   def test_authorize_redirects_with_error_code_when_bogus_client_id_passed
-    session[:user_id] = "13"
+    session[:user_id] = @user.id
     post :authorize, :redirect_uri => 'http://example.com/cb', :client_id => 'bogus'
     assert_redirected_to 'http://example.com/cb?error=invalid-client-id'
   end
   
   def test_authorize_redirects_with_error_code_when_no_client_id_passed
-    session[:user_id] = "13"
+    session[:user_id] = @user.id
     post :authorize, :redirect_uri => 'http://example.com/cb'
     assert_redirected_to 'http://example.com/cb?error=invalid-request'
   end
@@ -56,7 +60,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
     post :authorize, :redirect_uri => 'http://example.com/cb', 
-      :client_id => client.client_id, :authorize => '1'
+      :client_id => @client.client_id, :authorize => '1'
 
     assert_response :redirect
     assert @response.redirected_to  =~ /http\:\/\/example\.com\/cb\?code\=.*/
@@ -65,7 +69,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
   def test_authorize_returns_400_if_no_redirect_uri_is_supplied
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
-    post :authorize, :client_id => client.client_id, :authorize => '1'
+    post :authorize, :client_id => @client.client_id, :authorize => '1'
     
     assert_response 400
   end
@@ -73,7 +77,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
   def test_authorize_redirects_with_error_code_when_mismatched_uri
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
-    get :index, :redirect_uri => 'bogus', :client_id => client.client_id
+    get :index, :redirect_uri => 'bogus', :client_id => @client.client_id
     
     assert_redirected_to 'bogus?error=redirect-uri-mismatch'
   end
@@ -82,7 +86,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
     post :authorize, :redirect_uri => 'http://example.com/cb', 
-      :client_id => client.client_id
+      :client_id => @client.client_id
 
     assert_redirected_to 'http://example.com/cb?error=access-denied'
   end
@@ -91,13 +95,13 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     session[:user_id] = '13'
     post :authorize, :redirect_uri => 'http://example.com/cb', 
-      :client_id => client.client_id, :authorize => '1'
+      :client_id => @client.client_id, :authorize => '1'
 
     auth_response_1 = @response.redirected_to
     
     @request = ActionController::TestRequest.new
     post :authorize, :redirect_uri => 'http://example.com/cb', 
-      :client_id => client.client_id, :authorize => '1'
+      :client_id => @client.client_id, :authorize => '1'
     
     auth_response_2 = @response.redirected_to
     
