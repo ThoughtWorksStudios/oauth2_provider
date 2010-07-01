@@ -2,6 +2,8 @@ class OauthToken < ActiveRecord::Base
 
   belongs_to :oauth_client
   
+  before_create :update_expiry
+  
   DEFAULT_EXPIRY_TIME = 1.hour
   
   def generate_access_token!
@@ -19,6 +21,14 @@ class OauthToken < ActiveRecord::Base
   
   def expires_in
     (Time.at(expires_at.to_i) - Clock.now).to_i
+  end
+  
+  def expired?
+    expires_in <= 0
+  end
+  
+  def update_expiry
+    self.expires_at = Clock.now + DEFAULT_EXPIRY_TIME
   end
   
 end
