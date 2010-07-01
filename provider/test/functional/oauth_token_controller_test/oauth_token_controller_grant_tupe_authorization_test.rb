@@ -31,6 +31,20 @@ class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerT
     assert_equal 64, token['refresh_token'].length
   end
   
+  def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
+    
+    @request = ActionController::TestRequest.new
+
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
+      :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",
+      :grant_type => 'authorization-code'
+    
+    assert_get_token_error('invalid-grant')
+  end
+  
   def test_get_token_returns_error_when_passed_bogus_client_id
     post :get_token, :client_id => 'bogus', :client_secret => @client.client_secret,
       :code => 'valid_authorization_code', :redirect_uri => "http://example.com/cb",

@@ -8,7 +8,8 @@ class OauthToken < ActiveRecord::Base
     update_attributes(
       :access_token => ActiveSupport::SecureRandom.hex(32),
       :expires_at => Clock.now + DEFAULT_EXPIRY_TIME,
-      :refresh_token => ActiveSupport::SecureRandom.hex(32)
+      :refresh_token => ActiveSupport::SecureRandom.hex(32),
+      :authorization_code => nil
       )
   end
   

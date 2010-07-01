@@ -6,6 +6,7 @@ class OauthTokenTest < ActiveSupport::TestCase
     token = OauthToken.create!
     token.generate_access_token!
     assert_not_nil token.access_token
+    assert_nil token.authorization_code
   end
   
 end
