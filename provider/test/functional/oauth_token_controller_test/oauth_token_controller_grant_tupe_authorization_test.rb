@@ -4,10 +4,15 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../oauth_token_contr
 class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerTest
   
   def setup
+    Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
     @controller = OauthTokenController.new
     @client = OauthClient.create!(:name => 'my application', :redirect_uri => "http://example.com/cb")
     session[:user_id] = '13'
     @client.oauth_tokens.create!(:user_id => 13, :authorization_code => 'valid_authorization_code')
+  end
+  
+  def teardown
+    Clock.reset
   end
 
   def test_get_token_happy_path_request_of_access_token
@@ -21,9 +26,9 @@ class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerT
     assert_equal "private, max-age=0, must-revalidate", @response.headers['Cache-Control']
 
     token = ActiveSupport::JSON.decode(@response.body)
-    assert !token.key?('expires_in')
     assert_equal 64, token['access_token'].length
-    assert !token.key?('refresh_token')
+    assert_equal 1.hour, token['expires_in']
+    assert_equal 64, token['refresh_token'].length
   end
   
   def test_get_token_returns_error_when_passed_bogus_client_id

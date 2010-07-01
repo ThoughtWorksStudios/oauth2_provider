@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(:version => 20100630220121) do
 
   create_table "oauth_tokens", :force => true do |t|
     t.string   "user_id"
-    t.integer  "oauth_client_id",    :limit => nil
+    t.integer  "oauth_client_id"
     t.string   "authorization_code"
     t.string   "access_token"
+    t.string   "refresh_token"
+    t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
