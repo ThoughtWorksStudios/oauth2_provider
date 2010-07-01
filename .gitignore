@@ -3,3 +3,4 @@ provider/db/*.sqlite3
 provider/log/*
 provider/tmp/*
 provider/tmtags
+.DS_Store
