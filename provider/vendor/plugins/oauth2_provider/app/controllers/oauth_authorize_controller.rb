@@ -25,10 +25,18 @@ class OauthAuthorizeController < ApplicationController
   
   private
   
+  # TODO: support 'code', 'token', 'code-and-token'
+  VALID_RESPONSE_TYPES = ['code']
+  
   def validate_params
-    if params[:client_id].blank?
+    if client_id.blank? || params[:response_type].blank?
       redirect_to "#{redirect_uri}?error=invalid-request"
       return false
+    end
+    
+    unless VALID_RESPONSE_TYPES.include?(params[:response_type])
+      redirect_to "#{redirect_uri}?error=unsupported-response-type"
+      return
     end
     
     if params[:redirect_uri].blank?
