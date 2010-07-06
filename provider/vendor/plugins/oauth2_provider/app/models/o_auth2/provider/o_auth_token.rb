@@ -2,7 +2,7 @@ module OAuth2
   module Provider
     class OAuthToken < ::ActiveRecord::Base
 
-      belongs_to :o_auth_client, :class_name => "OAuth2::Provider::OAuthClient"
+      belongs_to :oauth_client, :class_name => "OAuth2::Provider::OAuthClient"
   
       before_create :update_authorization_code_expiry
   

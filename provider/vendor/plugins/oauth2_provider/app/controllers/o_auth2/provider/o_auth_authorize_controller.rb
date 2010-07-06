@@ -16,7 +16,7 @@ module OAuth2
           return
         end
     
-        token = @client.o_auth_tokens.create!(
+        token = @client.oauth_tokens.create!(
           :authorization_code => ::ActiveSupport::SecureRandom.hex(32),
           :user_id => current_user_id
         )

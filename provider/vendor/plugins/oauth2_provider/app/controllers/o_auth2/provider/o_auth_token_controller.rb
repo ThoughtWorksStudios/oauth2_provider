@@ -27,7 +27,7 @@ module OAuth2
           return
         end
     
-        token = client.o_auth_tokens.find_by_authorization_code(authorization_code)
+        token = client.oauth_tokens.find_by_authorization_code(authorization_code)
 
         if token.nil? || token.authorization_code_expired?
           render_error('invalid-grant')

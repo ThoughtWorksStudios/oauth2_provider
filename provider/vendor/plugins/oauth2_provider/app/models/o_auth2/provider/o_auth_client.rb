@@ -4,7 +4,7 @@ module OAuth2
 
       validates_presence_of :name, :redirect_uri
       before_create :generate_keys
-      has_many :o_auth_tokens, :class_name => "OAuth2::Provider::OAuthToken"
+      has_many :oauth_tokens, :class_name => "OAuth2::Provider::OAuthToken"
 
       private
       def generate_keys
