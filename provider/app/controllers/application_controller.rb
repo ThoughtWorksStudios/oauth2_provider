@@ -8,14 +8,14 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   
-  include SimplestAuth::Controller
+  include SimplestAuth::Controller, OAuth2::Provider::ApplicationControllerMethods
   
   before_filter :login_required
   
   protected
   
   def login_required_with_oauth
-    if user_id = user_id_for_oauth_access_token
+    if user_id = self.user_id_for_oauth_access_token
       session[User.session_key] = user_id
     elsif looks_like_oauth_request?
       render :text => "Denied!", :status => :unauthorized
