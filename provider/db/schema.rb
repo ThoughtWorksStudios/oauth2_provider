@@ -26,7 +26,8 @@ ActiveRecord::Schema.define(:version => 20100630220121) do
     t.string   "authorization_code"
     t.string   "access_token"
     t.string   "refresh_token"
-    t.datetime "expires_at"
+    t.datetime "authorization_code_expires_at"
+    t.datetime "access_token_expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

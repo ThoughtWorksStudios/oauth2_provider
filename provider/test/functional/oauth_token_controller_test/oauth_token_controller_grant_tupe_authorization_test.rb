@@ -27,7 +27,7 @@ class OauthTokenControllerGrantTypeAuthorizationCodeTest < OauthTokenControllerT
 
     token = ActiveSupport::JSON.decode(@response.body)
     assert_equal 64, token['access_token'].length
-    assert_equal 1.hour, token['expires_in']
+    assert_equal 90.days, token['expires_in']
     assert_equal 64, token['refresh_token'].length
   end
   

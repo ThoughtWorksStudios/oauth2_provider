@@ -27,7 +27,7 @@ class OauthTokenController < ApplicationController
     
     token = client.oauth_tokens.find_by_authorization_code(authorization_code)
 
-    if token.nil? || token.expired?
+    if token.nil? || token.authorization_code_expired?
       render_error('invalid-grant')
       return
     end

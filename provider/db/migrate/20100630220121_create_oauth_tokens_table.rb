@@ -7,7 +7,8 @@ class CreateOauthTokensTable < ActiveRecord::Migration
       
       t.string :access_token
       t.string :refresh_token
-      t.timestamp :expires_at
+      t.timestamp :authorization_code_expires_at
+      t.timestamp :access_token_expires_at
       
       t.timestamps
     end

@@ -106,7 +106,7 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     assert_response :redirect
     @client.reload
     token = @client.oauth_tokens.first
-    assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.expires_in}",
+    assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}",
       @response.redirected_to
   end
 
