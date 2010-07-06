@@ -1,13 +1,13 @@
 class ProtectedResourceController < ApplicationController
+
+  oauth_allowed :only => :index
     
   def index
     render :text => "current user is #{current_user.email}"
   end
   
-  protected
-  
-  def oauth_allowed?
-    return action_name == 'index'
+  def no_oauth_here
+    render :text => "this content not available via OAuth"
   end
   
 end

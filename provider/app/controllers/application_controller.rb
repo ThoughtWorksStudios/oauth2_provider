@@ -12,6 +12,23 @@ class ApplicationController < ActionController::Base
   
   before_filter :login_required
   
+  protected
+  
+  def login_required_with_oauth
+    if user_id = user_id_for_oauth_access_token
+      session[User.session_key] = user_id
+    elsif looks_like_oauth_request?
+      render :text => "Denied!", :status => :unauthorized
+    else
+      login_required_without_oauth
+    end
+  end
+  alias_method_chain :login_required, :oauth
+  
+  def current_user_id
+    super
+  end
+  
   private
     
   def new_session_url

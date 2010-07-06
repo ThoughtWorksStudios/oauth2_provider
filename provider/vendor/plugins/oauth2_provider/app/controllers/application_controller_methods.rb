@@ -1,17 +1,19 @@
 module ApplicationControllerMethods
 
   def self.included(controller_class)
+    controller_class.cattr_accessor :oauth_options
     
     def controller_class.oauth_allowed(options = {})
       raise 'options cannot contain both :only and :except' if options[:only] && options[:except]
       
-      @@oauth_options = options
       [:only, :except].each do |k|
-        if values = @@oauth_options[k]
-          @@oauth_options[k] = Array(values).map(&:to_s).to_set
+        if values = options[k]
+          options[k] = Array(values).map(&:to_s).to_set
         end
       end
+      self.oauth_options = options
     end
+    
   end
       
   protected
@@ -30,11 +32,11 @@ module ApplicationControllerMethods
   end
     
   def oauth_allowed?
-    return false unless defined?(@@oauth_options)
-    
-    @@oauth_options.empty? || 
-      (@@oauth_options[:only] && @@oauth_options[:only].include?(action_name)) ||
-      (@@oauth_options[:except] && !@@oauth_options[:except].include?(action_name))
+    return false if oauth_options.nil?
+
+    oauth_options.empty? || 
+      (oauth_options[:only] && oauth_options[:only].include?(action_name)) ||
+      (oauth_options[:except] && !oauth_options[:except].include?(action_name))
   end
   
 end

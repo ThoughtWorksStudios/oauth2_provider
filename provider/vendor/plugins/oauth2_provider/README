@@ -1,0 +1,10 @@
+To install plugin
+-----------------
+
+* DB Migration
+
+* Define 'current_user_id' method in your ApplicationController
+
+* Include user_id_from_oauth_access_token into authentication chain where appopriate
+
+* Use oauth_allowed in controller classes to enable OAuth where it's needed
