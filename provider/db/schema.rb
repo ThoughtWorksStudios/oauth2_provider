@@ -11,7 +11,7 @@
 
 ActiveRecord::Schema.define(:version => 20100630220121) do
 
-  create_table "oauth_clients", :force => true do |t|
+  create_table "o_auth_clients", :force => true do |t|
     t.string   "name"
     t.string   "client_id"
     t.string   "client_secret"
@@ -20,9 +20,9 @@ ActiveRecord::Schema.define(:version => 20100630220121) do
     t.datetime "updated_at"
   end
 
-  create_table "oauth_tokens", :force => true do |t|
+  create_table "o_auth_tokens", :force => true do |t|
     t.string   "user_id"
-    t.integer  "oauth_client_id"
+    t.integer  "o_auth_client_id"
     t.string   "authorization_code"
     t.string   "access_token"
     t.string   "refresh_token"

@@ -1,6 +1,6 @@
-class CreateOauthClients < ActiveRecord::Migration
+class CreateOAuthClients < ActiveRecord::Migration
   def self.up
-    create_table :oauth_clients do |t|
+    create_table :o_auth_clients do |t|
       t.string :name
       t.string :client_id
       t.string :client_secret
@@ -11,6 +11,6 @@ class CreateOauthClients < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :oauth_clients
+    drop_table :o_auth_clients
   end
 end
