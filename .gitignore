@@ -4,3 +4,4 @@ provider/log/*
 provider/tmp/*
 provider/tmtags
 .DS_Store
+provider/reports
