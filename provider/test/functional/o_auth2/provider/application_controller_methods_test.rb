@@ -1,13 +1,14 @@
 require 'test_helper'
+require 'ostruct'
 
 module OAuth2
   module Provider
     class ApplicationControllerMethodsTest < ActiveSupport::TestCase
-  
+      
       def setup
-        @fooControllerClass = Class.new
+        @fooControllerClass = Class.new(ApplicationController)
         @fooControllerClass.send :include, ApplicationControllerMethods
-    
+        
         @controller = @fooControllerClass.new
       end
   
@@ -82,10 +83,8 @@ module OAuth2
       def test_user_id_for_oauth_access_token_returns_user_id_when_oauth_allowed
         @token = OAuthToken.create!(:user_id => 17)
         @token.generate_access_token!
-        @controller.instance_variable_set(:@__token, @token)
-        def @controller.params
-          {:access_token => @__token.access_token}
-        end
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
+
         @fooControllerClass.oauth_allowed
     
         assert_equal "17", @controller.send(:user_id_for_oauth_access_token)
@@ -94,10 +93,7 @@ module OAuth2
       def test_user_id_for_oauth_access_token_returns_nil_when_oauth_not_allowed
         @token = OAuthToken.create!(:user_id => 17)
         @token.generate_access_token!
-        @controller.instance_variable_set(:@__token, @token)
-        def @controller.params
-          {:access_token => @__token.access_token}
-        end
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
         def @controller.action_name
           "an_action"
         end
@@ -107,12 +103,14 @@ module OAuth2
       end
   
       def test_user_id_for_oauth_access_token_returns_nil_when_bogus_token
-        def @controller.params
-          {:access_token => "bogus"}
-        end
+        @token = OAuthToken.create!(:user_id => 17)
+        @token.generate_access_token!
+        
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="bogus"}})
         def @controller.action_name
           "an_action"
         end
+                
         @fooControllerClass.oauth_allowed
     
         assert_equal nil, @controller.send(:user_id_for_oauth_access_token)

@@ -6,6 +6,7 @@ class ProtectedResourceControllerTest < ActionController::TestCase
     user = User.create!(:email => "foo@example.com", :crypted_password => "Open Sesame!")
     token = OAuth2::Provider::OAuthToken.create!(:user_id => user.id)
     token.generate_access_token!
+    @request.env["Authorization"] = %Q{Token token="#{token.access_token}"}
     get :index, :access_token => token.access_token
     assert_equal "current user is foo@example.com", @response.body
   end

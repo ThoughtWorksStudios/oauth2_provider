@@ -22,9 +22,10 @@ module OAuth2
   
       def user_id_for_oauth_access_token
         return nil unless oauth_allowed?
-    
-        if access_token = params[:access_token]
-          token = OAuthToken.find_by_access_token(access_token)
+        header_field = request.headers["Authorization"]
+        
+        if header_field =~ /Token token="(.*)"/          
+          token = OAuthToken.find_by_access_token($1)
           token.user_id if token
         end
       end

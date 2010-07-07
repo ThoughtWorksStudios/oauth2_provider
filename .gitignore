@@ -5,3 +5,4 @@ provider/tmp/*
 provider/tmtags
 .DS_Store
 provider/reports
+provider/.er
