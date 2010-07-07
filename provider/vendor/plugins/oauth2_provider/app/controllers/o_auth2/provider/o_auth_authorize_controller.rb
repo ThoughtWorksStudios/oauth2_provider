@@ -20,7 +20,13 @@ module OAuth2
           :authorization_code => ::ActiveSupport::SecureRandom.hex(32),
           :user_id => current_user_id
         )
-        redirect_to "#{redirect_uri}?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}"
+        state_param = if params[:state].blank?
+          ""
+        else
+          "&state=#{CGI.escape(params[:state])}"
+        end
+        
+        redirect_to "#{redirect_uri}?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}#{state_param}"
       end
   
       private

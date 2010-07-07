@@ -14,15 +14,16 @@ module OAuth2
         Clock.reset
       end
   
-      def test_index_contains_hidden_fields_for_client_id_and_redirect_uri_and_response_type
+      def test_index_contains_hidden_fields_for_client_id_and_redirect_uri_and_response_type_and_state
         session[:user_id] = @user.id
         get :index, :redirect_uri => 'http://example.com/cb', :client_id => @client.client_id,
-          :response_type => 'code'
+          :response_type => 'code', :state => 'some-state'
     
         assert_select '#oauth_authorize' do 
           assert_select "#client_id[value='#{@client.client_id}']"
           assert_select "#redirect_uri[value='http://example.com/cb']"
           assert_select "#response_type[value='code']"
+          assert_select "#state[value='some-state']"
         end
       end
   
@@ -100,7 +101,7 @@ module OAuth2
         assert_redirected_to 'http://example.com/cb?error=invalid-request'
       end
   
-      def test_authorize_should_return_authorization_code_with_expiry_if_user_authorizes_it
+      def test_authorize_should_return_authorization_code_with_expiry_if_user_authorizes_it_and_state_param_is_not_provided
         session[:user_id] = '13'
         post :authorize, :redirect_uri => 'http://example.com/cb', 
           :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
@@ -109,6 +110,19 @@ module OAuth2
         @client.reload
         token = @client.oauth_tokens.first
         assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}",
+          @response.redirected_to
+      end
+
+      
+      def test_authorize_should_return_authorization_code_with_expiry_and_state_if_user_authorizes_it_and_state_param_is_provided
+        session[:user_id] = '13'
+        post :authorize, :redirect_uri => 'http://example.com/cb',
+          :client_id => @client.client_id, :authorize => '1', :response_type => 'code', :state => 'foo&bar'
+
+        assert_response :redirect
+        @client.reload
+        token = @client.oauth_tokens.first
+        assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}&state=foo%26bar",
           @response.redirected_to
       end
 
