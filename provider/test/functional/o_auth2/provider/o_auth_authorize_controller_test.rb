@@ -113,7 +113,6 @@ module OAuth2
           @response.redirected_to
       end
 
-      
       def test_authorize_should_return_authorization_code_with_expiry_and_state_if_user_authorizes_it_and_state_param_is_provided
         session[:user_id] = '13'
         post :authorize, :redirect_uri => 'http://example.com/cb',
@@ -125,7 +124,7 @@ module OAuth2
         assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}&state=foo%26bar",
           @response.redirected_to
       end
-
+      
       def test_authorize_returns_400_if_no_redirect_uri_is_supplied
         session[:user_id] = '13'
         post :authorize, :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
