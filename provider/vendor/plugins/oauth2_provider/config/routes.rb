@@ -5,5 +5,5 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect '/oauth/authorize', :controller => 'OAuth2::Provider::OAuthAuthorize', :action => :authorize, :condition => {:method => :post}
   map.connect '/oauth/authorize', :controller => 'OAuth2::Provider::OAuthAuthorize', :action => :index, :condition => {:method => :get}
-  map.connect '/oauth/token', :controller => 'OAuth2::Provider::OAuthToken', :action => :get_token
+  map.connect '/oauth/token', :controller => 'OAuth2::Provider::OAuthToken', :action => :get_token, :condition => {:method => :post}
 end
