@@ -6,6 +6,10 @@ module OAuth2
       before_create :generate_keys
       has_many :oauth_tokens, :class_name => "OAuth2::Provider::OAuthToken"
 
+      def self.model_name
+        ActiveSupport::ModelName.new('OAuthClient')
+      end
+
       private
       def generate_keys
         self.client_id = ActiveSupport::SecureRandom.hex(32)

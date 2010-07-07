@@ -15,7 +15,7 @@
     <td><%=h oauth_client.client_secret %></td>
     <td><%=h oauth_client.redirect_uri %></td>
     <td><%= link_to 'Show', oauth_client %></td>
-    <td><%= link_to 'Edit', edit_oauth_client_path(oauth_client) %></td>
+    <td><%= link_to 'Edit', edit_o_auth_client_path(oauth_client) %></td>
     <td><%= link_to 'Destroy', oauth_client, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
@@ -23,4 +23,4 @@
 
 <br />
 
-<%= link_to 'New oauth_client', new_oauth_client_path %>
+<%= link_to 'New oauth_client', new_o_auth_client_path %>

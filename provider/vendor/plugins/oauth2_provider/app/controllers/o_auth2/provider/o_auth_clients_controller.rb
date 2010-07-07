@@ -42,7 +42,7 @@ module OAuth2
       # POST /oauth_clients
       # POST /oauth_clients.xml
       def create
-        @oauth_client = OAuthClient.new(params[:oauth_client])
+        @oauth_client = OAuthClient.new(params[:o_auth_client])
 
         respond_to do |format|
           if @oauth_client.save
@@ -62,7 +62,7 @@ module OAuth2
         @oauth_client = OAuthClient.find(params[:id])
 
         respond_to do |format|
-          if @oauth_client.update_attributes(params[:oauth_client])
+          if @oauth_client.update_attributes(params[:o_auth_client])
             flash[:notice] = 'OAuthClient was successfully updated.'
             format.html { redirect_to(@oauth_client) }
             format.xml  { head :ok }
@@ -80,7 +80,7 @@ module OAuth2
         @oauth_client.destroy
 
         respond_to do |format|
-          format.html { redirect_to(oauth_clients_url) }
+          format.html { redirect_to(o_auth_clients_url) }
           format.xml  { head :ok }
         end
       end
