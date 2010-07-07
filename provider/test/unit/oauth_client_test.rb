@@ -20,6 +20,14 @@ module OAuth2
           OAuthClient.create!(:name => 'foobar')
         end
       end
+      
+      def test_should_not_allow_invalid_redirect_uri
+        assert !OAuthClient.create(:name=>'foo', :redirect_uri => 'some-uri').save
+        
+        client = OAuthClient.create!(:name=>'foo', :redirect_uri => 'http://foo.com/cb')
+        client.redirect_uri = 'some-uri'
+        assert !client.save
+      end
     end
   end
 end
