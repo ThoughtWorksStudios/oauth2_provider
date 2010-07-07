@@ -4,7 +4,7 @@ module OAuth2
 
       validates_presence_of :name, :redirect_uri
       before_create :generate_keys
-      has_many :oauth_tokens, :class_name => "OAuth2::Provider::OAuthToken"
+      has_many :oauth_tokens, :class_name => "OAuth2::Provider::OAuthToken", :dependent => :delete_all
 
       def self.model_name
         ActiveSupport::ModelName.new('OAuthClient')
