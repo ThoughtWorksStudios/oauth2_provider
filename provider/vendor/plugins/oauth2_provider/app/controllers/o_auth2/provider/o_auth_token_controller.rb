@@ -4,8 +4,6 @@ module OAuth2
 
       skip_before_filter :login_required, :only => ['get_token']
   
-      include OAuthProviderHelper
-  
       def get_token
     
         unless params[:grant_type] == 'authorization-code'
@@ -14,7 +12,7 @@ module OAuth2
         end
     
         client = OAuthClient.find_by_client_id_and_client_secret(
-          client_id, client_secret
+          params[:client_id], params[:client_secret]
         )
     
         if client.nil?
@@ -22,12 +20,12 @@ module OAuth2
           return
         end
     
-        if client.redirect_uri != redirect_uri
+        if client.redirect_uri != params[:redirect_uri]
           render_error('invalid-grant')
           return
         end
     
-        token = client.oauth_tokens.find_by_authorization_code(authorization_code)
+        token = client.oauth_tokens.find_by_authorization_code(params[:code])
 
         if token.nil? || token.authorization_code_expired?
           render_error('invalid-grant')
