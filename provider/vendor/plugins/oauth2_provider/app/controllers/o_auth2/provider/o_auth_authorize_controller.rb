@@ -14,10 +14,7 @@ module OAuth2
           return
         end
     
-        token = @client.oauth_tokens.create!(
-          :authorization_code => ::ActiveSupport::SecureRandom.hex(32),
-          :user_id => current_user_id
-        )
+        token = @client.create_token_for_user_id(current_user_id)
         state_param = if params[:state].blank?
           ""
         else

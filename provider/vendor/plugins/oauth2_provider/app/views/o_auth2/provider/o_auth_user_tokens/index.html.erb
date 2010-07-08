@@ -1,0 +1,12 @@
+<table>
+  <th>
+    <td>Client</td>
+    <td>Token</td>
+  </th>
+  <% @tokens.each do |token| -%>
+    <tr>
+      <td><%= token.oauth_client.name %></td>
+      <td><%= token.access_token %></td>
+    </tr>
+  <% end -%>
+</table>
