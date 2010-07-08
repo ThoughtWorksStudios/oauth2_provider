@@ -115,6 +115,14 @@ module OAuth2
     
         assert_equal nil, @controller.send(:user_id_for_oauth_access_token)
       end
+      
+      def test_should_identify_oauth_request_based_on_authorization_header
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="some-token"}})
+        assert @controller.send(:looks_like_oauth_request?)
+        
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => 'hello world'})
+        assert !@controller.send(:looks_like_oauth_request?)
+      end
     end
   end
 end

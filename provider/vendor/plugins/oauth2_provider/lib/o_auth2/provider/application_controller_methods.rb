@@ -31,7 +31,8 @@ module OAuth2
       end
   
       def looks_like_oauth_request?
-        !params[:access_token].blank?
+        header_field = request.headers["Authorization"]
+        header_field =~ /Token token="(.*)"/
       end
     
       def oauth_allowed?
