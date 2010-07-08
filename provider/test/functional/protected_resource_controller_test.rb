@@ -12,7 +12,8 @@ class ProtectedResourceControllerTest < ActionController::TestCase
   end
   
   def test_access_protected_resource_with_invalid_access_token
-    get :index, :access_token => 'bogus'
+    @request.env["Authorization"] = %Q{Token token="bogus"}
+    get :index
     assert_response :unauthorized
   end
   
