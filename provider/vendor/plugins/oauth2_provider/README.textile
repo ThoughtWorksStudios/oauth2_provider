@@ -5,6 +5,16 @@ The latest version of the spec is available at "http://tools.ietf.org/html/draft
 
 Currently only the web-server profile "http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1":http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1 is supported.
 
+h1. What's Included
+
+* The OAuth 2.0 (v9) plugin (RAILS_ROOT/vendor/plugins/oauth2_provider) 
+* Units and functional tests (RAILS_ROOT/test)
+* A sample host Rails application (RAILS_ROOT)
+** Create sample app user at /users/new
+** Create sample app OAuth client at /oauth/clients
+** Access OAuth-allowed protected resource /protected_resource
+** List and revoke a user's tokens at /oauth/user_tokens
+
 h1. Supported Features
 
 * Web server flow as described at "http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1":http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1
@@ -16,7 +26,7 @@ h1. Supported Features
 
 h1. Available Endpoint URLs
 
-See routes.rb in the plugin for more details.
+See config/routes.rb in the plugin for more details.
 
 *API only URLs*
 * /oauth/authorize (Oauth2::Provider::OauthAuthorizeController) - used by the user-agent (browser) to request an authorization 'code'
@@ -26,6 +36,7 @@ See routes.rb in the plugin for more details.
 * /oauth/user_tokens (Oauth2::Provider::OauthUserTokensController) - used by end users to view and revoke access to 3rd party OAuth2 clients.
 * /oauth/clients (Oauth2::Provider::OauthClientsController) - to manage oauth clients (should be available only to admins)
 
+It is the responsibility of the host application to avoid routing conflicts. The simplest thing to do is avoid defining any paths starting with /oauth
 
 h1. Installation
 
@@ -60,7 +71,11 @@ class ApplicationController < ActionController::Base
 
   # define another aliased method that authorizes a user based on the oauth token,
   # and falls back to using the host application's authorization.
-  # Change 'YOUR_APPLICATION_SESSION_KEY' to whatever key the host application uses.
+  # OAuth2::Provider::ApplicationController methods supplies a user_id_for_oauth_access_token
+  # to lookup the user_id for a given access token. The host app must then use that
+  # user_id to setup the user session, do any authorization checks, etc.  in this
+  # example (from the included sample host app) we simply store the user_id in 
+  # the user's session, your scenario will likely differ.
   def login_required_with_oauth
     if user_id = self.user_id_for_oauth_access_token
       session[YOUR_APPLICATION_SESSION_KEY] = user_id
@@ -96,3 +111,20 @@ class ProtectedResourceController < ApplicationController
 
 end
 </pre></notextile>
+
+h1. Verify plugin working correctly in your application
+
+* OAuth enable the actions for which you wish to allow OAuth as an authentication means
+* Setup a new OAuth client at /oauth/clients
+* Open /oauth/authorize?redirect_uri=REDIRECT_URI&client_id=CLIENT_ID in a browser. You should see a form asking you to authorize the client to access the host application on your behalf. Check the tickbox and submit.
+* Your browser is redirected to your redirect URI (hint: use example.com for this test) and you should now see your authorization code
+* For this step you'll need to use curl as you need to perform a POST and there is no form provided by the plugin. Use curl to POST to /oauth/token, passing the following key/value pairs as form data: code=AUTHORIZATION_CODE&grant_type=authorization-code&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&redirect_uri=REDIRECT_URI
+* The response to the above POST will be JSON containing your access token, and its expiration time in seconds.
+
+<pre>{:access_token => ACCESS_TOKEN, :expires_in => ACCESS_TOKEN_EXPIRES_IN, :refresh_token => REFRESH_TOKEN}</pre>
+  
+* You can now use the ACCESS_TOKEN to access the protected resource. This would require the 'Authorization' HTTP header (NOTE that the quotes are required around the ACCESS_TOKEN)
+  
+<pre>Authorization: Token token="ACCESS_TOKEN"</pre>
+
+* You should expect to see the contents of the protected resource now.
