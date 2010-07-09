@@ -27,7 +27,7 @@ class UserTest < Test::Unit::TestCase
     setup do
       User.send(:include, SimplestAuth::Model)
       @user = User.new
-      @user.stubs(:crypted_password).returns('abcdefg')
+      @user.stubs(:password).returns('abcdefg')
     end
 
     should "determine if a password is authentic" do
@@ -54,7 +54,7 @@ class UserTest < Test::Unit::TestCase
       @user.authentic?('password')
     end
 
-    should "use a new Password made from crypted_password" do
+    should "use a new Password made from password" do
       password_stub = stub
       password_stub.stubs(:==).with('password').returns(true)
       Password.expects(:new).with('abcdefg').returns(password_stub)
@@ -64,7 +64,7 @@ class UserTest < Test::Unit::TestCase
 
     should "hash a password using bcrypt" do
       @user.stubs(:password_required?).returns(true)
-      @user.expects(:crypted_password=).with('abcdefg')
+      @user.expects(:password=).with('abcdefg')
       @user.password = 'password'
       Password.expects(:create).with('password').returns('abcdefg')
 
@@ -72,12 +72,12 @@ class UserTest < Test::Unit::TestCase
     end
 
     should "require a password if crypted password is blank" do
-      @user.stubs(:crypted_password).returns(stub(:blank? => true))
+      @user.stubs(:password).returns(stub(:blank? => true))
       assert_equal true, @user.send(:password_required?)
     end
 
     should "require a password if a password has been set" do
-      @user.stubs(:crypted_password).returns(stub(:blank? => false))
+      @user.stubs(:password).returns(stub(:blank? => false))
       @user.stubs(:password).returns(stub(:blank? => false))
       assert_equal true, @user.send(:password_required?)
     end

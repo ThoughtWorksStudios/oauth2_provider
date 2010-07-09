@@ -3,7 +3,7 @@ require 'test_helper'
 class ProtectedResourceControllerTest < ActionController::TestCase
 
   def test_access_protected_resource_with_valid_access_token
-    user = User.create!(:email => "foo@example.com", :crypted_password => "Open Sesame!")
+    user = User.create!(:email => "foo@example.com", :password => "Open Sesame!")
     token = Oauth2::Provider::OauthToken.create!(:user_id => user.id)
     @request.env["Authorization"] = %Q{Token token="#{token.access_token}"}
     get :index, :access_token => token.access_token

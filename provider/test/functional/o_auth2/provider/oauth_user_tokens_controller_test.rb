@@ -10,11 +10,11 @@ module Oauth2
         client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
         client2 = OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
 
-        user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
+        user1 = User.create!(:email => 'u1', :password => 'p1')
         token1 = client1.create_token_for_user_id(user1.id)
         token2 = client2.create_token_for_user_id(user1.id)
         
-        user2 = User.create!(:email => 'u2', :crypted_password => 'p2')
+        user2 = User.create!(:email => 'u2', :password => 'p2')
         token3 = client1.create_token_for_user_id(user2.id)
         
         session[:user_id] = user1.id
@@ -40,7 +40,7 @@ module Oauth2
       end
 
       def test_revoke_destroys_users_token
-        user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
+        user1 = User.create!(:email => 'u1', :password => 'p1')
         client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
         token1 = client1.create_token_for_user_id(user1.id)
         token2 = client1.create_token_for_user_id(user1.id)
@@ -56,11 +56,11 @@ module Oauth2
         client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
         client2 = OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
 
-        user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
+        user1 = User.create!(:email => 'u1', :password => 'p1')
         token1 = client1.create_token_for_user_id(user1.id)
         token2 = client2.create_token_for_user_id(user1.id)
         
-        user2 = User.create!(:email => 'u2', :crypted_password => 'p2')
+        user2 = User.create!(:email => 'u2', :password => 'p2')
         token3 = client1.create_token_for_user_id(user2.id)
         
         session[:user_id] = user1.id

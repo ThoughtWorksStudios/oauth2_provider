@@ -29,9 +29,9 @@ SimplestAuth is an extension to the existing models and controllers in your Rail
 
 h3. Model Integration
 
-If you're starting out with a fresh User model, you just need an identifier such as @email@ and @crypted_password@ columns in your database:
+If you're starting out with a fresh User model, you just need an identifier such as @email@ and @password@ columns in your database:
 
-<pre><code>$ ./script/generate model User email:string crypted_password:string</code></pre>
+<pre><code>$ ./script/generate model User email:string password:string</code></pre>
 
 To get started, just use the @SimplestAuth::Model@ mix-in, and tell it how you want to identify, in your User class:
 

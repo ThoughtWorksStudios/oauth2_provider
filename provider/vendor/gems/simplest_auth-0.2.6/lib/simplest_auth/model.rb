@@ -3,20 +3,6 @@ module SimplestAuth
     def self.included(base)
       base.extend ClassMethods
       base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        attr_accessor :password, :password_confirmation
-      end
-
-      if base.data_mapper?
-        base.class_eval do
-          before(:save) {hash_password if password_required?}
-        end
-      elsif base.active_record? || base.mongo_mapper?
-        base.class_eval do
-          before_save :hash_password, :if => :password_required?
-        end
-      end
     end
 
     module ClassMethods
@@ -73,16 +59,16 @@ module SimplestAuth
       RecordNotFound = Class.new(StandardError) unless defined?(RecordNotFound)
 
       def authentic?(password)
-        self.crypted_password == password
+        self.password == password
       end
 
       private
       def hash_password
-        self.crypted_password if password_required?
+        self.password if password_required?
       end
 
       def password_required?
-        self.crypted_password.blank? || !self.password.blank?
+        self.password.blank? || !self.password.blank?
       end
     end
   end

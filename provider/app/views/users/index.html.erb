@@ -3,13 +3,13 @@
 <table>
   <tr>
     <th>Email</th>
-    <th>Crypted password</th>
+    <th>Password</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
     <td><%=h user.email %></td>
-    <td><%=h user.crypted_password %></td>
+    <td><%=h user.password %></td>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
