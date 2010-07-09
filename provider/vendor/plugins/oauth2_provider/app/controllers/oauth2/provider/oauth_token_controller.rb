@@ -1,6 +1,6 @@
-module OAuth2
+module Oauth2
   module Provider
-    class OAuthTokenController < ApplicationController
+    class OauthTokenController < ApplicationController
 
       skip_before_filter :login_required, :only => ['get_token']
   
@@ -11,7 +11,7 @@ module OAuth2
           return
         end
     
-        client = OAuthClient.find_by_client_id_and_client_secret(
+        client = OauthClient.find_by_client_id_and_client_secret(
           params[:client_id], params[:client_secret]
         )
     

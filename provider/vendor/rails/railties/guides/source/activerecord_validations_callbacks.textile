@@ -977,7 +977,7 @@ When writing conditional callbacks, it's possible to mix both +:if+ and +:unless
 
 <ruby>
 class Comment < ActiveRecord::Base
-  after_create :send_email_to_author, :if => :author_wants_emails?,
+  after_create :send_email_toauthor, :if => :author_wants_emails?,
     :unless => Proc.new { |comment| comment.post.ignore_comments? }
 end
 </ruby>

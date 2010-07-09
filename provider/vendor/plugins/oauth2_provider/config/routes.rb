@@ -1,12 +1,12 @@
-# require 'o_auth2/provider/o_auth_clients_controller'
+# require 'oauth2/provider/oauth_clients_controller'
 ActionController::Routing::Routes.draw do |map|
   
-  map.resources :o_auth_clients, :controller => 'OAuth2::Provider::OAuthClients', :as => 'oauth/clients'
+  map.resources :oauth_clients, :controller => 'Oauth2::Provider::OauthClients', :as => 'oauth/clients'
   
-  map.connect '/oauth/authorize', :controller => 'OAuth2::Provider::OAuthAuthorize', :action => :authorize, :conditions => {:method => :post}
-  map.connect '/oauth/authorize', :controller => 'OAuth2::Provider::OAuthAuthorize', :action => :index, :conditions => {:method => :get}
-  map.connect '/oauth/token', :controller => 'OAuth2::Provider::OAuthToken', :action => :get_token, :conditions => {:method => :post}
+  map.connect '/oauth/authorize', :controller => 'Oauth2::Provider::OauthAuthorize', :action => :authorize, :conditions => {:method => :post}
+  map.connect '/oauth/authorize', :controller => 'Oauth2::Provider::OauthAuthorize', :action => :index, :conditions => {:method => :get}
+  map.connect '/oauth/token', :controller => 'Oauth2::Provider::OauthToken', :action => :get_token, :conditions => {:method => :post}
   
-  map.connect '/oauth/user_tokens/revoke/:token_id', :controller => 'OAuth2::Provider::OAuthUserTokens', :action => :revoke, :conditions => {:method => :delete}
-  map.connect '/oauth/user_tokens', :controller => 'OAuth2::Provider::OAuthUserTokens', :action => :index
+  map.connect '/oauth/user_tokens/revoke/:token_id', :controller => 'Oauth2::Provider::OauthUserTokens', :action => :revoke, :conditions => {:method => :delete}
+  map.connect '/oauth/user_tokens', :controller => 'Oauth2::Provider::OauthUserTokens', :action => :index
 end

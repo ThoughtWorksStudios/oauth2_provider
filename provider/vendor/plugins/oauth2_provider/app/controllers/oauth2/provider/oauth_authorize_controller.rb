@@ -1,6 +1,6 @@
-module OAuth2
+module Oauth2
   module Provider
-    class OAuthAuthorizeController < ::ApplicationController
+    class OauthAuthorizeController < ::ApplicationController
 
       def index
         return unless validate_params
@@ -45,7 +45,7 @@ module OAuth2
           return false
         end
     
-        @client = OAuthClient.find_by_client_id(params[:client_id])
+        @client = OauthClient.find_by_client_id(params[:client_id])
     
         if @client.nil?
           redirect_to "#{params[:redirect_uri]}?error=invalid-client-id"

@@ -1,14 +1,14 @@
 require 'test_helper'
 
-module OAuth2
+module Oauth2
   module Provider
     
-    class OAuthUserTokensControllerTest < ActionController::TestCase     
+    class OauthUserTokensControllerTest < ActionController::TestCase     
       
       
       def test_index_shows_tokens_only_for_logged_in_user
-        client1 = OAuthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
-        client2 = OAuthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
+        client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
+        client2 = OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
 
         user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
         token1 = client1.create_token_for_user_id(user1.id)
@@ -41,20 +41,20 @@ module OAuth2
 
       def test_revoke_destroys_users_token
         user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
-        client1 = OAuthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
+        client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
         token1 = client1.create_token_for_user_id(user1.id)
         token2 = client1.create_token_for_user_id(user1.id)
         session[:user_id] = user1.id
         
         post :revoke, :token_id => token1.id
         
-        assert_nil OAuthToken.find_by_id(token1.id)
-        assert_not_nil OAuthToken.find_by_id(token2.id)
+        assert_nil OauthToken.find_by_id(token1.id)
+        assert_not_nil OauthToken.find_by_id(token2.id)
       end
 
       def test_revoke_returns_bad_request_code_if_user_does_not_own_token
-        client1 = OAuthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
-        client2 = OAuthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
+        client1 = OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
+        client2 = OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
 
         user1 = User.create!(:email => 'u1', :crypted_password => 'p1')
         token1 = client1.create_token_for_user_id(user1.id)

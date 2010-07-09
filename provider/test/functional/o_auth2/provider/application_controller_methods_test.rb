@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'ostruct'
 
-module OAuth2
+module Oauth2
   module Provider
     class ApplicationControllerMethodsTest < ActiveSupport::TestCase
       
@@ -81,7 +81,7 @@ module OAuth2
       end
   
       def test_user_id_for_oauth_access_token_returns_user_id_when_oauth_allowed
-        @token = OAuthToken.create!(:user_id => 17)
+        @token = OauthToken.create!(:user_id => 17)
         @token.generate_access_token!
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
 
@@ -91,7 +91,7 @@ module OAuth2
       end
   
       def test_user_id_for_oauth_access_token_returns_nil_when_oauth_not_allowed
-        @token = OAuthToken.create!(:user_id => 17)
+        @token = OauthToken.create!(:user_id => 17)
         @token.generate_access_token!
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
         def @controller.action_name
@@ -103,7 +103,7 @@ module OAuth2
       end
   
       def test_user_id_for_oauth_access_token_returns_nil_when_bogus_token
-        @token = OAuthToken.create!(:user_id => 17)
+        @token = OauthToken.create!(:user_id => 17)
         @token.generate_access_token!
         
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="bogus"}})

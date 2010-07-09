@@ -1,12 +1,12 @@
 require 'test_helper'
 
-module OAuth2
+module Oauth2
   module Provider
-    class OAuthTokenControllerTest < ActionController::TestCase
+    class OauthTokenControllerTest < ActionController::TestCase
   
       def setup
         Clock.fake_now = Time.utc(2008, 1, 20, 1, 2, 3)
-        @client = OAuthClient.create!(:name => 'my application', :redirect_uri => "http://example.com/cb")
+        @client = OauthClient.create!(:name => 'my application', :redirect_uri => "http://example.com/cb")
         session[:user_id] = '13'
         @client.oauth_tokens.create!(:user_id => 13, :authorization_code => 'valid_authorization_code')
       end
@@ -94,7 +94,7 @@ module OAuth2
         assert_get_token_error('invalid-grant')
       end
   
-      def test_get_token_returns_error_when_passed_no_authorization_code
+      def test_get_token_returns_error_when_passed_noauthorization_code
         post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
           :redirect_uri => "http://example.com/cb",
           :grant_type => 'authorization-code'

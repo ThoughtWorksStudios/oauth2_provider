@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   
-  include SimplestAuth::Controller, OAuth2::Provider::ApplicationControllerMethods
+  include SimplestAuth::Controller, Oauth2::Provider::ApplicationControllerMethods
   
   before_filter :login_required
   

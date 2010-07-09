@@ -1,11 +1,11 @@
 require 'test_helper'
 
-module OAuth2
+module Oauth2
   module Provider
-    class OAuthAuthorizeControllerTest < ActionController::TestCase
+    class OauthAuthorizeControllerTest < ActionController::TestCase
   
       def setup
-        @client = OAuthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+        @client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
         @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
         Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
       end
@@ -57,7 +57,7 @@ module OAuth2
       end
   
       def test_index_returns_400_if_no_redirect_uri_is_supplied
-        client = OAuthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+        client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
         session[:user_id] = '13'
         get :index, :client_id => @client.client_id, :authorize => '1',
           :response_type => 'code'
@@ -65,7 +65,7 @@ module OAuth2
       end
   
       def test_index_redirects_with_error_code_when_mismatched_uri
-        client = OAuthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+        client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
         session[:user_id] = '13'
         get :index, :redirect_uri => 'bogus', :client_id => @client.client_id,
           :response_type => 'code'

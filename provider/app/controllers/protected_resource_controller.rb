@@ -7,7 +7,7 @@ class ProtectedResourceController < ApplicationController
   end
   
   def no_oauth_here
-    render :text => "this content not available via OAuth"
+    render :text => "this content not available via Oauth"
   end
   
 end

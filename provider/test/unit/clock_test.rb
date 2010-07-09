@@ -1,6 +1,6 @@
 require "test_helper"
 
-module OAuth2
+module Oauth2
   module Provider
     class ClockTest < Test::Unit::TestCase
 

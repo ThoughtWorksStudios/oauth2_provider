@@ -1,4 +1,4 @@
-module OAuth2
+module Oauth2
   module Provider
     module ApplicationControllerMethods
 
@@ -25,7 +25,7 @@ module OAuth2
         header_field = request.headers["Authorization"]
         
         if header_field =~ /Token token="(.*)"/          
-          token = OAuthToken.find_by_access_token($1)
+          token = OauthToken.find_by_access_token($1)
           token.user_id if token
         end
       end

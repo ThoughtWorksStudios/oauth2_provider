@@ -1,8 +1,8 @@
-class CreateOAuthTokens < ActiveRecord::Migration
+class CreateOauthTokens < ActiveRecord::Migration
   def self.up
-    create_table :o_auth_tokens do |t|
+    create_table :oauth_tokens do |t|
       t.string :user_id
-      t.integer :o_auth_client_id
+      t.integer :oauth_client_id
       t.string :authorization_code
       
       t.string :access_token
@@ -16,7 +16,7 @@ class CreateOAuthTokens < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :o_auth_tokens
+    drop_table :oauth_tokens
   end
 
 end
