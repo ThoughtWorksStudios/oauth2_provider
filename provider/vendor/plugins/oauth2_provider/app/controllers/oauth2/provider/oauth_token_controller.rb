@@ -5,6 +5,9 @@ module Oauth2
       skip_before_filter :login_required, :only => ['get_token']
   
       def get_token
+        
+        authorization = OauthAuthorization.find_by_code(params[:code])
+        authorization.delete unless authorization.nil?
     
         unless params[:grant_type] == 'authorization-code'
           render_error('unsupported-grant-type')
@@ -25,9 +28,7 @@ module Oauth2
           return
         end
     
-        authorization = client.oauth_authorizations.find_by_code(params[:code])
-
-        if authorization.nil? || authorization.expired?
+        if authorization.nil? || authorization.expired? || authorization.oauth_client != client
           render_error('invalid-grant')
           return
         end

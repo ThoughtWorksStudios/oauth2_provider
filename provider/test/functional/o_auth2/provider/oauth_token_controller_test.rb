@@ -31,8 +31,22 @@ module Oauth2
         assert_equal 64, token['refresh_token'].length
       end
   
-      def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code
+      def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code_when_first_attempt_succeeded
         post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
+          :code => @authorization.code, :redirect_uri => "http://example.com/cb",
+          :grant_type => 'authorization-code'
+    
+        @request = ActionController::TestRequest.new
+
+        post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
+          :code => @authorization.code, :redirect_uri => "http://example.com/cb",
+          :grant_type => 'authorization-code'
+    
+        assert_get_token_error('invalid-grant')
+      end
+      
+      def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code_when_first_attempt_failed
+        post :get_token, :client_id => @client.client_id, :client_secret => 'bogus secret to trigger failure',
           :code => @authorization.code, :redirect_uri => "http://example.com/cb",
           :grant_type => 'authorization-code'
     
