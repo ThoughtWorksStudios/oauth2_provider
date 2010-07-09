@@ -18,10 +18,40 @@ require 'webrick'
 require 'webrick/https'
 require 'openssl'
 
+# see http://www.zunisoft.com/?p=740 for generating key and cert
 
-require 'webrick'
+private_key_content = %Q{-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDhJDcGEIQ+dcOKl5cu8LIHx2lgy1VGsNAUTur0+dQPNJflOn5l
+OHbADPTctt4Gn+Jv+TKIWTr2RUQHfhm8w7KX3omOxNkhTP88Re5MkI/+R8YxMoFb
+GbptLD/GyPojwIBVwY9h+Xkr6g9OVKjIspE8ZzjtEQ1omwSUJJyUW+1DJQIDAQAB
+AoGAcvXDAt28KQiI6GOvVtCgl0hDjqFE0evG1BfX8W7/0SPRy8Kqd5T1TetPvMPD
+ay6IuRRNsUGe0dFcg1boXXKv5dbZdIGnOmJzwmOvOVcOyL9iahzsWfRnUebzq35Y
+UX0PYva5WxGzTOoFFpJoOxqYbvEg/e+UvM2vVBIaLgw4daECQQD694P+sw7q2tbu
+33QnPO5O6lroNyRhZzY1/viytlxtufutBSIJ7lN1VeI1JtC9u972vQ/lnMdPfJfZ
+PoHhmhxDAkEA5agcEeLIMiztRQ2Fj0R/jcurNdxeP9+e5JW7Z9C5RHKB75p0PQi+
+pmdJjIOj2IguDv4a2uFTvGnsP8C5v/tgdwJBANwrv1H4lrK1UHB5+vXdf5geA6jL
+j5AgMzAFwvtN/yKIUmKFKUqbGf7LXMuShPifVEkUrlibRUPXo4QEUX+xau8CQA+p
+9bAqnaj+c3iAQZnR/Dk5qQXVcAA/SmEg7VVZYSmP/djP2hnHnOlQpi2VVPmR4EJZ
+ho9jSwjQ2LJIfOLhTGUCQQCzMQP+p7W90zFQlO3pbw+YPjGz2dH9UsPJxQj4vCYI
+G1h+J59SbKOvq6gqCcyYhQsUZaqiyQyk0Xq2suZZOhem
+-----END RSA PRIVATE KEY-----}
+
+cert_content = %Q{-----BEGIN CERTIFICATE-----
+MIICATCCAWoCCQDys0fYa4dCUzANBgkqhkiG9w0BAQUFADBFMQswCQYDVQQGEwJB
+VTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50ZXJuZXQgV2lkZ2l0
+cyBQdHkgTHRkMB4XDTEwMDcwOTAwMjQwOFoXDTExMDcwOTAwMjQwOFowRTELMAkG
+A1UEBhMCQVUxEzARBgNVBAgTClNvbWUtU3RhdGUxITAfBgNVBAoTGEludGVybmV0
+IFdpZGdpdHMgUHR5IEx0ZDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA4SQ3
+BhCEPnXDipeXLvCyB8dpYMtVRrDQFE7q9PnUDzSX5Tp+ZTh2wAz03LbeBp/ib/ky
+iFk69kVEB34ZvMOyl96JjsTZIUz/PEXuTJCP/kfGMTKBWxm6bSw/xsj6I8CAVcGP
+Yfl5K+oPTlSoyLKRPGc47RENaJsElCSclFvtQyUCAwEAATANBgkqhkiG9w0BAQUF
+AAOBgQBtbGt9uv4jyG4GABR8+APH/3YncBQZhxGAoWT2OfkC9FX/U6r3hd0071Hb
+0MPzhgxWuu1Km4W4IH9fSkGjjsAH229dGza7sl/h42DbRSHW09xxUrRNphhzM14m
+vxT2kvWDOJ/bqoTUrQqfVNWJWcf09v+HKM6p08jj7B48uTk4/g==
+-----END CERTIFICATE-----}
+
 options = {
-  :Port        => 3000,
+  :Port        => 5000,
   :Host        => "0.0.0.0",
   :environment => (ENV['RAILS_ENV'] || "development").dup,
   :config      => RAILS_ROOT + "/config.ru",
@@ -30,9 +60,8 @@ options = {
   :path        => nil,
   :SSLEnable        => true,
   :SSLVerifyClient  => OpenSSL::SSL::VERIFY_NONE,
-  :SSLCertificate   => nil,
-  :SSLPrivateKey    => nil,
-  :SSLCertName      => [ ["C","JP"], ["O","WEBrick.Org"], ["CN", "WWW"] ]
+  :SSLCertificate   => OpenSSL::X509::Certificate.new(cert_content),
+  :SSLPrivateKey    => OpenSSL::PKey::RSA.new(private_key_content)
 }
 
 ARGV.clone.options do |opts|
