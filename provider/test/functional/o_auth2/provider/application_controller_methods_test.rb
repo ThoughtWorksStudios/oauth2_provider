@@ -82,7 +82,6 @@ module Oauth2
   
       def test_user_id_for_oauth_access_token_returns_user_id_when_oauth_allowed
         @token = OauthToken.create!(:user_id => 17)
-        @token.generate_access_token!
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
 
         @fooControllerClass.oauth_allowed
@@ -92,7 +91,6 @@ module Oauth2
   
       def test_user_id_for_oauth_access_token_returns_nil_when_oauth_not_allowed
         @token = OauthToken.create!(:user_id => 17)
-        @token.generate_access_token!
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
         def @controller.action_name
           "an_action"
@@ -104,7 +102,6 @@ module Oauth2
   
       def test_user_id_for_oauth_access_token_returns_nil_when_bogus_token
         @token = OauthToken.create!(:user_id => 17)
-        @token.generate_access_token!
         
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="bogus"}})
         def @controller.action_name

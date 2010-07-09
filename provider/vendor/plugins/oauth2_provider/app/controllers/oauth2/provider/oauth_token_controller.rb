@@ -25,14 +25,14 @@ module Oauth2
           return
         end
     
-        token = client.oauth_tokens.find_by_authorization_code(params[:code])
+        authorization = client.oauth_authorizations.find_by_code(params[:code])
 
-        if token.nil? || token.authorization_code_expired?
+        if authorization.nil? || authorization.expired?
           render_error('invalid-grant')
           return
         end
     
-        token.generate_access_token!
+        token = authorization.generate_access_token
         render :content_type => 'application/json', :text => token.access_token_attributes.to_json
       end
   

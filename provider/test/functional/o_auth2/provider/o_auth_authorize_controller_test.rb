@@ -108,8 +108,8 @@ module Oauth2
 
         assert_response :redirect
         @client.reload
-        token = @client.oauth_tokens.first
-        assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}",
+        authorization = @client.oauth_authorizations.first
+        assert_equal "http://example.com/cb?code=#{authorization.code}&expires_in=#{authorization.expires_in}",
           @response.redirected_to
       end
 
@@ -120,8 +120,8 @@ module Oauth2
 
         assert_response :redirect
         @client.reload
-        token = @client.oauth_tokens.first
-        assert_equal "http://example.com/cb?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}&state=foo%26bar",
+        authorization = @client.oauth_authorizations.first
+        assert_equal "http://example.com/cb?code=#{authorization.code}&expires_in=#{authorization.expires_in}&state=foo%26bar",
           @response.redirected_to
       end
       

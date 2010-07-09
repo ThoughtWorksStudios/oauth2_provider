@@ -33,11 +33,17 @@ module Oauth2
         client = OauthClient.create!(:name => 'foobar', :redirect_uri => 'http://example.com/cb')
         
         token = client.create_token_for_user_id("337")
-        token.reload
         assert_equal client, token.oauth_client
         assert_equal "337", token.user_id
-        assert_equal 64, token.authorization_code.length
-        assert_nil token.access_token 
+        assert_equal 64, token.access_token.length
+      end
+      
+      def test_can_create_authorization_for_user
+        client = OauthClient.create!(:name => 'foobar', :redirect_uri => 'http://example.com/cb')
+        authorization = client.create_authorization_for_user_id("229")
+        assert_equal client, authorization.oauth_client
+        assert_equal "229", authorization.user_id
+        assert_equal 64, authorization.code.length
       end
       
     end

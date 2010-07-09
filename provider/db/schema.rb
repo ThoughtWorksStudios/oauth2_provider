@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100630220121) do
+ActiveRecord::Schema.define(:version => 20100709202510) do
+
+  create_table "oauth_authorizations", :force => true do |t|
+    t.string   "user_id"
+    t.integer  "oauth_client_id"
+    t.string   "code"
+    t.datetime "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "oauth_clients", :force => true do |t|
     t.string   "name"
@@ -23,11 +32,9 @@ ActiveRecord::Schema.define(:version => 20100630220121) do
   create_table "oauth_tokens", :force => true do |t|
     t.string   "user_id"
     t.integer  "oauth_client_id"
-    t.string   "authorization_code"
     t.string   "access_token"
     t.string   "refresh_token"
-    t.datetime "authorization_code_expires_at"
-    t.datetime "access_token_expires_at"
+    t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

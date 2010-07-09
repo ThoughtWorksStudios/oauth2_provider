@@ -14,14 +14,14 @@ module Oauth2
           return
         end
     
-        token = @client.create_token_for_user_id(current_user_id)
+        authorization = @client.create_authorization_for_user_id(current_user_id)
         state_param = if params[:state].blank?
           ""
         else
           "&state=#{CGI.escape(params[:state])}"
         end
         
-        redirect_to "#{params[:redirect_uri]}?code=#{token.authorization_code}&expires_in=#{token.authorization_code_expires_in}#{state_param}"
+        redirect_to "#{params[:redirect_uri]}?code=#{authorization.code}&expires_in=#{authorization.expires_in}#{state_param}"
       end
   
       private
