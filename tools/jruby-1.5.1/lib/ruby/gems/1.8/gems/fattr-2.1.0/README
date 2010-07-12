@@ -1,0 +1,347 @@
+NAME
+  fattr.rb
+
+INSTALL
+  gem install fattrs
+
+URIS
+  http://github.com/ahoward/fattr
+  http://rubyforge.org/projects/codeforpeople/
+  http://codeforpeople.com/
+
+SYNOPSIS
+  fattr.rb is a "fatter attr" for ruby
+
+  the implementation of fattr.rb borrows many of the best ideas from the
+  metakoans.rb ruby quiz
+
+    http://www.rubyquiz.com/quiz67.html
+
+  in particular the solutions of Christian Neukirchen and Florian Gross along
+  with concepts from my original traits.rb lib
+
+  key features provided by fattrs are
+
+    - ability to specify default values for attrs and definition time.  values
+      can be literal objects or blocks, which are evaluated in the context of
+      self to initialize the variable
+
+    - classes remember which fattrs they've defined and this information is
+     available to client code
+
+    - a whole suite of methods is defined by calls to #fattrs including
+     getter, setter, query (var?) and banger (var! - which forces
+     re-initialization from the default value/block)
+
+    - ability to define multiple fattrs at once using key => value pairs
+
+    - fast lookup of whether or not a class has defined a certain fattr
+
+    - fattrs can be defined on objects on a per singleton basis
+
+    - getters acts as setters if an argument is given to them
+
+    - block caching, calling an fattr with a block sets the instance
+      variable to that block
+
+    - shortcuts for adding class/module level fattrs
+
+    - class inheritable attributes
+
+  all this in 156 lines of code
+
+SAMPLES
+
+  <========< samples/a.rb >========>
+
+  ~ > cat samples/a.rb
+
+    #
+    # basic usage is like attr, but note that fattr defines a suite of methods
+    #
+      require 'fattr'
+    
+      class C
+        fattr 'a'
+      end
+    
+      c = C.new
+    
+      c.a = 42
+      p c.a                 #=> 42
+      p 'forty-two' if c.a? #=> 'forty-two'
+    
+    #
+    # fattrs works on object too 
+    #
+      o = Object.new
+      o.fattr 'answer' => 42
+      p o.answer           #=> 42
+
+  ~ > ruby samples/a.rb
+
+    42
+    "forty-two"
+    42
+
+
+  <========< samples/b.rb >========>
+
+  ~ > cat samples/b.rb
+
+    #
+    # default values may be given either directly or as a block which will be
+    # evaluated in the context of self.  in both cases (value or block) the
+    # default is set only once and only if needed - it's a lazy evaluation.  the
+    # 'banger' method can be used to re-initialize a variable at any point whether
+    # or not it's already been initialized.
+    #
+      require 'fattr'
+    
+      class C
+        fattr :a => 42
+        fattr(:b){ Float a }
+      end
+    
+      c = C.new
+      p c.a #=> 42
+      p c.b #=> 42.0
+    
+      c.a = 43
+      p c.a #=> 43
+      c.a!
+      p c.a #=> 42
+
+  ~ > ruby samples/b.rb
+
+    42
+    42.0
+    43
+    42
+
+
+  <========< samples/c.rb >========>
+
+  ~ > cat samples/c.rb
+
+    #
+    # multiple name=>default pairs can be given 
+    #
+      require 'fattr'
+    
+      class C
+        fattrs 'x' => 0b101000, 'y' => 0b10
+      end
+    
+      c = C.new
+      z = c.x + c.y
+      p z #=> 42
+
+  ~ > ruby samples/c.rb
+
+    42
+
+
+  <========< samples/d.rb >========>
+
+  ~ > cat samples/d.rb
+
+    #
+    # a nice feature is that all fattrs are enumerated in the class.  this,
+    # combined with the fact that the getter method is defined so as to delegate
+    # to the setter when an argument is given, means bulk initialization and/or
+    # fattr traversal is very easy.
+    #
+      require 'fattr'
+    
+      class C
+        fattrs %w( x y z )
+    
+        def fattrs
+          self.class.fattrs
+        end
+    
+        def initialize
+          fattrs.each_with_index{|a,i| send a, i}
+        end
+    
+        def to_hash
+          fattrs.inject({}){|h,a| h.update a => send(a)}
+        end
+    
+        def inspect
+          to_hash.inspect
+        end
+      end
+    
+      c = C.new
+      p c.fattrs 
+      p c 
+    
+      c.x 'forty-two' 
+      p c.x
+
+  ~ > ruby samples/d.rb
+
+    ["x", "y", "z"]
+    {"x"=>0, "y"=>1, "z"=>2}
+    "forty-two"
+
+
+  <========< samples/e.rb >========>
+
+  ~ > cat samples/e.rb
+
+    #
+    # my favourite element of fattrs is that getters can also be setters.
+    # this allows incredibly clean looking code like
+    #
+      require 'fattr'
+    
+      class Config
+        fattrs %w( host port)
+        def initialize(&block) instance_eval &block end
+      end
+    
+      conf = Config.new{
+        host 'codeforpeople.org'
+        port 80
+      }
+    
+      p conf
+
+  ~ > ruby samples/e.rb
+
+    #<Config:0x2cd1c @port=80, @host="codeforpeople.org">
+
+
+  <========< samples/f.rb >========>
+
+  ~ > cat samples/f.rb
+
+    #
+    # of course fattrs works as well at class/module level as at instance
+    # level
+    #
+      require 'fattr'
+    
+      module Logging 
+        Level_names = {
+          0 => 'INFO',
+          # ...
+          42 => 'DEBUG',
+        }
+    
+        class << Logging
+          fattr 'level' => 42
+          fattr('level_name'){ Level_names[level] }
+        end
+      end
+    
+    p Logging.level
+    p Logging.level_name
+
+  ~ > ruby samples/f.rb
+
+    42
+    "DEBUG"
+
+
+  <========< samples/g.rb >========>
+
+  ~ > cat samples/g.rb
+
+    #
+    # you can add class/module fattrs the 'normal' way or using the provided
+    # shortcut method
+    #
+      require 'fattr'
+    
+      class C
+        class << C
+          fattr 'a' => 4
+        end
+    
+        Fattr 'b' => 2
+      end
+    
+      p [ C.a, C.b ].join
+
+  ~ > ruby samples/g.rb
+
+    "42"
+
+
+  <========< samples/h.rb >========>
+
+  ~ > cat samples/h.rb
+
+    #
+    # class variable inheritance is supported simply
+    #
+      require 'fattr'
+    
+      class A
+        Fattr :x, :default => 42, :inheritable => true
+      end
+    
+      class B < A
+      end
+    
+      class C < B
+      end
+    
+      p C.x #=> 42
+    
+      A.x = 42.0
+      B.x = 'forty-two'
+    
+      p A.x #=> 42.0
+      p B.x #=> 'forty-two'
+      p C.x #=> 42
+    
+      C.x! # re-initialize from closest ancestor (B)
+    
+      p A.x #=> 42.0
+      p B.x #=> 'forty-two'
+      p C.x #=> 'forty-two'
+
+  ~ > ruby samples/h.rb
+
+    42
+    42.0
+    "forty-two"
+    42
+    42.0
+    "forty-two"
+    "forty-two"
+
+
+
+HISTORY
+  2.0.0:
+    support class/module inheritable attributes
+
+  1.1.0:
+    ruby19 testing.  move to github.
+
+  1.0.2:
+    added Fattr shortcut for adding class/module level fattrs
+
+      class C
+        Fattr 'children' => []
+
+        def C.inherited other
+          (children << other).uniq!
+          super
+        end
+      end
+
+      class B < C
+      end
+
+      p C.children #=> B
+
+  1.0.0:
+    port from attributes.rb retaining all the same features of that version of
+    attributes.rb

@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+# $Id: saikuro 39 2008-06-21 05:35:07Z zev $
+# Version 0.2
+# == Usage
+#
+# saikuro [ -h ] [-o output_directory] [-f type] [ -c, -t ]
+# [ -y, -w, -e, -k, -s, -d - number ] ( -p file | -i directory )
+#
+# == Help
+#
+# -o, --output_directory (directory) : A directory to ouput the results in.
+# The current directory is used if this option is not passed.
+#
+# -h, --help : This help message.
+#
+# -f, --formater (html | text) : The format to output the results in.
+# The default is html
+#
+# -c, --cyclo : Compute the cyclomatic complexity of the input.
+#
+# -t, --token : Count the number of tokens per line of the input.
+#
+# -y, --filter_cyclo (number) : Filter the output to only include methods
+# whose cyclomatic complexity are greater than the passed number.
+#
+# -w, --warn_cyclo (number) : Highlight with a warning methods whose
+# cyclomatic complexity are greather than or equal to the passed number.
+#
+#
+# -e, --error_cyclo (number) : Highligh with an error methods whose
+# cyclomatic complexity are greather than or equal to the passed number.
+#
+#
+# -k, --filter_token (number) : Filter the output to only include lines
+# whose token count are greater than the passed number.
+#
+#
+# -s, --warn_token (number) : Highlight with a warning lines whose
+# token count are greater than or equal to the passed number.
+#
+#
+# -d, --error_token (number) : Highlight with an error lines whose
+# token count are greater than or equal to the passed number.
+#
+#
+# -p, --parse_file (file) : A file to use as input.
+#
+# -i, --input_directory (directory) : All ruby files found recursively
+# inside the directory are passed as input.
+
+# == License
+# Saikruo uses the BSD license.
+#
+# Copyright (c) 2005, Ubiquitous Business Technology (http://ubit.com)
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Ubiquitous Business Technology nor the names
+#      of its contributors may be used to endorse or promote products
+#      derived from this software without specific prior written
+#      permission.
+#
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# == Author
+# Zev Blut (zb@ubit.com)
+
+require 'saikuro'
+
+SaikuroCMDLineRunner.new.run
+

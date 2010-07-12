@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+require 'flay'
+
+flay = Flay.new Flay.parse_options
+
+ARGV << '.' if ARGV.empty?
+files = Flay.expand_dirs_to_files(*ARGV)
+
+flay.process(*files)
+flay.report

@@ -1,0 +1,62 @@
+=== 1.4.0 / 2009-08-14
+
+* 4 minor enhancements:
+
+  * Pushed Sexp#mass up to sexp_processor.
+  * Removed #similarity #compare_to, #intersection, #triangle, and other cruft.
+  * Renamed all_subhashes to all_structural_subhashes.
+  * Renamed fuzzy_hash to structural_hash.
+
+=== 1.3.0 / 2009-06-23
+
+* 5 minor enhancements:
+
+  * Added --summary to display flay scores per file.
+  * Added --verbose to display processing progress.
+  * Protect against syntax errors in bad code and continue flaying.
+  * Removed fuzzy matching. Never got it to feel right. Slow. Broken on 1.9
+  * Renamed --verbose to --diff.
+
+=== 1.2.1 / 2009-03-16
+
+* 3 minor enhancements:
+
+  * Added gauntlet_flay.rb
+  * Cached value of plugins loaded.
+  * Refactored and separated analysis phase from process phase
+
+* 1 bug fix:
+
+  * Added bin dir to default dirs list in FlayTask
+
+=== 1.2.0 / 2009-03-09
+
+* 2 major enhancements:
+
+  * Added flay_task.rb
+  * Added plugin system (any flay_(c,java,js,etc).rb files).
+
+* 4 minor enhancements:
+
+  * Added expand_dirs_to_files and made dirs valid arguments.
+  * Added flay_erb.rb plugin.
+  * Added optparse option processing.
+  * Refactored to make using w/in rake and other CI systems clean and easy.
+
+=== 1.1.0 / 2009-01-20
+
+* 7 minor enhancement:
+
+  * Added -v verbose mode to print out N-way diff of the detected code.
+  * Added identical node scoring and reporting.
+  * Added the start of copy/paste+edit detection, not even close yet.
+  * Added more tests.
+  * Added rcov tasks
+  * Clarified output a bit
+  * Refactored process_sexps to make doing other languages/systems easier.
+
+=== 1.0.0 / 2008-11-06
+
+* 1 major enhancement
+
+  * Birthday!

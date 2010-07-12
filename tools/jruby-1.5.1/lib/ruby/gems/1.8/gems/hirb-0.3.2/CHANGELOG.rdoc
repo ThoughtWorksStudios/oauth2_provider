@@ -1,0 +1,96 @@
+== 0.3.2
+* Added irb autocompletions for bond.
+* Fixed tests for ruby 1.9.
+* Changed tests to use bacon.
+* Removed jeweler in Rakefile and pointless $LOAD_PATH manipulation.
+
+== 0.3.1
+* Bug fix on DynamicView.class_to_method to allow overrides of default views.
+* Modified mongo_mapper view to have _id first.
+
+== 0.3.0
+* Added dynamic views.
+* Added default table views for the following database classes/modules:
+  CouchFoo::Base, CouchPotato::Persistence, CouchRest::ExtendedDocument,
+  DBI::Row, DataMapper::Resource, Friendly::Document, MongoMapper::Document, MongoMapper::EmbeddedDocument,
+  Mongoid::Document, Ripple::Document and Sequel::Model.
+* Added Hirb.add_view and Hirb.add_dynamic_view for easier view manipulation.
+* Added :multi_line_nodes option for Tree.
+* Fixed :change_fields option bug in Table.
+* Fixed no headers and nil fields bug in Table.
+* Removed deprecations in Hirb.config_file + View.enable.
+* Removed Views classes and View.format_class.
+* Removed :return_rows option for Table.
+
+== 0.2.10
+* Added multiple options to Menu, most importantly :two_d and :action.
+* Improved table resizing algorithm.
+* Added merging of configs for multiple Hirb.enable calls.
+* Added :max_fields, :hide_empty, :delete_callbacks, :resize, :header_filter
+  and :return_rows options to Table.
+* Added escaping for \t and \r in Table.
+* Renamed Table's :no_newlines option to :escape_special_chars.
+* Removed Table's :field_lengths option.
+* Removed Menu's :validate_one option.
+* Bug fix for table header of a basic array.
+* Deprecating Hirb.config_file + View.enable in next release.
+
+== 0.2.9
+* Added newline filtering and :no_newlines option for table helper.
+* Added default filters for hashes that have hash values.
+* Bug fix for deprecated to_a call.
+
+== 0.2.8
+* Added callbacks to Hirb::Helpers::Table.
+* Added :change_fields option to Hirb::Helpers::Table.
+* Added terminal size detection for jruby.
+* Bug fix for paging long outputs.
+* Bug fix to make unexpected hirb rendering errors more clear.
+
+== 0.2.7
+* 2 ruby 1.9 bug fixes.
+* Bug fix in :fields of Hirb::Helpers::ObjectTable.
+* Made :class option in Hirb::Formatter friendlier to external apps.
+
+== 0.2.6
+* Added :description option and added proc ability to :children_method option for helpers.
+* Bug fix for no ENV['HOME'] on Windows.
+* Bug fix on unaliasing output_method.
+* Bug fix on multiple renders of vertical table.
+
+== 0.2.5
+* Added ability to use Hirb.enable with non-irb ruby shells.
+* Helper configs now recursively merge when inheriting from others via :ancestor option.
+
+== 0.2.4
+* Bug fix on UTF-8 support.
+
+== 0.2.3
+* Added UTF-8 support for Ruby 1.8.x
+* Added :all_fields option to Table helper.
+
+== 0.2.2
+* Added a friendlier default (a vertical table) to incorrectly configured tables.
+* Added vertical table helper thanks to chrononaut.
+* Added detection of :select option from ActiveRecord queries in ActiveRecordTable helper.
+* Added handling anything that responds to :to_a in AutoTable helper.
+
+== 0.2.1
+* Fixed typo in Hirb::Console.view
+
+== 0.2.0
+* Major refactoring with bug fixes and better tests.
+* Improved table algorithm to ensure that tables don't wrap.
+* Added a pager which detects if output should be paged, Hirb::Pager.
+* Added a selection menu, Hirb::Menu
+* Following API changes: Hirb::Helpers::Table.max_width removed and config files don't use
+  the :view key anymore.
+== 0.1.2
+* Added tree views.
+* Added output_method option to Hirb::View.render_output.
+
+== 0.1.1
+* Fixed bug when rendering table with many fields.
+
+== 0.1.0
+* Initial release

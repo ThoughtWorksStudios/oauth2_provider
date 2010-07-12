@@ -1,0 +1,1 @@
+require 'roodi/core/runner'

@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+#
+# Reek examines Ruby source code for smells.
+# Visit http://wiki.github.com/kevinrutherford/reek for docs etc.
+#
+# Author: Kevin Rutherford
+#
+
+require File.join(File.dirname(File.dirname(File.expand_path(__FILE__))), 'lib', 'reek', 'cli', 'application')
+
+exit Reek::Cli::Application.new(ARGV).execute
