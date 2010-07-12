@@ -17,6 +17,11 @@ module Oauth2
       def expired?
         expires_in <= 0
       end
+      
+      def refresh
+        self.delete
+        oauth_client.create_token_for_user_id(user_id)
+      end
 
       protected
       def before_create

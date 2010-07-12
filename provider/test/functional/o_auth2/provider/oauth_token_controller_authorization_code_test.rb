@@ -2,13 +2,14 @@ require 'test_helper'
 
 module Oauth2
   module Provider
-    class OauthTokenControllerTest < ActionController::TestCase
+    class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   
       def setup
         Clock.fake_now = Time.utc(2008, 1, 20, 1, 2, 3)
         @client = OauthClient.create!(:name => 'my application', :redirect_uri => "http://example.com/cb")
         session[:user_id] = '13'
         @authorization = @client.create_authorization_for_user_id('13')
+        @controller = OauthTokenController.new
       end
   
       def teardown
@@ -143,6 +144,15 @@ module Oauth2
         post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret, 
           :redirect_uri => "http://example.com/cb", :code => @authorization.code
         assert_get_token_error('unsupported-grant-type')
+      end
+      
+      def test_get_token_returns_error_code_when_mismatch_between_client_and_code
+        another_client = OauthClient.create!(:name => 'another client', :redirect_uri => 'http://example.com/another_cb')
+        post :get_token, :client_id => another_client.client_id, :client_secret => another_client.client_secret,
+          :code => @authorization.code, :redirect_uri => 'http://example.com/another_cb',
+          :grant_type => 'authorization-code'
+
+        assert_get_token_error('invalid-grant')
       end
   
       def assert_get_token_error(expected_error)

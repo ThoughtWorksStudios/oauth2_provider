@@ -8,8 +8,11 @@ module Oauth2
         
         authorization = OauthAuthorization.find_by_code(params[:code])
         authorization.delete unless authorization.nil?
+        
+        original_token = OauthToken.find_by_refresh_token(params[:refresh_token])
+        original_token.delete unless original_token.nil?
     
-        unless params[:grant_type] == 'authorization-code'
+        unless ['authorization-code', 'refresh-token'].include?(params[:grant_type])
           render_error('unsupported-grant-type')
           return
         end
@@ -28,12 +31,20 @@ module Oauth2
           return
         end
     
-        if authorization.nil? || authorization.expired? || authorization.oauth_client != client
-          render_error('invalid-grant')
-          return
+        if params[:grant_type] == 'authorization-code'
+          if authorization.nil? || authorization.expired? || authorization.oauth_client != client
+            render_error('invalid-grant')
+            return
+          end
+          token = authorization.generate_access_token
+        else # refresh-token
+          if original_token.nil? || original_token.oauth_client != client
+            render_error('invalid-grant')
+            return
+          end
+          token = original_token.refresh
         end
-    
-        token = authorization.generate_access_token
+
         render :content_type => 'application/json', :text => token.access_token_attributes.to_json
       end
   
