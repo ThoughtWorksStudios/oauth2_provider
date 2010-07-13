@@ -1,22 +1,31 @@
 <%
 
-root_node = Metrics::Node.new('root', :data => {})
-
+root_node = Metrics::Node.new('root', 'root', :data => {})
 @saikuro[:files].each {|f|
   f[:classes].each do |c|
     class_node_name = c[:class_name]
-    class_node = Metrics::Node.new(class_node_name, :data => {:complexity => c[:complexity], :lines => c[:lines], :$area => c[:complexity], :$color => '#8E7032'})
-    root_node.add_child(class_node)
+    namespaces = class_node_name.split("::")[0..-2]
+    namespaces.each_with_index do |name, i|
+      root_node.find_or_create_node(namespaces[0..i])
+    end    
+
+    class_node = Metrics::Node.new(class_node_name, class_node_name.split("::").last, :data => {:complexity => c[:complexity], :lines => c[:lines], :$area => c[:lines], :$color => '#8E7032'})
+    
+    parent = (root_node.find_node(class_node_name.split("::")[0..-2]) || root_node)
+    parent.add_child(class_node)
     
     c[:methods].each do |m|
       method_node_name = m[:name]
-      method_node = Metrics::Node.new(method_node_name, :data => {:complexity => m[:complexity], :lines => m[:lines], :$area => m[:complexity], :$color => '#906E32'})
+      method_node = Metrics::Node.new(method_node_name, method_node_name.split('#').last, :data => {:complexity => m[:complexity], :lines => m[:lines], :$area => m[:lines], :$color => '#000080'})
       class_node.add_child(method_node)
     end
   end
 }
 
 %>
+
+<!-- <link rel="stylesheet" href="<%= File.expand_path("metric_fu_templates/css/base.css") %>" type="text/css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="<%= File.expand_path("metric_fu_templates/css/treemap.css") %>" type="text/css" media="screen" title="no title" charset="utf-8"> -->
 
 <style>
 <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/css/base.css')) { |f| f.read } %>
@@ -25,10 +34,12 @@ root_node = Metrics::Node.new('root', :data => {})
 <div id="infovis"></div>
 <div id="detail"></div>
 
+<!-- <script src="<%= File.expand_path("metric_fu_templates/js/jit-min.js") %>" type="text/javascript" charset="utf-8"></script>
+<script src="<%= File.expand_path("metric_fu_templates/js/saikuro-render.js") %>" type="text/javascript" charset="utf-8"></script> -->
+
 <script type="text/javascript">
-  <%= "var json = #{root_node.to_json}\n;" %>
   <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/js/jit-min.js')) { |f| f.read } %>
   <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/js/saikuro-render.js')) { |f| f.read } %>
-  init();
+  init(<%= root_node.to_json %>);
 </script>
 
