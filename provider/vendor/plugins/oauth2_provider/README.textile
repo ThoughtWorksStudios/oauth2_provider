@@ -5,6 +5,19 @@ The latest version of the spec is available at "http://tools.ietf.org/html/draft
 
 Currently only the web-server profile "http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1":http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1 is supported.
 
+h1. What is OAuth?
+
+OAuth is an open-source specification for building a framework for allowing a third-party app (the "client") to access protected resources from another application (the "provider," or "resource owner") at the request of a "user" of the client app.  Oauth allows the user to enter his user credentials (ex. username and password) only to the provider app, which then grants the client app permission to view the protected resources on behalf of the user.  
+
+A very good overview of the basic OAuth workflow is "here":http://hueniverse.com/2007/10/beginners-guide-to-oauth-part-ii-protocol-workflow/.
+
+Common terms:
+
+* Provider/Resource Owner - the app that hosts the protected resource.  A real world example is Twitter which uses OAuth as the protocol for all its clients.
+* Client - the app that requests to see the resource data on behalf of the user.  Any Twitter client that shows tweets is an example of this.
+* User/end user - the entity who initiates the OAuth flow to allow the client to access protected data from the provider.
+* Client id/client secret - Often, provider apps will maintain a list of clients that are allowed to access their data.  Client apps can be identified in a number of ways, including with an id and a secret. 
+
 h1. What's Included
 
 * The OAuth 2.0 (v9) plugin (RAILS_ROOT/vendor/plugins/oauth2_provider) 
@@ -14,6 +27,10 @@ h1. What's Included
 ** Create sample app OAuth client at /oauth/clients
 ** Access OAuth-allowed protected resource /protected_resource
 ** List and revoke a user's tokens at /oauth/user_tokens
+
+h1.  Assumptions
+
+Usage of this plugin assumes that you already have a RAILS app that has unique users who access user-specific data by logging in, or some other method of user authentication.
 
 h1. Supported Features
 
@@ -46,21 +63,62 @@ h2. Configuration
 
 h3. Database
 
-This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application. See the PLUGIN_ROOT/db/migrate directory for the list of migrations that must be applied for this plugin to work.
+This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application.
+
+* Copy these files from oauth2/db/migrate into your app's RAILS_ROOT/db/migrate directory.
+**  20100629195859_create_oauth_clients
+**  20100630220121_create_oauth_tokens
+**  20100709202510_create_oauth_authorizations
+	
+* In your RAILS_ROOT, run rake db:migrate
+* You may have to change the timestamps to be later than the timestamps of any existing migration files, or the oauth migrations will not run.
 
 h3. Host Application
 
 Change your host application's ApplicationController, to enable OAuth to certain actions.
- 
+
+h3. Before:
+
 <notextile><pre>
 class ApplicationController < ActionController::Base
 
-  # some filter that your application already uses
   # this might check if the user has proper authorization to access a url
+  before_filter :login_required
+
+  #checks if current user is logged in
+  def login_required
+    current_user_id = session[:user_id]
+    if current_user_id
+      User.current = User.new(current_user_id)
+    else
+      raise "Lack of rights!"
+    end
+  end
+
+end
+</pre></notextile>
+
+h3. After:
+ 
+<notextile><pre>
+	
+class ApplicationController < ActionController::Base
+
+  # your existing before_filter to check if a user has logged in before attempting to access a resource
   before_filter :login_required
 
   # include Oauth2::Provider::ApplicationControllerMethods
   include Oauth2::Provider::ApplicationControllerMethods
+
+  #checks if current user is logged in
+  def login_required
+    current_user_id = session[:user_id]
+    if current_user_id
+      User.current = User.new(current_user_id)
+    else
+      raise "Lack of rights!"
+    end
+  end
 
   # required by the OAuth plugin to figure out the currently logged in user
   # must be a string representation of the user.
@@ -90,6 +148,10 @@ class ApplicationController < ActionController::Base
 end
 </pre></notextile>
 
+The names of the method "login_required_with_oauth" and the actions within should match your before_filter to log in to the app.  For example, if your pre-existing login method were called "authenticate" instead of "login_required", the method would then be called "authenticate_with_oauth" and the alias_method_chain would be "alias_method_chain:authenticate, :oauth"
+
+Also, you will need to replace "YOUR_APPLICATION_SESSION_KEY" with your session id.  
+
 To enable OAuth2 access to a particular action:
 
 <notextile><pre>
@@ -116,8 +178,8 @@ h1. Verify plugin working correctly in your application
 
 * OAuth enable the actions for which you wish to allow OAuth as an authentication means
 * Setup a new OAuth client at /oauth/clients
-* Open /oauth/authorize?redirect_uri=REDIRECT_URI&client_id=CLIENT_ID in a browser. You should see a form asking you to authorize the client to access the host application on your behalf. Check the tickbox and submit.
-* Your browser is redirected to your redirect URI (hint: use example.com for this test) and you should now see your authorization code
+* Open /oauth/authorize?redirect_uri=REDIRECT_URI&client_id=CLIENT_ID&response_type=code in a browser. You should see a form asking you to authorize the client to access the host application on your behalf. Check the tickbox and submit.
+* Your browser is redirected to your redirect URI (hint: use example.com for this test) and you should now see your authorization code.  Save this code, you will need it for the next step.
 * For this step you'll need to use curl as you need to perform a POST and there is no form provided by the plugin. Use curl to POST to /oauth/token, passing the following key/value pairs as form data: code=AUTHORIZATION_CODE&grant_type=authorization-code&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&redirect_uri=REDIRECT_URI
 * The response to the above POST will be JSON containing your access token, and its expiration time in seconds.
 
