@@ -6,7 +6,7 @@ def ccn_color(ccn)
   return "#4545C2"
 end
 
-root_node = Metrics::Node.new('root', 'root', :data => {})
+root_node = Metrics::Node.new('', '', :data => {})
 @saikuro[:files].each {|f|
   f[:classes].each do |c|
     class_node_name = c[:class_name]
