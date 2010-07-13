@@ -1,5 +1,11 @@
 <%
 
+def ccn_color(ccn)
+  return "#AE0000" if ccn > 10
+  return "#006500" if ccn <= 5
+  return "#4545C2"
+end
+
 root_node = Metrics::Node.new('root', 'root', :data => {})
 @saikuro[:files].each {|f|
   f[:classes].each do |c|
@@ -9,14 +15,14 @@ root_node = Metrics::Node.new('root', 'root', :data => {})
       root_node.find_or_create_node(namespaces[0..i])
     end    
 
-    class_node = Metrics::Node.new(class_node_name, class_node_name.split("::").last, :data => {:complexity => c[:complexity], :lines => c[:lines], :$area => c[:lines], :$color => '#8E7032'})
+    class_node = Metrics::Node.new(class_node_name, class_node_name.split("::").last, :data => {:complexity => c[:complexity], :lines => c[:lines], :$area => c[:lines], :$color => '#101010'})
     
     parent = (root_node.find_node(class_node_name.split("::")[0..-2]) || root_node)
     parent.add_child(class_node)
     
     c[:methods].each do |m|
       method_node_name = m[:name]
-      method_node = Metrics::Node.new(method_node_name, method_node_name.split('#').last, :data => {:complexity => m[:complexity], :lines => m[:lines], :$area => m[:lines], :$color => '#000080'})
+      method_node = Metrics::Node.new(method_node_name, method_node_name.split('#').last, :data => {:complexity => m[:complexity], :lines => m[:lines], :$area => m[:lines], :$color => ccn_color(m[:complexity])})
       class_node.add_child(method_node)
     end
   end

@@ -11,16 +11,16 @@
 }
 
 .node {
-  color:#fff;
+  color:#FFFFFF;
 /*  font-size:9px;*/
   overflow:hidden;
   cursor:pointer;
-/*  
-  text-shadow:2px 2px 5px #000;
-  -o-text-shadow:2px 2px 5px #000;
-  -webkit-text-shadow:2px 2px 5px #000;
-  -moz-text-shadow:2px 2px 5px #000;
-*/
+  
+/*  text-shadow:1px 1px 1px #ccc;
+  -o-text-shadow:1px 1px 1px #ccc;
+  -webkit-text-shadow:1px 1px 1px #ccc;
+  -moz-text-shadow:1px 1px 1px #ccc;*/
+
 }
 
 /*TOOLTIPS*/
