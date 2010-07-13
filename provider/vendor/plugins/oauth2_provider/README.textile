@@ -46,7 +46,7 @@ h2. Configuration
 
 h3. Database
 
-This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application. See the RAILS_ROOT/db/migrate directory for the list of migrations that must be applied for this plugin to work.
+This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application. See the PLUGIN_ROOT/db/migrate directory for the list of migrations that must be applied for this plugin to work.
 
 h3. Host Application
 
