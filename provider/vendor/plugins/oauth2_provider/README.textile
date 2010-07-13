@@ -77,15 +77,23 @@ h3. Host Application
 
 Change your host application's ApplicationController, to enable OAuth to certain actions.
 
-h3. Before:
+h4. ApplicationController
+
+*Before*
 
 <notextile><pre>
 class ApplicationController < ActionController::Base
 
-  # this might check if the user has proper authorization to access a url
+  # the host application's authentication filter, you'll
+  # see in the 'After' section below that you'll define
+  # a hook for allowing Oauth2::Provider::OauthTokenController
+  # to skip this filter.
   before_filter :login_required
 
-  #checks if current user is logged in
+  # this checks whether the user is logged in for purposes
+  # of an authentication filter. obviously, your host application
+  # will have very different code than this.  this example is
+  # pulled from the sample host application with which the plugin ships.
   def login_required
     current_user_id = session[:user_id]
     if current_user_id
@@ -98,19 +106,32 @@ class ApplicationController < ActionController::Base
 end
 </pre></notextile>
 
-h3. After:
+Make the following changes:
+* include Oauth2::Provider::ApplicationControllerMethods module
+* provide the 'skip_authentication' class method to allow the OauthTokenController to not require authentication
+* define a 'current_user_id' method that returns the id of the currently logged-in user, serving as a foreign-key to any tokens that are stored in the database. 
+* alias_method_chain 'user_id_for_oauth_access_token' into your authentication filter. This method is supplied by Oauth2::Provider::ApplicationControllerMethods and converts an Oauth access token passed in a request's header to a user_id known by the host application. This user_id corresponds to whatever your current_user_id method returns.
+
+*After*
  
 <notextile><pre>
 	
 class ApplicationController < ActionController::Base
 
-  # your existing before_filter to check if a user has logged in before attempting to access a resource
+  # the host application's authentication filter
   before_filter :login_required
 
   # include Oauth2::Provider::ApplicationControllerMethods
   include Oauth2::Provider::ApplicationControllerMethods
+  
+  # allow Oauth2::Provider::OauthTokenController to skip
+  # the host application's authentication filter
+  def self.skip_authentication
+    skip_before_filter :login_required
+  end
 
-  #checks if current user is logged in
+  # this checks whether the user is logged in for purposes
+  # of an authentication filter. obviously
   def login_required
     current_user_id = session[:user_id]
     if current_user_id
@@ -127,16 +148,26 @@ class ApplicationController < ActionController::Base
     super
   end
 
-  # define another aliased method that authorizes a user based on the oauth token,
-  # and falls back to using the host application's authorization.
-  # OAuth2::Provider::ApplicationController methods supplies a user_id_for_oauth_access_token
-  # to lookup the user_id for a given access token. The host app must then use that
+  # use alias_method_chain to wrap your existing authentication filter
+  # with behavior that will use any valid passed Oauth access token header, 
+  # falling back to your standard filter if the request is not an Oauth request.
+  #
+  # clearly, your host application will have different code than
+  # this example, with different authentication models and different filter
+  # method names.
+  #
+  # As for this example, OAuth2::Provider::ApplicationControllerMethods supplies 
+  # a user_id_for_oauth_access_token to lookup the user_id for a given access token. 
+  # The host app must then use that
   # user_id to setup the user session, do any authorization checks, etc.  in this
   # example (from the included sample host app) we simply store the user_id in 
-  # the user's session, your scenario will likely differ.
+  # the user's session.
+  #
+  # Note that user_id_for_oauth_access_token returns nil if an action
+  # has not been enabled for Oauth (see below).
   def login_required_with_oauth
     if user_id = self.user_id_for_oauth_access_token
-      session[YOUR_APPLICATION_SESSION_KEY] = user_id
+      session[:user_id] = user_id
     elsif looks_like_oauth_request?
       render :text => "Denied!", :status => :unauthorized
     else
@@ -148,11 +179,9 @@ class ApplicationController < ActionController::Base
 end
 </pre></notextile>
 
-The names of the method "login_required_with_oauth" and the actions within should match your before_filter to log in to the app.  For example, if your pre-existing login method were called "authenticate" instead of "login_required", the method would then be called "authenticate_with_oauth" and the alias_method_chain would be "alias_method_chain:authenticate, :oauth"
+h4. Oauth enable particular controller actions
 
-Also, you will need to replace "YOUR_APPLICATION_SESSION_KEY" with your session id.  
-
-To enable OAuth2 access to a particular action:
+By default, no action supports OAuth.  That is, if you would like for OAuth to work for any particular action you must declare that in the controller.
 
 <notextile><pre>
 class ProtectedResourceController < ApplicationController
@@ -179,7 +208,7 @@ h1. Verify plugin working correctly in your application
 * OAuth enable the actions for which you wish to allow OAuth as an authentication means
 * Setup a new OAuth client at /oauth/clients
 * Open /oauth/authorize?redirect_uri=REDIRECT_URI&client_id=CLIENT_ID&response_type=code in a browser. You should see a form asking you to authorize the client to access the host application on your behalf. Check the tickbox and submit.
-* Your browser is redirected to your redirect URI (hint: use example.com for this test) and you should now see your authorization code.  Save this code, you will need it for the next step.
+* Your browser is redirected to your redirect URI (hint: use example.com for this test) and you should now see your authorization code as the "code" parameter.  Save this code, you will need it for the next step.
 * For this step you'll need to use curl as you need to perform a POST and there is no form provided by the plugin. Use curl to POST to /oauth/token, passing the following key/value pairs as form data: code=AUTHORIZATION_CODE&grant_type=authorization-code&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&redirect_uri=REDIRECT_URI
 * The response to the above POST will be JSON containing your access token, and its expiration time in seconds.
 

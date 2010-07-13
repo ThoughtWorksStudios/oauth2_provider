@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
     super
   end
   
+  def self.skip_authentication
+    skip_before_filter :login_required
+  end
+  
   private
     
   def new_session_url
