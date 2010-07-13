@@ -6,7 +6,7 @@ ENV["PATH"] += ":#{File.expand_path("../../../../tools/jruby-1.5.1/bin", __FILE_
 
 code_dirs = ['vendor/plugins/oauth2_provider/app/controllers', 'vendor/plugins/oauth2_provider/app/models', 'vendor/plugins/oauth2_provider/lib']
 # code_dirs = Dir["vendor/rails/*/*"] - Dir['vendor/rails/*/test']
-puts code_dirs
+
 MetricFu::Configuration.run do |config|
   config.metrics = [:saikuro]
   config.saikuro[:input_directory] = code_dirs
@@ -20,8 +20,6 @@ MetricFu::Configuration.run do |config|
                  "--include-file #{code_dirs.join(',')}"]
   config.graphs = []
 end
-
-
 
 module Metrics
   class Node
@@ -68,14 +66,3 @@ module MetricFu
     end
   end
 end
-
-
-# require 'rubygems'
-# require 'active_support'
-# require 'json'
-# require 'pp'
-# root_node = Metrics::Node.new('root', 'root', :data => {})
-# root_node.create_node(["A"])
-# root_node.create_node(["A", "B"])
-# p $root_node.find_node(["A", "B"]).instance_variable_get("@id")
-# puts "root_node.to_json => #{root_node.to_json}"

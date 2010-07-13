@@ -30,18 +30,12 @@ root_node = Metrics::Node.new('root', 'root', :data => {})
 
 %>
 
-<!-- <link rel="stylesheet" href="<%= File.expand_path("metric_fu_templates/css/base.css") %>" type="text/css" media="screen" title="no title" charset="utf-8">
-<link rel="stylesheet" href="<%= File.expand_path("metric_fu_templates/css/treemap.css") %>" type="text/css" media="screen" title="no title" charset="utf-8"> -->
-
 <style>
-<%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/css/base.css')) { |f| f.read } %>
 <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/css/treemap.css')) { |f| f.read } %>
 </style>
-<div id="infovis"></div>
 <div id="detail"></div>
 
-<!-- <script src="<%= File.expand_path("metric_fu_templates/js/jit-min.js") %>" type="text/javascript" charset="utf-8"></script>
-<script src="<%= File.expand_path("metric_fu_templates/js/saikuro-render.js") %>" type="text/javascript" charset="utf-8"></script> -->
+<div id="infovis"></div>
 
 <script type="text/javascript">
   <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/js/jit-min.js')) { |f| f.read } %>
