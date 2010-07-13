@@ -1,0 +1,34 @@
+<%
+
+root_node = Metrics::Node.new('root', :data => {})
+
+@saikuro[:files].each {|f|
+  f[:classes].each do |c|
+    class_node_name = c[:class_name]
+    class_node = Metrics::Node.new(class_node_name, :data => {:complexity => c[:complexity], :lines => c[:lines], :$area => c[:complexity], :$color => '#8E7032'})
+    root_node.add_child(class_node)
+    
+    c[:methods].each do |m|
+      method_node_name = m[:name]
+      method_node = Metrics::Node.new(method_node_name, :data => {:complexity => m[:complexity], :lines => m[:lines], :$area => m[:complexity], :$color => '#906E32'})
+      class_node.add_child(method_node)
+    end
+  end
+}
+
+%>
+
+<style>
+<%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/css/base.css')) { |f| f.read } %>
+<%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/css/treemap.css')) { |f| f.read } %>
+</style>
+<div id="infovis"></div>
+<div id="detail"></div>
+
+<script type="text/javascript">
+  <%= "var json = #{root_node.to_json}\n;" %>
+  <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/js/jit-min.js')) { |f| f.read } %>
+  <%= open(File.join(File.dirname(__FILE__), 'metric_fu_templates/js/saikuro-render.js')) { |f| f.read } %>
+  init();
+</script>
+
