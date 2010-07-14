@@ -4,10 +4,10 @@ namespace :metrics do
 
   desc "generate saikuro treemap"
   task :saikuro_treemap do
-    Saikuro.generate_treemap #:code_dirs => ['vendor/plugins/oauth2_provider/app/controllers', 
-#      'vendor/plugins/oauth2_provider/app/models', 
-#      'vendor/plugins/oauth2_provider/lib'
-#    ]
+    Saikuro.generate_treemap :code_dirs => ['vendor/plugins/oauth2_provider/app/controllers', 
+      'vendor/plugins/oauth2_provider/app/models', 
+      'vendor/plugins/oauth2_provider/lib'
+    ]
   end
 end
 
