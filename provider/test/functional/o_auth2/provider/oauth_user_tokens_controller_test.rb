@@ -70,7 +70,8 @@ module Oauth2
       end
       
       def test_revoke_returns_bad_request_code_if_token_id_is_not_passed
-        session[:user_id] = '13'
+        user = User.create(:email => 'foo@example.com', :password => 'open!')
+        session[:user_id] = user.id
         post :revoke
         
         assert "User not authorized to perform this action!", @response.body
@@ -78,7 +79,8 @@ module Oauth2
       end
       
       def test_revoke_returns_bad_request_code_if_token_id_is_bogus
-        session[:user_id] = '13'
+        user = User.create(:email => 'foo@example.com', :password => 'open!')
+        session[:user_id] = user.id
         post :revoke, :token_id => 998
 
         assert "User not authorized to perform this action!", @response.body

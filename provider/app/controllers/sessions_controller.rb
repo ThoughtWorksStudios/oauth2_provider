@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   end
   
   def clear_session
-    super
+    self.clear_current_user
     redirect_to :action => :index
   end
 end

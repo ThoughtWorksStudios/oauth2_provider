@@ -18,7 +18,7 @@ class ProtectedResourceControllerTest < ActionController::TestCase
   
   def test_access_protected_resource_with_no_access_token
     get :index
-    assert_redirected_to :controller => :sessions, :action => :create
+    assert_redirected_to :controller => :sessions, :action => :index
   end
   
 end

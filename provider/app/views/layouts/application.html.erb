@@ -8,8 +8,8 @@
   <%= stylesheet_link_tag 'scaffold' %>
 </head>
 <body>
-<% if logged_in? %>
-  <%= current_user.email %> <a href="<%= url_for(:controller => :sessions, :action => :clear_session) %>">logout</a>
+<% if controller.logged_in? %>
+  <%= controller.current_user.email %> <a href="<%= url_for(:controller => :sessions, :action => :clear_session) %>">logout</a>
 <% else %>
   <a href="<%= url_for(:controller => :users, :action => :new) %>">Sign up</a> |
   <a href="<%= url_for(:controller => :sessions, :action => :index) %>">Login</a>

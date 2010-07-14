@@ -58,7 +58,7 @@ module Oauth2
   
       def test_index_returns_400_if_no_redirect_uri_is_supplied
         client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         get :index, :client_id => @client.client_id, :authorize => '1',
           :response_type => 'code'
         assert_response :bad_request
@@ -66,7 +66,7 @@ module Oauth2
   
       def test_index_redirects_with_error_code_when_mismatched_uri
         client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         get :index, :redirect_uri => 'bogus', :client_id => @client.client_id,
           :response_type => 'code'
     
@@ -102,7 +102,7 @@ module Oauth2
       end
   
       def test_authorize_should_return_authorization_code_with_expiry_if_user_authorizes_it_and_state_param_is_not_provided
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb', 
           :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
 
@@ -114,7 +114,7 @@ module Oauth2
       end
 
       def test_authorize_should_return_authorization_code_with_expiry_and_state_if_user_authorizes_it_and_state_param_is_provided
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb',
           :client_id => @client.client_id, :authorize => '1', :response_type => 'code', :state => 'foo&bar'
 
@@ -126,21 +126,21 @@ module Oauth2
       end
       
       def test_authorize_returns_400_if_no_redirect_uri_is_supplied
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         post :authorize, :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
     
         assert_response 400
       end
   
       def test_authorize_redirects_with_error_code_when_mismatched_uri
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         get :index, :redirect_uri => 'bogus', :client_id => @client.client_id, :response_type => 'code'
     
         assert_redirected_to 'bogus?error=redirect-uri-mismatch'
       end
       
       def test_authorize_should_return_access_denied_error_if_user_does_not_authorize
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb', 
           :client_id => @client.client_id, :response_type => 'code'
 
@@ -148,7 +148,7 @@ module Oauth2
       end
   
       def test_authorize_subsequent_requests_for_authorization_code_receive_unique_codes
-        session[:user_id] = '13'
+        session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb', 
           :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
 

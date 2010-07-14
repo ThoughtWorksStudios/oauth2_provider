@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  include SimplestAuth::Model
-  authenticate_by :email
+  
+  def self.authenticate(email, password)
+    User.find_by_email_and_password(email, password)
+  end
 
 end
