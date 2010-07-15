@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   
   # part of sample host app's hand-rolled  authentication 'system' :)
   def current_user
-    @current_user || User.find_by_id(session[:user_id])
+    @__current_user ||= User.find_by_id(session[:user_id])
   end
   
   protected
@@ -34,13 +34,13 @@ class ApplicationController < ActionController::Base
   # part of sample host app's hand-rolled  authentication 'system' :)
   def current_user=(user)
     session[:user_id] = user.id
-    @current_user = user
+    @__current_user = user
   end
   
   # part of sample host app's hand-rolled  authentication 'system' :)
   def clear_current_user
     session.delete(:user_id)
-    @current_user = nil
+    @__current_user = nil
   end
 
   # required by Oauth2 plugin, returns user id that will
