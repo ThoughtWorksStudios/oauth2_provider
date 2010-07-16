@@ -3,9 +3,9 @@ module Oauth2
     module ApplicationControllerMethods
 
       def self.included(controller_class)
-        controller_class.cattr_accessor :oauth_options
+        controller_class.cattr_accessor :oauth_options, :oauth_options_proc
     
-        def controller_class.oauth_allowed(options = {})
+        def controller_class.oauth_allowed(options = {}, &block)
           raise 'options cannot contain both :only and :except' if options[:only] && options[:except]
       
           [:only, :except].each do |k|
@@ -14,12 +14,13 @@ module Oauth2
             end
           end
           self.oauth_options = options
+          self.oauth_options_proc = block
         end
     
       end
       
       protected
-  
+      
       def user_id_for_oauth_access_token
         return nil unless oauth_allowed?
         header_field = request.headers["Authorization"]
@@ -36,11 +37,14 @@ module Oauth2
       end
     
       def oauth_allowed?
-        return false if oauth_options.nil?
-
-        oauth_options.empty? || 
-          (oauth_options[:only] && oauth_options[:only].include?(action_name)) ||
-          (oauth_options[:except] && !oauth_options[:except].include?(action_name))
+        if (oauth_options_proc && !oauth_options_proc.call(self))
+          false
+        else
+          return false if oauth_options.nil?
+          oauth_options.empty? ||
+            (oauth_options[:only] && oauth_options[:only].include?(action_name)) ||
+            (oauth_options[:except] && !oauth_options[:except].include?(action_name))
+        end
       end
   
     end
