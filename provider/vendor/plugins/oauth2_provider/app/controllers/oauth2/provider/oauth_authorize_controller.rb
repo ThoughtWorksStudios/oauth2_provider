@@ -14,7 +14,7 @@ module Oauth2
           return
         end
     
-        authorization = @client.create_authorization_for_user_id(current_user_id)
+        authorization = @client.create_authorization_for_user_id(current_user_id_for_oauth)
         state_param = if params[:state].blank?
           ""
         else

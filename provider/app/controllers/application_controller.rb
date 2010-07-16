@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
 
   # required by Oauth2 plugin, returns user id that will
   # serve as foreign key to authorize codes and access tokens
-  def current_user_id
-    current_user.id
+  def current_user_id_for_oauth
+    current_user.id.to_s
   end  
   
   # required for oauth to actually work, we wrap our non-oauth
