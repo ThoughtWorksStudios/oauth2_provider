@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
   
   # required by Oauth2 plugin, allows auth to be skipped
   # for get_token action on OauthTokenController
-  def self.skip_authentication
+  def self.skip_authentication_for_oauth
     skip_before_filter :login_required
   end
   
