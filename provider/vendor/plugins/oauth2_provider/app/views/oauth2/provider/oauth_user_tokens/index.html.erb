@@ -8,7 +8,7 @@
     <tr>
       <td><%= token.oauth_client.name %></td>
       <td><%= token.access_token %></td>
-      <td><%= link_to('Destroy', {:action => :revoke, :token_id => token.id}, {:confirm => 'Are you sure?', :method => :delete})%></td>
+      <td><%= link_to('Destroy', {:action => :revoke, :token_id => token.id, :controller => 'Oauth2::Provider::OauthUserTokens'}, {:confirm => 'Are you sure?', :method => :delete})%></td>
     </tr>
   <% end -%>
 </table>
