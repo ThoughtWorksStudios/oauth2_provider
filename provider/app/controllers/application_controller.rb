@@ -69,4 +69,10 @@ class ApplicationController < ActionController::Base
     skip_before_filter :login_required
   end
   
+  # required by Oauth2 plugin, allows filters to be skipped
+  # for oauth specific CRUD screens.
+  def self.skip_filters_for_oauth
+    # skip_before_filter :filter1, :filter2...
+  end
+  
 end

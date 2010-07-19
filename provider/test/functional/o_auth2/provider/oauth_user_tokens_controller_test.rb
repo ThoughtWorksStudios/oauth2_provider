@@ -22,7 +22,7 @@ module Oauth2
         get :index
         
         assert_select "table" do
-          assert_select "tr", :count => 2
+          assert_select "tr", :count => 3
           
           assert_select 'tr' do
             assert_select "td", "some application"

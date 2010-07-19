@@ -2,6 +2,8 @@ module Oauth2
   module Provider
     class OauthUserTokensController < ApplicationController
       
+      skip_filters_for_oauth
+      
       def index
         @tokens = OauthToken.find_all_by_user_id(current_user_id_for_oauth)
       end
