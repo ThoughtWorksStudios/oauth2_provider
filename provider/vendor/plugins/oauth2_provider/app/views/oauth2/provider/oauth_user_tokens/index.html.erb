@@ -1,8 +1,9 @@
 <table>
-  <th>
-    <td>Client</td>
-    <td>Token</td>
-  </th>
+  <tr>
+    <th>Client</th>
+    <th>Token</th>
+    <th>&nbsp;</th>
+  </tr>
   <% @tokens.each do |token| -%>
     <tr>
       <td><%= token.oauth_client.name %></td>
