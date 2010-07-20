@@ -59,25 +59,29 @@ h1. Installation
 
 Copy the plugin into your rails application's vendor/plugins directory.
 
+Execute the configuration script:
+
+ $ script/generate script/generate oauth2_provider
+
+This will create:
+* config/initializers/oauth2_provider.rb
+* db/migrate/TIMESTAMP_create_oauth_authorizations.rb
+* db/migrate/TIMESTAMP_create_oauth_clients.rb
+* db/migrate/TIMESTAMP_create_oauth_tokens.rb
+
 h2. Configuration
 
 h3. Database
 
 This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application.
 
-* Copy these files from oauth2/db/migrate into your app's RAILS_ROOT/db/migrate directory.
-**  20100629195859_create_oauth_clients
-**  20100630220121_create_oauth_tokens
-**  20100709202510_create_oauth_authorizations
-	
-* In your RAILS_ROOT, run rake db:migrate
-* You may have to change the timestamps to be later than the timestamps of any existing migration files, or the oauth migrations will not run.
+* In your RAILS_ROOT, run rake db:migrate, this will run all the migrations that were created as when you executed the oauth2_provider generator.
 
 h3. Host Application
 
 h4. Rails initializer 
 
-Add a Rails initializer named oauth2_provider.rb in which you 
+Edit the file config/initializers/oauth2_provider.rb in which you
 * must call filter skipping methods on OauthTokenController, ensuring any authentication filters to not run for this controllers actions
 * must setup authorization for OauthClientsController, limiting access to only application administrators
 * must setup authorization for OauthUserTokensController, limiting access to logged in users  (this step might not actually require you to write code, we're just putting it here to make sure you consider this issue)
