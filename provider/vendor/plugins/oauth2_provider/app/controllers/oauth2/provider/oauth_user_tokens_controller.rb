@@ -2,8 +2,10 @@ module Oauth2
   module Provider
     class OauthUserTokensController < ApplicationController
       
+      skip_filters_for_oauth
+      
       def index
-        @tokens = OauthToken.find_all_by_user_id(current_user_id)
+        @tokens = OauthToken.find_all_by_user_id(current_user_id_for_oauth)
       end
     
       def revoke
@@ -12,7 +14,7 @@ module Oauth2
           render :text => "User not authorized to perform this action!", :status => :bad_request
           return
         end
-        if token.user_id != current_user_id.to_s
+        if token.user_id != current_user_id_for_oauth
           render :text => "User not authorized to perform this action!", :status => :bad_request
           return
         end

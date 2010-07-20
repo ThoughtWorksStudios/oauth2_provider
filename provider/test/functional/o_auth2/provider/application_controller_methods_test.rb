@@ -80,15 +80,90 @@ module Oauth2
     
       end
   
-      def test_user_id_for_oauth_access_token_returns_user_id_when_oauth_allowed
+      def test_user_id_for_oauth_access_token_returns_user_id_when_oauth_allowed_and_block_not_provided
         @token = OauthToken.create!(:user_id => 17)
-        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
 
         @fooControllerClass.oauth_allowed
     
         assert_equal "17", @controller.send(:user_id_for_oauth_access_token)
       end
   
+      def test_oauth_allowed_when_block_provided_that_returns_true
+        @fooControllerClass.oauth_allowed {|controller| true}
+        assert @controller.send(:oauth_allowed?)
+      end
+
+      def test_oauth_not_allowed_when_block_provided_that_returns_false
+        @fooControllerClass.oauth_allowed {|controller| false}
+        assert !@controller.send(:oauth_allowed?)
+      end
+      
+      def test_oauth_not_allowed_when_block_provided_that_returns_true_but_action_is_not_allowed
+        @token = OauthToken.create!(:user_id => 17)
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
+
+        def @controller.action_name
+          "oauth_not_allowed"
+        end
+
+        @fooControllerClass.oauth_allowed :only => :oauth_action do |controller|
+          true
+        end
+        
+        assert !@controller.send(:oauth_allowed?)
+        assert_equal nil, @controller.send(:user_id_for_oauth_access_token)
+      end
+
+
+      def test_oauth_allowed_when_block_provided_that_returns_true_but_action_is_allowed
+        @token = OauthToken.create!(:user_id => 17)
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
+
+        def @controller.action_name
+          "oauth_action"
+        end
+
+        @fooControllerClass.oauth_allowed :only => :oauth_action do |controller|
+          true
+        end
+        
+        assert @controller.send(:oauth_allowed?)
+        assert_equal "17", @controller.send(:user_id_for_oauth_access_token)
+      end
+      
+      def test_oauth_not_allowed_when_block_provided_that_returns_false_but_action_is_not_allowed
+        @token = OauthToken.create!(:user_id => 17)
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
+
+        def @controller.action_name
+          "oauth_not_allowed"
+        end
+
+        @fooControllerClass.oauth_allowed :only => :oauth_action do |controller|
+          false
+        end
+        
+        assert !@controller.send(:oauth_allowed?)
+        assert_equal nil, @controller.send(:user_id_for_oauth_access_token)
+      end
+
+      def test_oauth_allowed_when_block_provided_that_returns_false_but_action_is_allowed
+        @token = OauthToken.create!(:user_id => 17)
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
+
+        def @controller.action_name
+          "oauth_action"
+        end
+
+        @fooControllerClass.oauth_allowed :only => :oauth_action do |controller|
+          false
+        end
+        
+        assert !@controller.send(:oauth_allowed?)
+        assert_equal nil, @controller.send(:user_id_for_oauth_access_token)
+      end
+
       def test_user_id_for_oauth_access_token_returns_nil_when_oauth_not_allowed
         @token = OauthToken.create!(:user_id => 17)
         @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})        
@@ -120,6 +195,7 @@ module Oauth2
         @controller.request = OpenStruct.new(:headers => {"Authorization" => 'hello world'})
         assert !@controller.send(:looks_like_oauth_request?)
       end
+      
     end
   end
 end

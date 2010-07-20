@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
 
   # required by Oauth2 plugin, returns user id that will
   # serve as foreign key to authorize codes and access tokens
-  def current_user_id
-    current_user.id
+  def current_user_id_for_oauth
+    current_user.id.to_s
   end  
   
   # required for oauth to actually work, we wrap our non-oauth
@@ -65,8 +65,14 @@ class ApplicationController < ActionController::Base
   
   # required by Oauth2 plugin, allows auth to be skipped
   # for get_token action on OauthTokenController
-  def self.skip_authentication
+  def self.skip_authentication_for_oauth
     skip_before_filter :login_required
+  end
+  
+  # required by Oauth2 plugin, allows filters to be skipped
+  # for oauth specific CRUD screens.
+  def self.skip_filters_for_oauth
+    # skip_before_filter :filter1, :filter2...
   end
   
 end

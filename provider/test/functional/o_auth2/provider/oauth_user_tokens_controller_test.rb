@@ -19,21 +19,21 @@ module Oauth2
         
         session[:user_id] = user1.id
         
-        get :index
-        
+        get :index        
+
         assert_select "table" do
-          assert_select "tr", :count => 2
+          assert_select "tr", :count => 3
           
           assert_select 'tr' do
             assert_select "td", "some application"
             assert_select "td", token1.access_token
-            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id)}']"
+            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'Oauth2::Provider::OauthUserTokens')}']"
           end
           
           assert_select 'tr' do
             assert_select "td", "another application"
             assert_select "td", token2.access_token
-            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id)}']"
+            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'Oauth2::Provider::OauthUserTokens')}']"
           end
         end
         

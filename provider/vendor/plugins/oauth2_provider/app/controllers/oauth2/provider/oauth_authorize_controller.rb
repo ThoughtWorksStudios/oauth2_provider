@@ -1,7 +1,9 @@
 module Oauth2
   module Provider
     class OauthAuthorizeController < ::ApplicationController
-
+      
+      skip_filters_for_oauth
+      
       def index
         return unless validate_params
       end
@@ -14,7 +16,7 @@ module Oauth2
           return
         end
     
-        authorization = @client.create_authorization_for_user_id(current_user_id)
+        authorization = @client.create_authorization_for_user_id(current_user_id_for_oauth)
         state_param = if params[:state].blank?
           ""
         else
