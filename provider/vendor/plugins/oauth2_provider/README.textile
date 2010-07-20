@@ -75,9 +75,38 @@ This plugin stores OAuth2 client, authorization codes, and access token into a D
 
 h3. Host Application
 
-Change your host application's ApplicationController, to enable OAuth to certain actions.
+h4. Rails initializer 
+
+Add a Rails initializer named oauth2_provider.rb in which you 
+* must call filter skipping methods on OauthTokenController, ensuring any authentication filters to not run for this controllers actions
+* must setup authorization for OauthClientsController, limiting access to only application administrators
+* must setup authorization for OauthUserTokensController, limiting access to logged in users  (this step might not actually require you to write code, we're just putting it here to make sure you consider this issue)
+* might call filter skipping or similar methods on the other provided controllers should it be necessary for them to run
+
+A sample initializer:
+
+<notextile><pre>
+  
+module Oauth2
+  module Provider
+  
+    # make sure no authentication for OauthTokenController
+    OauthTokenController.skip_before_filter(:login_required)
+    
+    # use host app's custom authorization filter to protect OauthClientsController
+    OauthClientsController.before_filter(:ensure_admin_user)
+    
+  end
+end
+  
+</notextile></pre>
 
 h4. ApplicationController
+
+Make the following changes:
+* Include Oauth2::Provider::ApplicationControllerMethods module
+* Define a 'current_user_id_for_oauth' method that returns the id of the currently logged-in user, serving as a foreign-key to any tokens that are stored in the database. 
+* alias_method_chain 'user_id_for_oauth_access_token' into your authentication filter. This method is supplied by Oauth2::Provider::ApplicationControllerMethods and converts an Oauth access token passed in a request's header to a user_id known by the host application. This user_id corresponds to whatever your current_user_id method returns.
 
 *Before*
 
@@ -85,9 +114,9 @@ h4. ApplicationController
 class ApplicationController < ActionController::Base
 
   # the host application's authentication filter, you'll
-  # see in the 'After' section below that you'll define
-  # a hook for allowing Oauth2::Provider::OauthTokenController
-  # to skip this filter.
+  # see in the 'After' section below that you can user
+  # alias_method_chain to merge OAuth 2.0 authentication
+  # with your current authentication filter.
   before_filter :login_required
 
   # this checks whether the user is logged in for purposes
@@ -106,12 +135,6 @@ class ApplicationController < ActionController::Base
 end
 </pre></notextile>
 
-Make the following changes:
-* include Oauth2::Provider::ApplicationControllerMethods module
-* provide the 'skip_authentication_for_oauth' class method to allow the OauthTokenController to not require authentication
-* define a 'current_user_id' method that returns the id of the currently logged-in user, serving as a foreign-key to any tokens that are stored in the database. 
-* alias_method_chain 'user_id_for_oauth_access_token' into your authentication filter. This method is supplied by Oauth2::Provider::ApplicationControllerMethods and converts an Oauth access token passed in a request's header to a user_id known by the host application. This user_id corresponds to whatever your current_user_id method returns.
-
 *After*
  
 <notextile><pre>
@@ -123,21 +146,11 @@ class ApplicationController < ActionController::Base
 
   # include Oauth2::Provider::ApplicationControllerMethods
   include Oauth2::Provider::ApplicationControllerMethods
-  
-  # allow Oauth2::Provider::OauthTokenController to skip
-  # the host application's authentication filter
-  def self.skip_authentication_for_oauth
-    skip_before_filter :login_required
-  end
-  
-  # required by Oauth2 plugin, allows filters to be skipped
-  # for oauth specific CRUD screens.
-  def self.skip_filters_for_oauth
-    # skip_before_filter :filter1, :filter2...
-  end
-
+    
   # this checks whether the user is logged in for purposes
-  # of an authentication filter. obviously
+  # of an authentication filter. obviously, your host application
+  # will have very different code than this.  this example is
+  # pulled from the sample host application with which the plugin ships.
   def login_required
     current_user_id = session[:user_id]
     if current_user_id
@@ -150,7 +163,7 @@ class ApplicationController < ActionController::Base
   # required by the OAuth plugin to figure out the currently logged in user
   # must be a string representation of the user.
   # A 'username', 'email' or a db primary key are good candidates.
-  protected def current_user_id
+  protected def current_user_id_for_oauth
     super
   end
 
@@ -187,7 +200,7 @@ end
 
 h4. Oauth enable particular controller actions
 
-By default, no action supports OAuth.  That is, if you would like for OAuth to work for any particular action you must declare that in the controller.
+By default, no action supports OAuth.  That is, if you would like for OAuth to work for any particular action you must declare that in the controller. Below is a simple example where a concrete controller definition specifies where Oauth is allowed. If you look at the plugin source you'll see that oauth_allowed can also be passed a block, returning true or false, for more sophisticated implementations.
 
 <notextile><pre>
 class ProtectedResourceController < ApplicationController

@@ -2,8 +2,6 @@ module Oauth2
   module Provider
     class OauthClientsController < ApplicationController
       
-      skip_filters_for_oauth
-      
       def index
         @oauth_clients = OauthClient.all
       end

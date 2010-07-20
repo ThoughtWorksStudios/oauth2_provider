@@ -63,16 +63,4 @@ class ApplicationController < ActionController::Base
   end
   alias_method_chain :login_required, :oauth
   
-  # required by Oauth2 plugin, allows auth to be skipped
-  # for get_token action on OauthTokenController
-  def self.skip_authentication_for_oauth
-    skip_before_filter :login_required
-  end
-  
-  # required by Oauth2 plugin, allows filters to be skipped
-  # for oauth specific CRUD screens.
-  def self.skip_filters_for_oauth
-    # skip_before_filter :filter1, :filter2...
-  end
-  
 end

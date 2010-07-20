@@ -2,8 +2,6 @@ module Oauth2
   module Provider
     class OauthAuthorizeController < ::ApplicationController
       
-      skip_filters_for_oauth
-      
       def index
         return unless validate_params
       end

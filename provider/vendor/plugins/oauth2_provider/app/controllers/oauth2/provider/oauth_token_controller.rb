@@ -2,8 +2,6 @@ module Oauth2
   module Provider
     class OauthTokenController < ApplicationController
 
-      skip_authentication_for_oauth
-  
       def get_token
         
         authorization = OauthAuthorization.find_by_code(params[:code])
