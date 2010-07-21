@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'webrick'
+require 'net/http'
+
+# provider config
+OAUTH_PROVIDER_BASE_URL = 'http://localhost:8070'
+
+# client config
+OAUTH_CLIENT_ID = '772be2fb48fedc8f952874d52bf36c842582988f8278be3e54a4e4722bf58f1b'
+OAUTH_CLIENT_SECRET = '8bc12d16e7381d3cf395308a90454c7eba6906d876b753f68d1f74c81fc39547'
+OAUTH_CLIENT_REDIRECT_URL = 'http://localhost:9999/callback'
+
+# start callback server
+server = WEBrick::HTTPServer.new(:Port => 9999)
+trap "INT" do server.shutdown end
+server.mount_proc '/callback' do |req, rsp|
+  authorization_code = req.query['code']   
+  res = Net::HTTP.post_form(
+    URI.parse("#{OAUTH_PROVIDER_BASE_URL}/oauth/token"),
+    { 
+      'redirect_uri' => OAUTH_CLIENT_REDIRECT_URL, 
+      'client_id' => OAUTH_CLIENT_ID, 
+      'client_secret' => OAUTH_CLIENT_SECRET, 
+      'code' => authorization_code,
+      'grant_type' => 'authorization-code'
+    })   
+  rsp.body = res.body
+  server.stop
+end
+server_thread = Thread.new do server.start end
+server_thread.run
+
+# open authorize form in browser
+url = "#{OAUTH_PROVIDER_BASE_URL}/oauth/authorize?redirect_uri=#{OAUTH_CLIENT_REDIRECT_URL}&client_id=#{OAUTH_CLIENT_ID}&response_type=code"
+`open '#{url}'`
+
+# don't kill script until callback handler kills server
+server_thread.join
