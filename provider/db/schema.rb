@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 201007211919572) do
+ActiveRecord::Schema.define(:version => 201007221918342) do
 
   create_table "oauth_authorizations", :force => true do |t|
     t.string   "user_id"

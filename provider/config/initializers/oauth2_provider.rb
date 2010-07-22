@@ -8,7 +8,7 @@ module Oauth2
     OauthTokenController.skip_before_filter(:login_required)
     
     # use host app's custom authorization filter to protect OauthClientsController
-    OauthClientsController.before_filter(:ensure_admin_user)
+    # OauthClientsController.before_filter(:ensure_admin_user)
     
   end
 end
