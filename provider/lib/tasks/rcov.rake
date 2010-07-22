@@ -10,6 +10,7 @@ namespace :test do
     
     desc "Delete aggregate coverage data."
     task :clean do
+      mkdir_p "reports/coverage"
       rm_f "reports/coverage/coverage.data"
     end
     
