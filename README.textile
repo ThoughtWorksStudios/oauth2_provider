@@ -83,8 +83,7 @@ Edit the file config/initializers/oauth2_provider.rb in which you
 
 A sample initializer:
 
-<notextile><pre>
-  
+<pre>
 module Oauth2
   module Provider
   
@@ -97,7 +96,7 @@ module Oauth2
   end
 end
   
-</notextile></pre>
+</pre>
 
 
 h4. ApplicationController
@@ -109,7 +108,7 @@ Make the following changes:
 
 *Before*
 
-<notextile><pre>
+<pre>
 class ApplicationController < ActionController::Base
 
   # the host application's authentication filter, you'll
@@ -132,12 +131,11 @@ class ApplicationController < ActionController::Base
   end
 
 end
-</pre></notextile>
+</pre>
 
 *After*
  
-<notextile><pre>
-	
+<pre>
 class ApplicationController < ActionController::Base
 
   # the host application's authentication filter
@@ -195,13 +193,13 @@ class ApplicationController < ActionController::Base
   alias_method_chain :login_required, :oauth
 
 end
-</pre></notextile>
+</pre>
 
 h4. Oauth enable particular controller actions
 
 By default, no action supports OAuth.  That is, if you would like for OAuth to work for any particular action you must declare that in the controller. Below is a simple example where a concrete controller definition specifies where Oauth is allowed. If you look at the plugin source you'll see that oauth_allowed can also be passed a block, returning true or false, for more sophisticated implementations.
 
-<notextile><pre>
+<pre>
 class ProtectedResourceController < ApplicationController
 
   # Supported options are:
@@ -219,7 +217,7 @@ class ProtectedResourceController < ApplicationController
   end
 
 end
-</pre></notextile>
+</pre>
 
 h3. Database
 
