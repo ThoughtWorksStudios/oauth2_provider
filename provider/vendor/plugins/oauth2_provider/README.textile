@@ -59,9 +59,9 @@ h1. Installation
 
 Copy the plugin into your rails application's vendor/plugins directory.
 
-Execute the configuration script:
+Execute the configuration script from your RAILS_ROOT:
 
- $ script/generate script/generate oauth2_provider
+ $ ./script/generate oauth2_provider
 
 This will create:
 * config/initializers/oauth2_provider.rb
@@ -70,12 +70,6 @@ This will create:
 * db/migrate/TIMESTAMP_create_oauth_tokens.rb
 
 h2. Configuration
-
-h3. Database
-
-This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application.
-
-* In your RAILS_ROOT, run rake db:migrate, this will run all the migrations that were created as when you executed the oauth2_provider generator.
 
 h3. Host Application
 
@@ -104,6 +98,7 @@ module Oauth2
 end
   
 </notextile></pre>
+
 
 h4. ApplicationController
 
@@ -225,6 +220,13 @@ class ProtectedResourceController < ApplicationController
 
 end
 </pre></notextile>
+
+h3. Database
+
+This plugin stores OAuth2 client, authorization codes, and access token into a DB table. It is therefore required that a host app create the necessary ActiveRecord migrations in their application.
+
+* In your RAILS_ROOT, run rake db:migrate, this will run all the migrations that were created as when you executed the oauth2_provider generator.  You can't do this step until you do the initializers file.
+
 
 h1. Verify plugin working correctly in your application
 
