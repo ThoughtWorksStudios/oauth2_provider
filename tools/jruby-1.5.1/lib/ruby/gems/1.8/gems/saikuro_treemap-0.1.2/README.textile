@@ -1,0 +1,71 @@
+h2. Saikuro Treemap Generator
+
+This gem generates a "treemap":http://en.wikipedia.org/wiki/Treemapping
+showing the complexity of ruby code on which it is run. It uses 
+"Saikuro":http://saikuro.rubyforge.org/ under the covers to analyze ruby
+code complexity.
+
+The size of blocks in the treemap is representative of the size of the
+code element represented by that block. The color of the block indicates
+complexity of that particular code element. Green is good, red is bad, 
+blue is somewhere in between.
+
+Small evenly distributed blocks which are green in color is indicative of
+good code.
+
+h2. Demo
+
+"Click here":http://thoughtworksstudios.github.com/rake.ccn.html for a demo
+of the CCN for the popular "rake":http://rake.rubyforge.org/ tool.
+
+h2. Installation
+
+<code>$ [sudo] gem install saikuro_treemap</code>
+
+h2. Configuration
+
+In your Rakefile, add the following:
+
+<pre>
+require 'saikuro_treemap'
+
+namespace :metrics do
+  desc 'generate ccn treemap'
+  task :ccn_treemap do
+    SaikuroTreemap.generate_treemap :code_dirs => ['lib']
+    `open reports/saikuro_treemap.html`
+  end
+end
+</pre> 
+
+h2. Execute
+
+<code>$ rake metrics:ccn_treemap</code>
+
+This would generate the treemap report in "reports/saikuro_treemap.html".
+
+h2. License
+
+Saikuro Treemap Generator is MIT Licensed
+
+The MIT License
+
+Copyright (c) 2010 ThoughtWorks, Inc. (http://thoughtworks.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

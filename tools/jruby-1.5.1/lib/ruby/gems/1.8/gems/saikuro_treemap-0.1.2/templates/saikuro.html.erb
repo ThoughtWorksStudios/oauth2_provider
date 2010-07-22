@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <meta content='en' http-equiv='Content-Language' />
+    <title>Saikuro Treemap</title>
+    <style>
+      <%= File.read(template('css/treemap.css')) %>
+    </style>
+    <script type="text/javascript">
+      <%= File.read(template('js/jit-min.js')) %>
+      <%= File.read(template('js/saikuro-render.js')) %>
+    </script>
+  </head>
+  <body>
+    <div id='header'>
+      <div id='title'>
+        Built with <a href="http://github.com/ThoughtWorksStudios/saikuro_treemap">Saikuro Treemap</a> from
+        <a href="http://studios.thoughtworks.com">ThoughtWorks</a>
+      </div>
+      
+      <div id='logo'>
+        <a href="http://studios.thoughtworks.com">
+          <img src="data:image/png;base64,<%= Base64.encode64(File.read(template('images/tw_open_source_small.png'))) %>" style="vertical-align: middle"/>
+        </a>
+      </div>
+    </div>
+    <div id='content'>
+      <div id="detail"></div>
+      <div id="infovis"></div>
+      <script type="text/javascript">
+        init(<%= @ccn_node.to_json %>);
+      </script>
+    </div>
+  </body>
+</html>
+
+
+
