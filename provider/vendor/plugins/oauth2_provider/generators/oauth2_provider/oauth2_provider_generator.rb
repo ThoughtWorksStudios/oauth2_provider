@@ -2,7 +2,8 @@ class Oauth2ProviderGenerator < Rails::Generator::Base
   def manifest
     record do |m|
       m.template 'config/initializers/oauth2_provider.rb', "config/initializers/oauth2_provider.rb"
-      
+
+      m.directory 'db/migrate'
       ['create_oauth_clients', 'create_oauth_tokens', 'create_oauth_authorizations'].each_with_index do |file_name, index|
         m.template "db/migrate/#{file_name}.rb", "db/migrate/#{version_with_prefix(index)}_#{file_name}.rb", :migration_file_name => file_name
       end
