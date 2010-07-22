@@ -17,6 +17,7 @@ namespace :oauth2_provider do
         s.files             = Dir["**/*.*"]
         s.has_rdoc          = false
         s.extra_rdoc_files  = ["README.textile"]
+        s.extra_rdoc_files  = ["MIT-LICENSE.txt"]
       end
       File.open("oauth2_provider.gemspec", "w") { |f| f << spec.to_ruby }
       rm_rf "#{RAILS_ROOT}/pkg"
