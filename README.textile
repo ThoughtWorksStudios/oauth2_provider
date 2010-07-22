@@ -5,9 +5,13 @@ The latest version of the spec is available at "http://tools.ietf.org/html/draft
 
 Currently only the web-server profile "http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1":http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-1.4.1 is supported.
 
+h1. Hacking/Contributing
+
+See "HACKING.textile":HACKING.textile for information on how to hack on this code.
+
 h1. What is OAuth?
 
-OAuth is an open-source specification for building a framework for allowing a third-party app (the "client") to access protected resources from another application (the "provider," or "resource owner") at the request of a "user" of the client app.  Oauth allows the user to enter his user credentials (ex. username and password) only to the provider app, which then grants the client app permission to view the protected resources on behalf of the user.  
+OAuth is an open-source specification for building a framework for allowing a third-party app (the "client") to access protected resources from another application (the "provider," or "resource owner") at the request of a "user" of the client app.  Oauth allows the user to enter his user credentials (ex. username and password) only to the provider app, which then grants the client app permission to view the protected resources on behalf of the user.
 
 A very good overview of the basic OAuth workflow is "here":http://hueniverse.com/2007/10/beginners-guide-to-oauth-part-ii-protocol-workflow/.
 
