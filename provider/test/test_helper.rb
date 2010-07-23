@@ -1,3 +1,5 @@
+# Copyright (c) 2010 ThoughtWorks Inc. (http://thoughtworks.com)
+# Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'

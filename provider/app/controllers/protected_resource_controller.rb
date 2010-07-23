@@ -1,3 +1,6 @@
+# Copyright (c) 2010 ThoughtWorks Inc. (http://thoughtworks.com)
+# Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
+
 class ProtectedResourceController < ApplicationController
 
   oauth_allowed :only => :index

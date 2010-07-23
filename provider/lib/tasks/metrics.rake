@@ -1,3 +1,6 @@
+# Copyright (c) 2010 ThoughtWorks Inc. (http://thoughtworks.com)
+# Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
+
 ENV["PATH"] += ":#{File.expand_path("../../../../tools/jruby-1.5.1/bin", __FILE__)}" if RUBY_PLATFORM =~ /java/
 
 namespace :metrics do

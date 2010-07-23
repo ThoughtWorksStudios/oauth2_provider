@@ -1,3 +1,5 @@
+# Copyright (c) 2010 ThoughtWorks Inc. (http://thoughtworks.com)
+# Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 class SessionsController < ApplicationController
   
   skip_before_filter :login_required, :only => ['index', 'create']
