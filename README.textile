@@ -242,7 +242,7 @@ end
 
 
 
-h1. Verify plugin working correctly in your application
+h1. Verify that everything is working correctly!
 
 * OAuth enable the actions for which you wish to allow OAuth as an authentication means
 * Setup a new OAuth client at /oauth/clients
@@ -260,13 +260,13 @@ h1. Verify plugin working correctly in your application
 * You should expect to see the contents of the protected resource now.
 
 
-h1. License (Stuff that lawyers make us say)
+h1. License
 
 OAuth2 Provider Generator is MIT Licensed.
 
 The MIT License
 
-Copyright © 2010 ThoughtWorks, Inc. (http://thoughtworks.com)
+Copyright (c) 2010 ThoughtWorks, Inc. (http://thoughtworks.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the “Software”), to deal
