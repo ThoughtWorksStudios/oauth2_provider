@@ -1,6 +1,5 @@
 # Copyright (c) 2010 ThoughtWorks Inc. (http://thoughtworks.com)
 # Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 
-if RAILS_ENV == 'development'
-  ActiveSupport::Dependencies.load_once_paths.reject!{|x| x =~ /^#{Regexp.escape(File.dirname(__FILE__))}/}
-end
+# DO NOT REMOVE
+# this file is required when this plugin is used as a plugin! 
