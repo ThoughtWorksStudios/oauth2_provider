@@ -8,7 +8,7 @@ PROJECT_COPYRIGHT = [
 
 desc "Check copyright notice in all ruby scripts in the distribution"
 task :copyright do
-
+  puts "** Verifying copyright notices on all ruby scripts in the distribution..."
   need_copyright = []
   
   Dir['{lib,test,app,vendor/plugins/oauth2_provider}/**/*{.rb,rake}'].each do |file|
@@ -21,8 +21,8 @@ task :copyright do
   
   unless need_copyright.empty?
     require 'pp'
-    pp "The following files are missing copyrights:"
-    pp need_copyright
+    puts "** The following files are missing copyrights:"
+    need_copyright.each { |file| puts file }
     raise 'Check failed!'
   end
   

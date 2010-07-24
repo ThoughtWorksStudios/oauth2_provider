@@ -8,3 +8,4 @@ provider/reports
 provider/.er
 provider/pkg
 provider/vendor/plugins/oauth2_provider/oauth2_provider.gemspec
+provider/vendor/plugins/oauth2_provider/CHANGELOG

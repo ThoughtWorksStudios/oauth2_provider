@@ -38,5 +38,5 @@ h2. Metrics
 h2. Pushing out gems
 
  $ cd provider
- $ script/jruby -S rake gem
+ $ script/jruby -S rake release:push        # follow the instructions printed by the task
  $ script/jruby -S gem push pkg/oauth2_provider-VERSION.gem
