@@ -15,11 +15,7 @@ OAuth is an open-source specification for building a framework for allowing a th
 
 A very good overview of the basic OAuth workflow is "here":http://hueniverse.com/2007/10/beginners-guide-to-oauth-part-ii-protocol-workflow/.
 
-As some of this is not always easy to grok on first pass, we also put some videos together:
-* "Part 1 - Why OAuth matters?":http://www.youtube.com/watch?v=LRNg4tDtrkE
-* "Part 2 - Client and Provider Share a Secret":http://www.youtube.com/watch?v=2KG05SnAYlE
-* "Part 3 - Demonstration: User Granting Access Token":http://www.youtube.com/watch?v=qPHLsLlQ7Rw
-* "Part 4 - Step-by-Step: User Granting Access Token":http://www.youtube.com/watch?v=0PvQcLzVGF0
+As some of this is not always easy to grok on first pass, we also put together "some videos":http://www.youtube.com/view_play_list?p=675281900139F609 to give a step-by-step introduction to OAuth.
 
 Common terms:
 
