@@ -36,6 +36,29 @@ module Oauth2
         assert_equal 0, @authorization.expires_in
         assert @authorization.expired?
       end
+      
+      def test_find_all_by_oauth_client_id
+        client1 = OauthClient.create!(:name => "gadget", :redirect_uri => "http://www.example.com/redirect")
+        client2 = OauthClient.create!(:name => "bank", :redirect_uri => "http://www.example.com/redirect")
+        
+        code1 = client1.create_authorization_for_user_id(nil)
+        code2 = client1.create_authorization_for_user_id(nil)
+        
+        assert_equal 2, OauthAuthorization.find_all_by_oauth_client_id(client1.id).size
+        assert_equal 0, OauthAuthorization.find_all_by_oauth_client_id(client2.id).size
+        
+        assert_equal code1.id, OauthAuthorization.find_all_by_oauth_client_id(client1.id).first.id
+        assert_equal OauthAuthorization, OauthAuthorization.find_all_by_oauth_client_id(client1.id).first.class
+      end
+      
+      def test_find_by_code
+        code1 = OauthAuthorization.create!
+        code2 = OauthAuthorization.create!
+        
+        assert_equal code1.id, OauthAuthorization.find_by_code(code1.code).id
+        assert_equal code2.id, OauthAuthorization.find_by_code(code2.code).id
+        assert_nil OauthAuthorization.find_by_code("not exists")
+      end
   
     end
   end

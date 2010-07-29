@@ -8,10 +8,10 @@ module Oauth2
       def get_token
         
         authorization = OauthAuthorization.find_by_code(params[:code])
-        authorization.delete unless authorization.nil?
+        authorization.destroy unless authorization.nil?
         
         original_token = OauthToken.find_by_refresh_token(params[:refresh_token])
-        original_token.delete unless original_token.nil?
+        original_token.destroy unless original_token.nil?
     
         unless ['authorization-code', 'refresh-token'].include?(params[:grant_type])
           render_error('unsupported-grant-type')

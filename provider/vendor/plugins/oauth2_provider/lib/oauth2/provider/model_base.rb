@@ -11,79 +11,89 @@ module Oauth2
 
     class ModelBase
       include Validatable
-      @@db_columns = []
+
+      class_inheritable_array :db_columns
+
+      self.db_columns = []
 
       def self.columns(*names)
         attr_accessor *names
-        @@db_columns += names
+        self.db_columns += names
       end
 
       columns :id
-        
+
       def initialize(attributes={})
         assign_attributes(attributes)
       end
-  
+
       @@datasource = ARDatasource.new
 
       def self.datasource
         @@datasource
       end
-      
+
       def self.find(id)
         find_by_id(id) || raise(NotFoundException.new("Record not found!"))
       end
-  
+
       def self.find_by_id(id)
-        if dto = @@datasource.send("find_#{compact_name}_by_id", id) 
+        find_one("find_#{compact_name}_by_id", id)
+      end
+
+      def self.find_collection(datasource_method, *datasource_args)
+        @@datasource.send(datasource_method, *datasource_args).collect do |dto|
+          new.update_from_dto(dto)
+        end
+      end
+
+      def self.find_one(datasource_method, *datasource_args)
+        if dto = @@datasource.send(datasource_method, datasource_args)
           self.new.update_from_dto(dto)
         end
       end
-  
+
       def self.all
-        dtos = @@datasource.send("find_all_#{compact_name}")
-        dtos.collect do |dto|
-          self.new.update_from_dto(dto)
-        end
+        find_collection("find_all_#{compact_name}")
       end
-  
+
       def self.count
         all.size
       end
-  
+
       def self.size
         all.size
       end
-  
+
       def self.compact_name
         self.name.split('::').last.underscore
       end
-  
+
       def self.create(attributes={})
         client = self.new(attributes)
         client.before_create
         client.save
         client
       end
-  
+
       def self.create!(attributes={})
         client = self.new(attributes)
         client.before_create
         client.save!
         client
       end
-  
+
       def save!
         save || raise(RecordNotSaved.new("Could not save model!"))
       end
-  
+
       def update_attributes(attributes={})
         assign_attributes(attributes)
         save
       end
-  
+
       def save
-        attrs = @@db_columns.inject({}) do |result, column_name|
+        attrs = self.class.db_columns.inject({}) do |result, column_name|
           result[column_name] = self.send(column_name)
           result
         end
@@ -94,24 +104,24 @@ module Oauth2
         end
         false
       end
-  
+
       def reload
         update_from_dto(self.class.find(id))
       end
-  
+
       def destroy
         before_destroy
         @@datasource.send("delete_#{self.class.compact_name}", id)
       end
-  
+
       def update_from_dto(dto)
-        @@db_columns.each do |column_name|
+        self.class.db_columns.each do |column_name|
           self.send("#{column_name}=", dto.send(column_name))
         end
-    
+
         self
       end
-  
+
       def assign_attributes(attrs={})
         attrs.each do |k, v|
           self.send("#{k}=", v)
@@ -121,12 +131,12 @@ module Oauth2
 
       def before_create
         # for subclasses to override to support hooks.
-      end    
-  
+      end
+
       def before_destroy
         # for subclasses to override to support hooks.
-      end    
-  
+      end
+
     end
   end
 end

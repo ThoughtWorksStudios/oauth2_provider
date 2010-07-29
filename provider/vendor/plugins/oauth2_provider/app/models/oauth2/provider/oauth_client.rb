@@ -8,10 +8,6 @@ module Oauth2
       validates_presence_of :name, :redirect_uri
       validates_format_of :redirect_uri, :with => Regexp.new("^(https|http)://.+$")
       
-      # has_many :oauth_tokens, :class_name => "Oauth2::Provider::OauthToken", :dependent => :delete_all
-      # has_many :oauth_authorizations, :class_name => "Oauth2::Provider::OauthAuthorization", :dependent => :delete_all
-      
-
       columns :name, :client_id, :client_secret, :redirect_uri
 
       def create_token_for_user_id(user_id)
@@ -23,9 +19,7 @@ module Oauth2
       end
       
       def self.find_by_client_id(client_id)
-        if dto = @@datasource.find_oauth_client_by_client_id(client_id)
-          new.update_from_dto(dto)
-        end
+        find_one(:find_oauth_client_by_client_id, client_id)
       end
       
       def self.model_name

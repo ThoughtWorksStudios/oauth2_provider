@@ -20,7 +20,7 @@ module Oauth2
           return
         end
         
-        token.delete
+        token.destroy
         redirect_to :action => :index
       end
       
