@@ -18,11 +18,9 @@ module Oauth2
           return
         end
     
-        client = OauthClient.find_by_client_id_and_client_secret(
-          params[:client_id], params[:client_secret]
-        )
-    
-        if client.nil?
+        client = OauthClient.find_by_client_id(params[:client_id])
+
+        if client.nil? || client.client_secret != params[:client_secret]
           render_error('invalid-client-credentials')
           return
         end
@@ -33,13 +31,13 @@ module Oauth2
         end
     
         if params[:grant_type] == 'authorization-code'
-          if authorization.nil? || authorization.expired? || authorization.oauth_client != client
+          if authorization.nil? || authorization.expired? || authorization.oauth_client.id != client.id
             render_error('invalid-grant')
             return
           end
           token = authorization.generate_access_token
         else # refresh-token
-          if original_token.nil? || original_token.oauth_client != client
+          if original_token.nil? || original_token.oauth_client.id != client.id
             render_error('invalid-grant')
             return
           end

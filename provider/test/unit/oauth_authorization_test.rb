@@ -10,7 +10,7 @@ module Oauth2
         Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
         
         client = OauthClient.create!(:name => 'a client', :redirect_uri => 'http://example.com/cb')
-        @authorization = client.oauth_authorizations.create!
+        @authorization = client.create_authorization_for_user_id(nil)
       end
   
       def teardown

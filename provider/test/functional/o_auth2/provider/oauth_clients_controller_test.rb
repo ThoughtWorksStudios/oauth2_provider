@@ -32,7 +32,9 @@ module Oauth2
       
       def test_create_creates_new_oauth_client
         post :create, :oauth_client => {:name => 'my application', :redirect_uri => 'http://api.example.com/cb'}
-        assert_not_nil OauthClient.find_by_name_and_redirect_uri('my application', 'http://api.example.com/cb')
+        assert_equal 1, OauthClient.all.size
+        assert_equal 'my application', OauthClient.all.first.name
+        assert_equal 'http://api.example.com/cb', OauthClient.all.first.redirect_uri
       end
 
       def test_should_not_create_oauth_client_without_name_or_redirect_uri
@@ -40,19 +42,6 @@ module Oauth2
         assert_equal 0, OauthClient.count
         post :create, :oauth_client => {:redirect_uri => 'http://api.example.com/cb'}
         assert_equal 0, OauthClient.count
-      end
-      
-      def test_can_destroy_an_oauth_client
-        client1 = OauthClient.create!(:name=>'name1', :redirect_uri=>'http://example1.com/cb')
-        client1_token = client1.oauth_tokens.create!
-        client2 = OauthClient.create!(:name=>'name2', :redirect_uri=>'http://example2.com/cb')
-        client2_token = client2.oauth_tokens.create!
-
-        post :destroy, :id => client1.id
-        assert_nil OauthClient.find_by_name_and_redirect_uri('name1', 'http://example1.com/cb')
-        assert_nil OauthToken.find_by_id(client1_token.id)
-        assert_not_nil OauthClient.find_by_name_and_redirect_uri('name2', 'http://example2.com/cb')
-        assert_not_nil OauthToken.find(client2_token.id)
       end
       
       def test_update_writes_new_attributes

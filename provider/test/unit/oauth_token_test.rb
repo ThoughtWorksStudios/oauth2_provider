@@ -41,7 +41,7 @@ module Oauth2
         assert_not_nil new_token.refresh_token
         assert_not_equal new_token.access_token, original_token.access_token
         assert_not_equal new_token.refresh_token, original_token.refresh_token
-        assert_equal client, new_token.oauth_client
+        assert_equal client.id, new_token.oauth_client.id
         assert_equal "3", new_token.user_id
         assert_equal 90.days, new_token.expires_in
         

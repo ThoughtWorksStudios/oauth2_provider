@@ -5,7 +5,7 @@ module Oauth2
   module Provider
     class OauthToken < ::ActiveRecord::Base
 
-      belongs_to :oauth_client, :class_name => "Oauth2::Provider::OauthClient"
+      belongs_to :oauth_client, :class_name => "Oauth2::Provider::OauthClientDto"
   
       EXPIRY_TIME = 90.days
   
@@ -23,7 +23,8 @@ module Oauth2
       
       def refresh
         self.delete
-        oauth_client.create_token_for_user_id(user_id)
+        # TODO: fixme!
+        OauthClient.new.update_from_dto(oauth_client).create_token_for_user_id(user_id)
       end
 
       protected
