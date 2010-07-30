@@ -89,7 +89,7 @@ module Oauth2
 
         @fooControllerClass.oauth_allowed
     
-        assert_equal "17", @controller.send(:user_id_for_oauth_access_token)
+        assert_equal "17", @controller.send(:user_id_for_oauth_access_token).to_s
       end
   
       def test_oauth_allowed_when_block_provided_that_returns_true
@@ -132,7 +132,7 @@ module Oauth2
         end
         
         assert @controller.send(:oauth_allowed?)
-        assert_equal "17", @controller.send(:user_id_for_oauth_access_token)
+        assert_equal "17", @controller.send(:user_id_for_oauth_access_token).to_s
       end
       
       def test_oauth_not_allowed_when_block_provided_that_returns_false_but_action_is_not_allowed

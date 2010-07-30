@@ -4,6 +4,24 @@
 module Oauth2
   module Provider
     class ARDatasource
+
+      class OauthClientDto < ActiveRecord::Base
+        set_table_name :oauth_clients
+      end
+
+      class OauthAuthorizationDto < ActiveRecord::Base
+        set_table_name :oauth_authorizations
+      end
+
+      class OauthTokenDto < ActiveRecord::Base
+        set_table_name :oauth_tokens
+      end
+
+      # used in tests, use it to clear datasource
+      def reset
+
+      end
+
       def find_oauth_client_by_id(id)
         OauthClientDto.find_by_id(id)
       end
@@ -75,26 +93,14 @@ module Oauth2
       private
 
       def save(dto_klass, attrs)
-        client = dto_klass.find_by_id(attrs[:id])
-        if client
-          client.update_attributes(attrs)
+        dto = dto_klass.find_by_id(attrs[:id])
+        if dto
+          dto.update_attributes(attrs)
         else
-          client = dto_klass.create(attrs)
+          dto = dto_klass.create(attrs)
         end
-        client
+        dto
       end
-    end
-
-    class OauthClientDto < ActiveRecord::Base
-      set_table_name :oauth_clients
-    end
-
-    class OauthAuthorizationDto < ActiveRecord::Base
-      set_table_name :oauth_authorizations
-    end
-
-    class OauthTokenDto < ActiveRecord::Base
-      set_table_name :oauth_tokens
     end
   end
 end

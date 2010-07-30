@@ -27,10 +27,17 @@ module Oauth2
         assign_attributes(attributes)
       end
 
-      @@datasource = ARDatasource.new
+      cattr_accessor :datasource
 
-      def self.datasource
-        @@datasource
+      def self.datasource=(ds)
+        @@datasource =  case ds
+                        when String
+                          ds.classify.constantize.new
+                        when Class
+                          ds.new
+                        else
+                          ds
+                        end
       end
 
       def self.find(id)
@@ -48,7 +55,7 @@ module Oauth2
       end
 
       def self.find_one(datasource_method, *datasource_args)
-        if dto = @@datasource.send(datasource_method, datasource_args)
+        if dto = @@datasource.send(datasource_method, *datasource_args)
           self.new.update_from_dto(dto)
         end
       end

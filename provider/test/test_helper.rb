@@ -50,6 +50,11 @@ class ActiveSupport::TestCase
     assert error_raised
     assert_equal expected_message, actual_message
   end
-
+  
+  setup :clear_in_memory_data_source
+  def clear_in_memory_data_source
+    datasource = Oauth2::Provider::ModelBase.datasource
+    datasource.reset if datasource.respond_to?(:reset)
+  end
 end
 
