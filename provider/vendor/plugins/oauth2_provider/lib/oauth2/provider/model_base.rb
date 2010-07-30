@@ -48,8 +48,8 @@ module Oauth2
         find_one(:id, id.to_s)
       end
 
-      def self.find_collection(datasource_method, *datasource_args)
-        @@datasource.send(datasource_method, *datasource_args).collect do |dto|
+      def self.find_all_with(column_name, column_value)
+        @@datasource.send("find_all_#{compact_name}_by_#{column_name}", column_value).collect do |dto|
           new.update_from_dto(dto)
         end
       end
@@ -61,7 +61,9 @@ module Oauth2
       end
 
       def self.all
-        find_collection("find_all_#{compact_name}")
+        @@datasource.send("find_all_#{compact_name}").collect do |dto|
+          new.update_from_dto(dto)
+        end
       end
 
       def self.count

@@ -8,10 +8,6 @@ module Oauth2
       EXPIRY_TIME = 1.hour
       columns :user_id, :oauth_client_id, :code, :expires_at
 
-      def self.find_all_by_oauth_client_id(client_id)
-        find_collection(:find_all_oauth_authorization_by_client_id, client_id)
-      end
-
       def oauth_client
         OauthClient.find_by_id(oauth_client_id)
       end

@@ -31,6 +31,15 @@ module Oauth2
           @people.values.find {|p| p.name == name }
         end
         
+        def find_all_person_by_name(name)
+          @people.values.select { |p| p.name == name }
+        end
+        
+        def find_all_person_by_age(age)
+          @people.values.select { |p| p.age == age }
+        end
+        
+        
         def find_person_by_age(age)
           @people.values.find {|p| p.age == age }
         end
@@ -223,6 +232,16 @@ module Oauth2
         assert_equal joe.id, Person.find_one(:name, "Joe").id
         assert_equal john.id, Person.find_one(:age, 29).id
         assert_nil Person.find_one(:age, 109)
+      end
+      
+      def test_find_all_by_attribute
+        john = Person.create(:name => 'John Smith', :age => 29)
+        jane = Person.create(:name => "Jane", :age => 26)
+        joe = Person.create(:name => "Joe", :age => 26)
+
+        assert_equal [joe.id], Person.find_all_with(:name, "Joe").collect(&:id)
+        assert_equal [jane.id, joe.id], Person.find_all_with(:age, 26).collect(&:id).sort
+        assert_equal [], Person.find_all_with(:age, 109)
       end
 
     end

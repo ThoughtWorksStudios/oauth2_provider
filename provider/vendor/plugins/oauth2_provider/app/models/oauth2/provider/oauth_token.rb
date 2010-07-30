@@ -9,14 +9,6 @@ module Oauth2
 
       EXPIRY_TIME = 90.days
 
-      def self.find_all_by_oauth_client_id(client_id)
-        find_collection(:find_all_oauth_tokens_by_client_id, client_id)
-      end
-
-      def self.find_all_by_user_id(user_id)
-        find_collection(:find_all_oauth_tokens_by_user_id, user_id.to_s)
-      end
-
       def oauth_client
         OauthClient.find_by_id(oauth_client_id)
       end

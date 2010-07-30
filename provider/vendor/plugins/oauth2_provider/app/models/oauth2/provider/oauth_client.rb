@@ -22,11 +22,11 @@ module Oauth2
       end
 
       def oauth_tokens
-        OauthToken.find_all_by_oauth_client_id(id)
+        OauthToken.find_all_with(:oauth_client_id, id)
       end
       
       def oauth_authorizations
-        OauthAuthorization.find_all_by_oauth_client_id(id)
+        OauthAuthorization.find_all_with(:oauth_client_id, id)
       end
       
       def before_create

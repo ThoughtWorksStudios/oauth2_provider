@@ -42,7 +42,7 @@ module Oauth2
         OauthClientDto.delete(id)
       end
 
-      def find_all_oauth_authorization_by_client_id(client_id)
+      def find_all_oauth_authorization_by_oauth_client_id(client_id)
         OauthAuthorizationDto.find_all_by_oauth_client_id(client_id)
       end
 
@@ -66,11 +66,11 @@ module Oauth2
         OauthTokenDto.find_by_id(id)
       end
 
-      def find_all_oauth_tokens_by_client_id(client_id)
+      def find_all_oauth_token_by_oauth_client_id(client_id)
         OauthTokenDto.find_all_by_oauth_client_id(client_id)
       end
 
-      def find_all_oauth_tokens_by_user_id(user_id)
+      def find_all_oauth_token_by_user_id(user_id)
         OauthTokenDto.find_all_by_user_id(user_id)
       end
 

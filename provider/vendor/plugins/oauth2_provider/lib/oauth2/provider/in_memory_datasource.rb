@@ -49,7 +49,7 @@ module Oauth2
         @@oauth_clients.delete_if {|i| i.id.to_s == id.to_s}
       end
 
-      def find_all_oauth_authorization_by_client_id(client_id)
+      def find_all_oauth_authorization_by_oauth_client_id(client_id)
         @@oauth_authorizations.select {|i| i.oauth_client_id.to_s == client_id.to_s}
       end
 
@@ -73,11 +73,11 @@ module Oauth2
         @@oauth_tokens.find{|i| i.id.to_s == id.to_s}
       end
 
-      def find_all_oauth_tokens_by_client_id(client_id)
+      def find_all_oauth_token_by_oauth_client_id(client_id)
         @@oauth_tokens.select {|i| i.oauth_client_id.to_s == client_id.to_s}
       end
 
-      def find_all_oauth_tokens_by_user_id(user_id)
+      def find_all_oauth_token_by_user_id(user_id)
         @@oauth_tokens.select {|i| i.user_id.to_s == user_id.to_s}
       end
 

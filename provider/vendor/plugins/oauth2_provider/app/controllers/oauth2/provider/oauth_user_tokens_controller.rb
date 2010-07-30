@@ -6,7 +6,7 @@ module Oauth2
     class OauthUserTokensController < ApplicationController
       
       def index
-        @tokens = OauthToken.find_all_by_user_id(current_user_id_for_oauth)
+        @tokens = OauthToken.find_all_with(:user_id, current_user_id_for_oauth)
       end
     
       def revoke
