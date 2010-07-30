@@ -45,7 +45,7 @@ module Oauth2
       end
 
       def self.find_by_id(id)
-        find_one("find_#{compact_name}_by_id", id)
+        find_one("find_#{compact_name}_by_id", id.to_s)
       end
 
       def self.find_collection(datasource_method, *datasource_args)
@@ -89,19 +89,20 @@ module Oauth2
         client.save!
         client
       end
-
-      def save!
-        save || raise(RecordNotSaved.new("Could not save model!"))
-      end
-
+      
       def update_attributes(attributes={})
         assign_attributes(attributes)
         save
       end
 
+      def save!
+        save || raise(RecordNotSaved.new("Could not save model!"))
+      end
+
+
       def save
-        attrs = self.class.db_columns.inject({}) do |result, column_name|
-          result[column_name] = self.send(column_name)
+        attrs = self.class.db_columns.inject(HashWithIndifferentAccess.new) do |result, column_name|
+          result[column_name.to_s] = self.send(column_name)
           result
         end
         if self.valid?
@@ -118,9 +119,17 @@ module Oauth2
 
       def destroy
         before_destroy
-        @@datasource.send("delete_#{self.class.compact_name}", id)
+        @@datasource.send("delete_#{self.class.compact_name}", id.to_s)
+      end
+      
+      def before_create
+        # for subclasses to override to support hooks.
       end
 
+      def before_destroy
+        # for subclasses to override to support hooks.
+      end
+      
       def update_from_dto(dto)
         self.class.db_columns.each do |column_name|
           self.send("#{column_name}=", dto.send(column_name))
@@ -133,15 +142,6 @@ module Oauth2
         attrs.each do |k, v|
           self.send("#{k}=", v)
         end
-      end
-
-
-      def before_create
-        # for subclasses to override to support hooks.
-      end
-
-      def before_destroy
-        # for subclasses to override to support hooks.
       end
 
     end
