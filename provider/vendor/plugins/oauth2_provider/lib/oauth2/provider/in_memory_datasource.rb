@@ -4,7 +4,7 @@
 require 'ostruct'
 module Oauth2
   module Provider
-    class RubyInMemoryDatasource
+    class InMemoryDatasource
       
       class MyStruct < OpenStruct
         
