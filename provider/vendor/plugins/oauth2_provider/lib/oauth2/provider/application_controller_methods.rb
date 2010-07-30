@@ -29,7 +29,7 @@ module Oauth2
         header_field = request.headers["Authorization"]
         
         if header_field =~ /Token token="(.*)"/          
-          token = OauthToken.find_by_access_token($1)
+          token = OauthToken.find_one(:access_token, $1)
           token.user_id if token
         end
       end

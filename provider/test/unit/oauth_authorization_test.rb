@@ -50,16 +50,6 @@ module Oauth2
         assert_equal code1.id, OauthAuthorization.find_all_by_oauth_client_id(client1.id).first.id
         assert_equal OauthAuthorization, OauthAuthorization.find_all_by_oauth_client_id(client1.id).first.class
       end
-      
-      def test_find_by_code
-        code1 = OauthAuthorization.create!
-        code2 = OauthAuthorization.create!
-        
-        assert_equal code1.id, OauthAuthorization.find_by_code(code1.code).id
-        assert_equal code2.id, OauthAuthorization.find_by_code(code2.code).id
-        assert_nil OauthAuthorization.find_by_code("not exists")
-      end
-  
     end
   end
 end

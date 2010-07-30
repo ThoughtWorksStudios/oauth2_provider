@@ -6,7 +6,6 @@ module Oauth2
   module Provider
     class ModelBaseTest < ActiveSupport::TestCase
       
-      
       class TestDatasource
 
         class MyStruct < OpenStruct
@@ -26,6 +25,14 @@ module Oauth2
         
         def find_person_by_id(id)
           @people[id]
+        end
+        
+        def find_person_by_name(name)
+          @people.values.find {|p| p.name == name }
+        end
+        
+        def find_person_by_age(age)
+          @people.values.find {|p| p.age == age }
         end
         
         def find_all_person
@@ -207,6 +214,15 @@ module Oauth2
         assert_equal joe.id, person.id
         assert_equal 'joe', joe.name
         assert_equal 29, joe.age
+      end
+      
+      def test_find_one_by_attribute
+        john = Person.create(:name => 'John Smith', :age => 29)
+        jane = Person.create(:name => "Jane", :age => 26)
+        joe = Person.create(:name => "Joe", :age => 26)
+        assert_equal joe.id, Person.find_one(:name, "Joe").id
+        assert_equal john.id, Person.find_one(:age, 29).id
+        assert_nil Person.find_one(:age, 109)
       end
 
     end

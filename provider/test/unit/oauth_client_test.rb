@@ -69,14 +69,6 @@ module Oauth2
         assert_not_nil OauthAuthorization.find_by_id(client2_code.id)
       end
       
-      def test_find_by_client_id
-        client1 = OauthClient.create!(:name=>'name1', :redirect_uri=>'http://example1.com/cb')
-        client2 = OauthClient.create!(:name=>'name2', :redirect_uri=>'http://example2.com/cb')
-        assert_equal OauthClient, OauthClient.find_by_client_id(client1.client_id).class
-        assert_equal client1.id, OauthClient.find_by_client_id(client1.client_id).id
-        assert_equal client2.id, OauthClient.find_by_client_id(client2.client_id).id
-        assert_nil OauthClient.find_by_client_id("not exist")
-      end
     end
   end
 end

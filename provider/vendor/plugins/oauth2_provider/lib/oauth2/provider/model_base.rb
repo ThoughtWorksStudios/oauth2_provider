@@ -45,7 +45,7 @@ module Oauth2
       end
 
       def self.find_by_id(id)
-        find_one("find_#{compact_name}_by_id", id.to_s)
+        find_one(:id, id.to_s)
       end
 
       def self.find_collection(datasource_method, *datasource_args)
@@ -54,8 +54,8 @@ module Oauth2
         end
       end
 
-      def self.find_one(datasource_method, *datasource_args)
-        if dto = @@datasource.send(datasource_method, *datasource_args)
+      def self.find_one(column_name, column_value)
+        if dto = @@datasource.send("find_#{compact_name}_by_#{column_name}", column_value)
           self.new.update_from_dto(dto)
         end
       end

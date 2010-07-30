@@ -14,15 +14,7 @@ module Oauth2
       end
 
       def self.find_all_by_user_id(user_id)
-        find_collection(:find_all_oauth_tokens_by_user_id, user_id)
-      end
-
-      def self.find_by_access_token(access_token)
-        find_one(:find_oauth_token_by_access_token, access_token)
-      end
-
-      def self.find_by_refresh_token(refresh_token)
-        find_one(:find_oauth_token_by_refresh_token, refresh_token)
+        find_collection(:find_all_oauth_tokens_by_user_id, user_id.to_s)
       end
 
       def oauth_client

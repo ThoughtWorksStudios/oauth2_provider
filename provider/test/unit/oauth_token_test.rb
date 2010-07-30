@@ -60,24 +60,6 @@ module Oauth2
         assert_equal OauthToken, OauthToken.find_all_by_oauth_client_id(client1.id).first.class
       end
       
-      def test_find_by_access_token
-        token1 = OauthToken.create!
-        token2 = OauthToken.create!
-        
-        assert token1.id, OauthToken.find_by_access_token(token1.access_token).id
-        assert token2.id, OauthToken.find_by_access_token(token2.access_token).id
-        assert_nil OauthToken.find_by_access_token('not exist')
-      end
-      
-      def test_find_by_refresh_token
-        token1 = OauthToken.create!
-        token2 = OauthToken.create!
-        
-        assert token1.id, OauthToken.find_by_refresh_token(token1.refresh_token).id
-        assert token2.id, OauthToken.find_by_refresh_token(token2.refresh_token).id
-        assert_nil OauthToken.find_by_refresh_token('not exist')
-      end
-      
       def test_find_all_by_user_id
         token1 = OauthToken.create!(:user_id => '42')
         token2 = OauthToken.create!(:user_id => '13')

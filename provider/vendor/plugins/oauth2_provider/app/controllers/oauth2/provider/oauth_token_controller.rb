@@ -7,10 +7,10 @@ module Oauth2
 
       def get_token
         
-        authorization = OauthAuthorization.find_by_code(params[:code])
+        authorization = OauthAuthorization.find_one(:code, params[:code])
         authorization.destroy unless authorization.nil?
         
-        original_token = OauthToken.find_by_refresh_token(params[:refresh_token])
+        original_token = OauthToken.find_one(:refresh_token, params[:refresh_token])
         original_token.destroy unless original_token.nil?
     
         unless ['authorization-code', 'refresh-token'].include?(params[:grant_type])
@@ -18,7 +18,7 @@ module Oauth2
           return
         end
     
-        client = OauthClient.find_by_client_id(params[:client_id])
+        client = OauthClient.find_one(:client_id, params[:client_id])
 
         if client.nil? || client.client_secret != params[:client_secret]
           render_error('invalid-client-credentials')

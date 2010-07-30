@@ -48,7 +48,7 @@ module Oauth2
           return false
         end
     
-        @client = OauthClient.find_by_client_id(params[:client_id])
+        @client = OauthClient.find_one(:client_id, params[:client_id])
     
         if @client.nil?
           redirect_to "#{params[:redirect_uri]}?error=invalid-client-id"

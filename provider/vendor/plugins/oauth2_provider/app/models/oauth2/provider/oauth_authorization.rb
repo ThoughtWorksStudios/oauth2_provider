@@ -12,10 +12,6 @@ module Oauth2
         find_collection(:find_all_oauth_authorization_by_client_id, client_id)
       end
 
-      def self.find_by_code(code)
-        find_one(:find_oauth_authorization_by_code, code)
-      end
-
       def oauth_client
         OauthClient.find_by_id(oauth_client_id)
       end

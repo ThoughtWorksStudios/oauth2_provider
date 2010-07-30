@@ -17,11 +17,6 @@ module Oauth2
       def create_authorization_for_user_id(user_id)
         OauthAuthorization.create!(:user_id => user_id, :oauth_client_id => id)
       end
-      
-      def self.find_by_client_id(client_id)
-        find_one(:find_oauth_client_by_client_id, client_id)
-      end
-      
       def self.model_name
         ActiveSupport::ModelName.new('OauthClient')
       end
