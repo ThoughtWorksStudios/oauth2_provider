@@ -32,7 +32,7 @@ module Oauth2
       def self.datasource=(ds)
         @@datasource =  case ds
                         when String
-                          ds.classify.constantize.new
+                          eval(ds).new
                         when Class
                           ds.new
                         else
