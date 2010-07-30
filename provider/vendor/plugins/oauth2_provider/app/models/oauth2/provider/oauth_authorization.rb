@@ -35,7 +35,7 @@ module Oauth2
       end
 
       def before_create
-        self.expires_at = Clock.now + EXPIRY_TIME
+        self.expires_at = (Clock.now + EXPIRY_TIME).to_i
         self.code = ActiveSupport::SecureRandom.hex(32)
       end
 

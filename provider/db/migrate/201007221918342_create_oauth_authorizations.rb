@@ -4,7 +4,7 @@ class CreateOauthAuthorizations < ActiveRecord::Migration
       t.string :user_id
       t.integer :oauth_client_id
       t.string :code
-      t.timestamp :expires_at
+      t.integer :expires_at
       
       t.timestamps
     end

@@ -5,7 +5,7 @@ class CreateOauthTokens < ActiveRecord::Migration
       t.integer :oauth_client_id
       t.string :access_token
       t.string :refresh_token
-      t.timestamp :expires_at
+      t.integer :expires_at
       
       t.timestamps
     end

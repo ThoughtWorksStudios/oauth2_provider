@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(:version => 201007221918342) do
     t.string   "user_id"
     t.integer  "oauth_client_id"
     t.string   "code"
-    t.datetime "expires_at"
+    t.integer  "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 201007221918342) do
     t.integer  "oauth_client_id"
     t.string   "access_token"
     t.string   "refresh_token"
-    t.datetime "expires_at"
+    t.integer  "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

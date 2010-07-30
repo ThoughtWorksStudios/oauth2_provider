@@ -48,7 +48,7 @@ module Oauth2
 
       def before_create
         self.access_token = ActiveSupport::SecureRandom.hex(32)
-        self.expires_at = Clock.now + EXPIRY_TIME
+        self.expires_at = (Clock.now + EXPIRY_TIME).to_i
         self.refresh_token = ActiveSupport::SecureRandom.hex(32)
       end
 
