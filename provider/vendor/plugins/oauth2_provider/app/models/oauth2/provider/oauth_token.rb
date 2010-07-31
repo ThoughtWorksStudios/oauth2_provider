@@ -5,7 +5,7 @@ module Oauth2
   module Provider
     class OauthToken < ModelBase
 
-      columns :user_id, :oauth_client_id, :access_token, :refresh_token, :expires_at
+      columns :user_id, :oauth_client_id, :access_token, :refresh_token, :expires_at => :integer
 
       EXPIRY_TIME = 90.days
 

@@ -6,7 +6,7 @@ module Oauth2
     class OauthAuthorization < ModelBase
 
       EXPIRY_TIME = 1.hour
-      columns :user_id, :oauth_client_id, :code, :expires_at
+      columns :user_id, :oauth_client_id, :code, :expires_at => :integer
 
       def oauth_client
         OauthClient.find_by_id(oauth_client_id)

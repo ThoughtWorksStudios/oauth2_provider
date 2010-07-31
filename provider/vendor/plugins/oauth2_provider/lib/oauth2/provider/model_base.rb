@@ -11,14 +11,22 @@ module Oauth2
 
     class ModelBase
       include Validatable
-
-      class_inheritable_array :db_columns
-
-      self.db_columns = []
-
+      CONVERTORS =  {
+        :integer => Proc.new { |v| v.to_i },
+        :string  => Proc.new { |v| v.to_s }
+      }.with_indifferent_access
+      
+      class_inheritable_hash :db_columns
+      self.db_columns = {}
+      
       def self.columns(*names)
-        attr_accessor *names
-        self.db_columns += names
+        names.each do |name|
+          column_name, convertor = (Hash === name) ? 
+            [name.keys.first, CONVERTORS[name.values.first]] : 
+            [name, CONVERTORS[:string]]
+          attr_accessor column_name
+          self.db_columns[column_name.to_s] = convertor
+        end
       end
 
       columns :id
@@ -45,17 +53,17 @@ module Oauth2
       end
 
       def self.find_by_id(id)
-        find_one(:id, id.to_s)
+        find_one(:id, id)
       end
 
       def self.find_all_with(column_name, column_value)
-        @@datasource.send("find_all_#{compact_name}_by_#{column_name}", column_value).collect do |dto|
+        @@datasource.send("find_all_#{compact_name}_by_#{column_name}", convert(column_name, column_value)).collect do |dto|
           new.update_from_dto(dto)
         end
       end
 
       def self.find_one(column_name, column_value)
-        if dto = @@datasource.send("find_#{compact_name}_by_#{column_name}", column_value)
+        if dto = @@datasource.send("find_#{compact_name}_by_#{column_name}", convert(column_name, column_value))
           self.new.update_from_dto(dto)
         end
       end
@@ -101,14 +109,14 @@ module Oauth2
         save || raise(RecordNotSaved.new("Could not save model!"))
       end
 
-
       def save
-        attrs = self.class.db_columns.inject(HashWithIndifferentAccess.new) do |result, column_name|
-          result[column_name.to_s] = self.send(column_name)
+        attrs = db_columns.keys.inject({}) do |result, column_name|
+          result[column_name] = read_attribute(column_name)
           result
         end
+        
         if self.valid?
-          dto = @@datasource.send("save_#{self.class.compact_name}", attrs)
+          dto = @@datasource.send("save_#{self.class.compact_name}", attrs.with_indifferent_access)
           update_from_dto(dto)
           return true
         end
@@ -121,7 +129,7 @@ module Oauth2
 
       def destroy
         before_destroy
-        @@datasource.send("delete_#{self.class.compact_name}", id.to_s)
+        @@datasource.send("delete_#{self.class.compact_name}", convert(:id, id) )
       end
       
       def before_create
@@ -133,17 +141,32 @@ module Oauth2
       end
       
       def update_from_dto(dto)
-        self.class.db_columns.each do |column_name|
-          self.send("#{column_name}=", dto.send(column_name))
+        db_columns.keys.each do |column_name|
+          write_attribute(column_name, dto.send(column_name))
         end
-
         self
       end
 
       def assign_attributes(attrs={})
-        attrs.each do |k, v|
-          self.send("#{k}=", v)
-        end
+        attrs.each { |k, v| write_attribute(k, v) }
+      end
+      
+      private
+      
+      def self.convert(column_name, value)
+        db_columns[column_name.to_s].call(value)
+      end
+      
+      def convert(column_name, value)
+        self.class.convert(column_name, value)
+      end
+      
+      def read_attribute(column_name)
+        convert(column_name, self.send(column_name))
+      end
+      
+      def write_attribute(column_name, value)
+        self.send("#{column_name}=", convert(column_name, value))
       end
 
     end

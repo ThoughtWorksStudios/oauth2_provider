@@ -85,7 +85,7 @@ module Oauth2
         
         attr_accessor :before_create_called, :before_destroy_called
         
-        columns :name, :age
+        columns :name, :age => :integer
         
         validates_presence_of :name
         validates_presence_of :age
@@ -243,6 +243,38 @@ module Oauth2
         assert_equal [jane.id, joe.id], Person.find_all_with(:age, 26).collect(&:id).sort
         assert_equal [], Person.find_all_with(:age, 109)
       end
+      
+      def test_auto_type_converting_for_finder
+        Person.create(:name => 'John Smith', :age => 29)
+        assert_not_nil Person.find_one(:age, '29')
+        assert !Person.find_all_with(:age, '29').empty?
+      end
+      
+      def test_auto_type_converting_for_model_attribute_reader
+        p = Person.create(:name => 123, :age => '29')
+        assert_equal "123", p.name
+        assert_equal 29, p.age
+      end
+      
+      def test_auto_type_converting_for_model_not_persisted
+        p = Person.new(:name => 123, :age => '29')
+        assert_equal "123", p.name
+        assert_equal 29, p.age
+      end
+      
+      def test_auto_type_converting_for_destroy
+        p = Person.create(:name => 123, :age => '29')
+        p.id = p.id.to_i
+        p.destroy
+        assert_equal 0, Person.size
+      end
+      
+      
+      def test_can_use_string_as_column_name
+        p = Person.create!("name" => "joe", :age => '29')
+        assert_not_nil Person.find_one(:name, "joe")
+      end
+      
 
     end
   end
