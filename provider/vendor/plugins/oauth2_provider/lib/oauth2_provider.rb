@@ -5,7 +5,7 @@ require 'oauth2/provider/a_r_datasource'
 require 'oauth2/provider/in_memory_datasource'
 require 'oauth2/provider/model_base'
 
-Oauth2::Provider::ModelBase.datasource = ENV["OAUTH2_PROVIDER_DATASOURCE"] || Oauth2::Provider::ARDatasource
+Oauth2::Provider::ModelBase.datasource = ENV["OAUTH2_PROVIDER_DATASOURCE"]
 
 puts "*"*80
 puts "*** Using data source: #{Oauth2::Provider::ModelBase.datasource.class}"

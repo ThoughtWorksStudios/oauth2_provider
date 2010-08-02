@@ -39,6 +39,8 @@ module Oauth2
 
       def self.datasource=(ds)
         @@datasource =  case ds
+                        when NilClass
+                          default_datasource
                         when String
                           eval(ds).new
                         when Class
@@ -46,6 +48,17 @@ module Oauth2
                         else
                           ds
                         end
+      end
+      
+      def self.default_datasource
+        if defined?(ActiveRecord)
+          ARDatasource.new
+        else
+          puts "*"*80
+          puts "*** Activerecord is not defined! Using InMemoryDatasource, which will not persist across application restarts!! ***"
+          puts "*"*80
+          InMemoryDatasource.new
+        end
       end
 
       def self.find(id)
