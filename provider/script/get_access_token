@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'webrick'
 require 'net/http'
+require 'json'
 
 # provider config
 OAUTH_PROVIDER_BASE_URL = 'http://localhost:8070'
@@ -16,18 +17,47 @@ OAUTH_CLIENT_SECRET = '8bc12d16e7381d3cf395308a90454c7eba6906d876b753f68d1f74c81
 server = WEBrick::HTTPServer.new(:Port => 9999)
 trap "INT" do server.shutdown end
 server.mount_proc '/callback' do |req, rsp|
-  authorization_code = req.query['code']   
-  res = Net::HTTP.post_form(
-    URI.parse("#{OAUTH_PROVIDER_BASE_URL}/oauth/token"),
-    { 
-      'redirect_uri' => OAUTH_CLIENT_REDIRECT_URL, 
-      'client_id' => OAUTH_CLIENT_ID, 
-      'client_secret' => OAUTH_CLIENT_SECRET, 
-      'code' => authorization_code,
-      'grant_type' => 'authorization-code'
-    })   
-  rsp.body = res.body
+  authorization_code = req.query['code']
+  
+  # handle errors
+  if req.query['error']
+    rsp.body << "There was an error!"
+  else
+    
+    # everything is alright, so far!
+    rsp.body << "Attempting to fetch token...\n\n\n"
+    
+    # make a request to fetch the token.
+    res = Net::HTTP.post_form(
+      URI.parse("#{OAUTH_PROVIDER_BASE_URL}/oauth/token"),
+      { 
+        'redirect_uri' => OAUTH_CLIENT_REDIRECT_URL, 
+        'client_id' => OAUTH_CLIENT_ID, 
+        'client_secret' => OAUTH_CLIENT_SECRET, 
+        'code' => authorization_code,
+        'grant_type' => 'authorization-code'
+      })
+    
+    # get the json response back
+    json_reponse = res.body
+    rsp.body << "The token response was:\n#{json_reponse}\n\n\n"
+
+    # get the access token from the response
+    if access_token = JSON.parse(json_reponse)['access_token']
+      rsp.body << "Attempting to fetch protected content...\n\n\n"
+      # fetch the protected resource using the access_token
+      uri = URI.parse(OAUTH_PROVIDER_BASE_URL)
+      http = Net::HTTP.new(uri.host, uri.port)
+      req = Net::HTTP::Get.new('/protected_resource')
+      req['Authorization'] = %{Token token="#{access_token}"}
+      protected_respose = http.request(req)
+
+      rsp.body << "Protected resource content was:\n#{protected_respose.body}"
+    end
+  end
+  
   server.stop
+  
 end
 server_thread = Thread.new do server.start end
 server_thread.run

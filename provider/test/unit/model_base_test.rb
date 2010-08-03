@@ -98,6 +98,11 @@ module Oauth2
           @before_destroy_called = true
         end
         
+        def reset
+          @before_destroy_called = false
+          @before_create_called = false
+        end
+        
       end
       
       def test_can_create_a_model_return_model_with_id
@@ -269,13 +274,41 @@ module Oauth2
         assert_equal 0, Person.size
       end
       
-      
       def test_can_use_string_as_column_name
         p = Person.create!("name" => "joe", :age => '29')
         assert_not_nil Person.find_one(:name, "joe")
       end
       
-
+      
+      def test_to_param_should_return_id
+        person = Person.create!(:name => 'foo', :age => 29)
+        assert_equal person.id.to_s, person.to_param
+      end
+      
+      def test_to_param_is_nil_when_record_is_new
+        assert_nil Person.new(:name => 'foo', :age => 26).to_param
+      end
+      
+      def test_new_record
+        person = Person.new(:name => 'foo', :age => 26)
+        assert person.new_record?
+        person.save!
+        assert !person.new_record?
+      end
+      
+      def test_before_create_hook_should_be_called_when_save_a_new_record
+        person = Person.new(:name => 'foo', :age => 26)
+        person.save
+        assert person.before_create_called
+      end
+      
+      def test_before_create_hook_should_not_be_called_when_save_a_existing_record
+        person = Person.create(:name => 'foo', :age => 26)
+        person.reset
+        person.name = "bar"
+        person.save!
+        assert !person.before_create_called
+      end
     end
   end
 end

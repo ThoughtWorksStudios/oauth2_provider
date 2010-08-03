@@ -14,31 +14,31 @@ module Oauth2
         original_token.destroy unless original_token.nil?
     
         unless ['authorization-code', 'refresh-token'].include?(params[:grant_type])
-          render_error('unsupported-grant-type')
+          render_error('unsupported-grant-type', "Grant type #{params[:grant_type]} is not supported!")
           return
         end
     
         client = OauthClient.find_one(:client_id, params[:client_id])
 
         if client.nil? || client.client_secret != params[:client_secret]
-          render_error('invalid-client-credentials')
+          render_error('invalid-client-credentials', 'Invalid client credentials!')
           return
         end
     
         if client.redirect_uri != params[:redirect_uri]
-          render_error('invalid-grant')
+          render_error('invalid-grant', 'Redirect uri mismatch!')
           return
         end
     
         if params[:grant_type] == 'authorization-code'
           if authorization.nil? || authorization.expired? || authorization.oauth_client.id != client.id
-            render_error('invalid-grant')
+            render_error('invalid-grant', "Authorization expired or invalid!")
             return
           end
           token = authorization.generate_access_token
         else # refresh-token
           if original_token.nil? || original_token.oauth_client.id != client.id
-            render_error('invalid-grant')
+            render_error('invalid-grant', 'Refresh token is invalid!')
             return
           end
           token = original_token.refresh
@@ -48,8 +48,8 @@ module Oauth2
       end
   
       private
-      def render_error(error_code)
-         render :status => :bad_request, :json => {:error => error_code}.to_json
+      def render_error(error_code, description)
+         render :status => :bad_request, :json => {:error => error_code, :error_description => description}.to_json
       end
   
     end

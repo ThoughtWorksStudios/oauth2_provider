@@ -101,14 +101,12 @@ module Oauth2
 
       def self.create(attributes={})
         client = self.new(attributes)
-        client.before_create
         client.save
         client
       end
 
       def self.create!(attributes={})
         client = self.new(attributes)
-        client.before_create
         client.save!
         client
       end
@@ -123,6 +121,7 @@ module Oauth2
       end
 
       def save
+        before_create if new_record?
         attrs = db_columns.keys.inject({}) do |result, column_name|
           result[column_name] = read_attribute(column_name)
           result
@@ -159,7 +158,15 @@ module Oauth2
         end
         self
       end
+      
+      def new_record?
+        id.nil?
+      end
 
+      def to_param
+        id.nil? ? nil: id.to_s
+      end
+      
       def assign_attributes(attrs={})
         attrs.each { |k, v| write_attribute(k, v) }
       end

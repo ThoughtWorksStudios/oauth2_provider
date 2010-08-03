@@ -33,6 +33,8 @@ module Oauth2
       def test_create_creates_new_oauth_client
         post :create, :oauth_client => {:name => 'my application', :redirect_uri => 'http://api.example.com/cb'}
         assert_equal 1, OauthClient.all.size
+        assert !OauthClient.all.first.client_id.blank?
+        assert !OauthClient.all.first.client_secret.blank?
         assert_equal 'my application', OauthClient.all.first.name
         assert_equal 'http://api.example.com/cb', OauthClient.all.first.redirect_uri
       end
