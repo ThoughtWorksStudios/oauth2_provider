@@ -49,6 +49,14 @@ module Oauth2
                           ds
                         end
       end
+
+      def self.datasource
+        @@datasource ||= default_datasource
+      end
+
+      def datasource
+        self.class.datasource
+      end
       
       def self.default_datasource
         if defined?(ActiveRecord)
@@ -70,19 +78,19 @@ module Oauth2
       end
 
       def self.find_all_with(column_name, column_value)
-        @@datasource.send("find_all_#{compact_name}_by_#{column_name}", convert(column_name, column_value)).collect do |dto|
+        datasource.send("find_all_#{compact_name}_by_#{column_name}", convert(column_name, column_value)).collect do |dto|
           new.update_from_dto(dto)
         end
       end
 
       def self.find_one(column_name, column_value)
-        if dto = @@datasource.send("find_#{compact_name}_by_#{column_name}", convert(column_name, column_value))
+        if dto = datasource.send("find_#{compact_name}_by_#{column_name}", convert(column_name, column_value))
           self.new.update_from_dto(dto)
         end
       end
 
       def self.all
-        @@datasource.send("find_all_#{compact_name}").collect do |dto|
+        datasource.send("find_all_#{compact_name}").collect do |dto|
           new.update_from_dto(dto)
         end
       end
@@ -128,7 +136,7 @@ module Oauth2
         end
         
         if self.valid?
-          dto = @@datasource.send("save_#{self.class.compact_name}", attrs.with_indifferent_access)
+          dto = datasource.send("save_#{self.class.compact_name}", attrs.with_indifferent_access)
           update_from_dto(dto)
           return true
         end
@@ -141,7 +149,7 @@ module Oauth2
 
       def destroy
         before_destroy
-        @@datasource.send("delete_#{self.class.compact_name}", convert(:id, id) )
+        datasource.send("delete_#{self.class.compact_name}", convert(:id, id) )
       end
       
       def before_create
