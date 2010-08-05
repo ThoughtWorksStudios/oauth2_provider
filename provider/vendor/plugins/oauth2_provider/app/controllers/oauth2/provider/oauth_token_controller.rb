@@ -4,6 +4,7 @@
 module Oauth2
   module Provider
     class OauthTokenController < ApplicationController
+      skip_before_filter :verify_authenticity_token
 
       def get_token
         
