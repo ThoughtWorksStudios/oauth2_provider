@@ -30,7 +30,7 @@ module Oauth2
         
         if header_field =~ /Token token="(.*)"/          
           token = OauthToken.find_one(:access_token, $1)
-          token.user_id if token
+          token.user_id if (token && !token.expired?)
         end
       end
   

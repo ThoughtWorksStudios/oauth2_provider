@@ -9,12 +9,17 @@ module Oauth2
     class ApplicationControllerMethodsTest < ActiveSupport::TestCase
       
       def setup
+        Clock.fake_now = Time.utc(2008, 1, 20, 1, 2, 3)
         @fooControllerClass = Class.new(ApplicationController)
         @fooControllerClass.send :include, ApplicationControllerMethods
         
         @controller = @fooControllerClass.new
       end
-  
+
+      def teardown
+        Clock.reset
+      end
+        
       def test_oauth_allowed_should_not_allow_both_only_and_except_options
         assert_raise_with_message Exception, 'options cannot contain both :only and :except' do
           @fooControllerClass.oauth_allowed(:only => :foo, :except => :bar)
@@ -197,6 +202,20 @@ module Oauth2
         
         @controller.request = OpenStruct.new(:headers => {"Authorization" => 'hello world'})
         assert !@controller.send(:looks_like_oauth_request?)
+      end
+      
+      def test_user_id_for_oauth_access_token_returns_nil_when_token_is_expired
+        @token = OauthToken.create!(:user_id => 17)
+        Clock.fake_now = Clock.now + OauthToken::EXPIRY_TIME + 1.second
+        @controller.request = OpenStruct.new(:headers => {"Authorization" => %Q{Token token="#{@token.access_token}"}})
+        
+        def @controller.action_name
+          "an_action"
+        end
+        
+        @fooControllerClass.oauth_allowed
+        
+        assert_equal nil, @controller.send(:user_id_for_oauth_access_token)
       end
       
     end
