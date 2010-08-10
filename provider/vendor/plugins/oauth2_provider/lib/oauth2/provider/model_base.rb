@@ -15,14 +15,14 @@ module Oauth2
         :integer => Proc.new { |v| v.to_i },
         :string  => Proc.new { |v| v.to_s }
       }.with_indifferent_access
-      
+
       class_inheritable_hash :db_columns
       self.db_columns = {}
-      
+
       def self.columns(*names)
         names.each do |name|
-          column_name, convertor = (Hash === name) ? 
-            [name.keys.first, CONVERTORS[name.values.first]] : 
+          column_name, convertor = (Hash === name) ?
+            [name.keys.first, CONVERTORS[name.values.first]] :
             [name, CONVERTORS[:string]]
           attr_accessor column_name
           self.db_columns[column_name.to_s] = convertor
@@ -57,14 +57,16 @@ module Oauth2
       def datasource
         self.class.datasource
       end
-      
+
       def self.default_datasource
         if defined?(ActiveRecord)
           ARDatasource.new
         else
-          puts "*"*80
-          puts "*** Activerecord is not defined! Using InMemoryDatasource, which will not persist across application restarts!! ***"
-          puts "*"*80
+          unless ENV['LOAD_OAUTH_SILENTLY']
+            puts "*"*80
+            puts "*** Activerecord is not defined! Using InMemoryDatasource, which will not persist across application restarts!! ***"
+            puts "*"*80
+          end
           InMemoryDatasource.new
         end
       end
@@ -118,7 +120,7 @@ module Oauth2
         client.save!
         client
       end
-      
+
       def update_attributes(attributes={})
         assign_attributes(attributes)
         save
@@ -134,7 +136,7 @@ module Oauth2
           result[column_name] = read_attribute(column_name)
           result
         end
-        
+
         if self.valid?
           dto = datasource.send("save_#{self.class.compact_name}", attrs.with_indifferent_access)
           update_from_dto(dto)
@@ -151,7 +153,7 @@ module Oauth2
         before_destroy
         datasource.send("delete_#{self.class.compact_name}", convert(:id, id) )
       end
-      
+
       def before_create
         # for subclasses to override to support hooks.
       end
@@ -159,14 +161,14 @@ module Oauth2
       def before_destroy
         # for subclasses to override to support hooks.
       end
-      
+
       def update_from_dto(dto)
         db_columns.keys.each do |column_name|
           write_attribute(column_name, dto.send(column_name))
         end
         self
       end
-      
+
       def new_record?
         id.nil?
       end
@@ -174,25 +176,25 @@ module Oauth2
       def to_param
         id.nil? ? nil: id.to_s
       end
-      
+
       def assign_attributes(attrs={})
         attrs.each { |k, v| write_attribute(k, v) }
       end
-      
+
       private
-      
+
       def self.convert(column_name, value)
         db_columns[column_name.to_s].call(value)
       end
-      
+
       def convert(column_name, value)
         self.class.convert(column_name, value)
       end
-      
+
       def read_attribute(column_name)
         convert(column_name, self.send(column_name))
       end
-      
+
       def write_attribute(column_name, value)
         self.send("#{column_name}=", convert(column_name, value))
       end

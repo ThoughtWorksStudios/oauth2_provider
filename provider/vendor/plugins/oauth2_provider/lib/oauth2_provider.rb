@@ -7,6 +7,8 @@ require 'oauth2/provider/model_base'
 
 Oauth2::Provider::ModelBase.datasource = ENV["OAUTH2_PROVIDER_DATASOURCE"]
 
-puts "*"*80
-puts "*** Using data source: #{Oauth2::Provider::ModelBase.datasource.class}"
-puts "*"*80
+unless ENV['LOAD_OAUTH_SILENTLY']
+  puts "*"*80
+  puts "*** Using data source: #{Oauth2::Provider::ModelBase.datasource.class}"
+  puts "*"*80
+end
