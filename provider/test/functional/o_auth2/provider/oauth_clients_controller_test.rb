@@ -64,17 +64,7 @@ module Oauth2
           assert_select "input[type='text'][name='oauth_client[redirect_uri]'][value='#{client.redirect_uri}']"
         end
       end
-      
-      def test_show_should_render_correct_client_info
-        client = OauthClient.create!(:name => 'original name', :redirect_uri => 'http://old.example.com/cb')
-        get :show, :id => client.id
-        
-        assert_select 'p', :text => /original name/
-        assert_select 'p', :text => Regexp.new('http://old.example.com/cb')
-        assert_select 'p', :text => /#{client.client_id}/
-        assert_select 'p', :text => /#{client.client_secret}/
-      end
-      
+            
     end #class OauthClientsControllerTest
   end #module Provider
 end #module Oauth2

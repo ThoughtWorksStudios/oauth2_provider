@@ -1,20 +1,20 @@
 <h1>Editing oauth_client</h1>
 
-<% form_for(@oauth_client) do |f| %>
+<% form_for(@oauth_client, :html => {:id => 'oauth_client_edit_form', :class => nil}) do |f| %>
   <%= f.error_messages %>
 
-  <p>
-    <%= f.label :name %><br />
+  <div>
+    <%= f.label :name %>
     <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :redirect_uri %><br />
+  </div>
+  <div>
+    <%= f.label :redirect_uri %>
     <%= f.text_field :redirect_uri %>
-  </p>
-  <p>
+  </div>
+  <div>
     <%= f.submit 'Update' %>
-  </p>
+  </div>
 <% end %>
 
-<%= link_to 'Show', @oauth_client %> |
-<%= link_to 'Back', oauth_clients_path %>
+<%= link_to 'Show', @oauth_client, :class => 'show_link' %> |
+<%= link_to 'Back', oauth_clients_path, :class => 'back_link' %>

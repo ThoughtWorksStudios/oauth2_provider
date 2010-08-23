@@ -6,12 +6,12 @@ require 'net/http'
 require 'json'
 
 # provider config
-OAUTH_PROVIDER_BASE_URL = 'http://localhost:8070'
+OAUTH_PROVIDER_BASE_URL = 'http://localhost:3000'
 OAUTH_CLIENT_REDIRECT_URL = 'http://localhost:9999/callback'
 
 # client config, get these by setting up a client on the provider (OAUTH_PROVIDER_BASE_URL/oauth/clients)
-OAUTH_CLIENT_ID = '772be2fb48fedc8f952874d52bf36c842582988f8278be3e54a4e4722bf58f1b'
-OAUTH_CLIENT_SECRET = '8bc12d16e7381d3cf395308a90454c7eba6906d876b753f68d1f74c81fc39547'
+OAUTH_CLIENT_ID = 'bc84efa1b217c6a954f06856e00fe18b6443aa3610a0d771c6784ba6d48513d3'
+OAUTH_CLIENT_SECRET = '3758d05b8521d2ce76f63efa3f4be01cc06a7584dbe3387f8cbaccc815cb8e51'
 
 # start callback server
 server = WEBrick::HTTPServer.new(:Port => 9999)

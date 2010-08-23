@@ -1,11 +1,12 @@
 <h1>Listing oauth_clients</h1>
 
-<table>
+<table id="oauth_clients_table" class="list_table">
   <tr>
     <th>Name</th>
     <th>Client id</th>
     <th>Client secret</th>
     <th>Redirect URI</th>
+    <th>Actions</th>
   </tr>
 
 <% @oauth_clients.each do |oauth_client| %>
@@ -14,13 +15,14 @@
     <td><%=h oauth_client.client_id %></td>
     <td><%=h oauth_client.client_secret %></td>
     <td><%=h oauth_client.redirect_uri %></td>
-    <td><%= link_to 'Show', oauth_client %></td>
-    <td><%= link_to 'Edit', edit_oauth_client_path(oauth_client) %></td>
-    <td><%= link_to 'Destroy', oauth_client, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+        <%= link_to 'Edit', edit_oauth_client_path(oauth_client),  :class => 'edit_link' %>
+        <%= link_to 'Destroy', oauth_client, :confirm => 'Are you sure?', :method => :delete, :class => 'delete_link' %>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New oauth_client', new_oauth_client_path %>
+<%= link_to 'New oauth_client', new_oauth_client_path,  :class => 'link_as_button', :id => 'new_oauth_client_button' %>

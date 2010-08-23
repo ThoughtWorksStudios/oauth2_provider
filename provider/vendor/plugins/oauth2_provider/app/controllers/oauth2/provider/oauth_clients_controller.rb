@@ -26,7 +26,8 @@ module Oauth2
         
         if @oauth_client.save
           flash[:notice] = 'OauthClient was successfully created.'
-          redirect_to(@oauth_client)
+          redirect_to :action => 'index'
+          return
         else
           render :action => "new" 
         end
@@ -37,7 +38,8 @@ module Oauth2
 
         if @oauth_client.update_attributes(params[:oauth_client])
           flash[:notice] = 'OauthClient was successfully updated.'
-          redirect_to(@oauth_client)
+          redirect_to :action => 'index'
+          return
         else
           render :action => "edit"
         end

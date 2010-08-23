@@ -13,7 +13,8 @@ namespace :metrics do
       raise 'Could not find the saikuro_treemap gem, please run `gem install saikuro_treemap` to get some metrics'
     end
     
-    SaikuroTreemap.generate_treemap :code_dirs => ['vendor/plugins/oauth2_provider/app/controllers', 
+    SaikuroTreemap.generate_treemap :code_dirs => [
+      'vendor/plugins/oauth2_provider/app/controllers', 
       'vendor/plugins/oauth2_provider/app/models', 
       'vendor/plugins/oauth2_provider/lib'
     ]

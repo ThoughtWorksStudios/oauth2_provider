@@ -1,4 +1,4 @@
-<table>
+<table id="oauth_user_token_table" class="list_table">
   <tr>
     <th>Client</th>
     <th>Token</th>
@@ -8,7 +8,7 @@
     <tr>
       <td><%= token.oauth_client.name %></td>
       <td><%= token.access_token %></td>
-      <td><%= link_to('Destroy', {:action => :revoke, :token_id => token.id, :controller => 'Oauth2::Provider::OauthUserTokens'}, {:confirm => 'Are you sure?', :method => :delete})%></td>
+      <td><%= link_to('Destroy', {:action => :revoke, :token_id => token.id, :controller => 'Oauth2::Provider::OauthUserTokens'}, {:confirm => 'Are you sure?', :method => :delete,  :class => 'delete_link'})%></td>
     </tr>
   <% end -%>
 </table>

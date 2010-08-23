@@ -23,7 +23,7 @@ module Oauth2
         get :index, :redirect_uri => 'http://example.com/cb', :client_id => @client.client_id,
         :response_type => 'code', :state => 'some-state'
 
-        assert_select '#oauth_authorize' do
+        assert_select '#oauth_authorize_form' do
           assert_select "#client_id[value='#{@client.client_id}']"
           assert_select "#redirect_uri[value='http://example.com/cb']"
           assert_select "#response_type[value='code']"
@@ -40,7 +40,7 @@ module Oauth2
         get :index, :redirect_uri => 'http://example.com/cb', :client_id => @client.client_id,
         :response_type => 'code', :state => 'some-state'
 
-        assert_select '#oauth_authorize' do
+        assert_select '#oauth_authorize_form' do
           assert_select "input[value='csrf_token_123'][name='authenticity_token']"
         end
       end
