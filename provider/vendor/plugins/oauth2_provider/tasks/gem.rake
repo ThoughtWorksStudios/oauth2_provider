@@ -35,7 +35,7 @@ namespace :release do
 
       spec = Gem::Specification.new do |s|
         s.name = "oauth2_provider"
-        s.version           = "0.1.0"
+        s.version           = "0.2.0"
         s.author            = "ThoughtWorks, Inc."
         s.email             = "ketan@thoughtworks.com"
         s.homepage          = "http://github.com/ThoughtWorksStudios/oauth2_provider"
