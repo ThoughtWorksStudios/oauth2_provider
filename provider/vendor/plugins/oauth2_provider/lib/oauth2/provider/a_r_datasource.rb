@@ -94,7 +94,7 @@ if defined?(ActiveRecord)
         private
 
         def save(dto_klass, attrs)
-          dto = dto_klass.find_by_id(attrs[:id])
+          dto = dto_klass.find_by_id(attrs[:id]) unless attrs[:id].blank?
           if dto
             dto.update_attributes(attrs)
           else
