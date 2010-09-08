@@ -309,6 +309,17 @@ module Oauth2
         person.save!
         assert !person.before_create_called
       end
+      
+      def test_to_xml
+        john = Person.create(:name => 'John Smith', :age => 29)
+        assert_equal %{<?xml version="1.0" encoding="UTF-8"?>
+<person>
+  <age type="integer">29</age>
+  <id>1</id>
+  <name>John Smith</name>
+</person>
+}, john.to_xml
+      end
     end
   end
 end

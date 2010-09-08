@@ -181,6 +181,14 @@ module Oauth2
         attrs.each { |k, v| write_attribute(k, v) }
       end
 
+      def to_xml(options = {})
+        acc = self.db_columns.keys.sort.inject(ActiveSupport::OrderedHash.new) do |acc, key|
+          acc[key] = self.send(key)
+          acc
+        end
+        acc.to_xml({:root => self.class.name.demodulize.underscore.downcase}.merge(options))
+      end
+
       private
 
       def self.convert(column_name, value)
