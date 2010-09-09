@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     if user = User.authenticate(params[:email], params[:password])
       self.current_user = user
       flash[:notice] = 'Welcome!'
-      redirect_to '/'
+      redirect_to(session[:redirect_to] || '/')
       return
     else
       flash.now[:error] =  "Couldn't locate a user with those credentials"

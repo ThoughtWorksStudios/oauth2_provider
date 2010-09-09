@@ -29,9 +29,21 @@ class ApplicationController < ActionController::Base
   
   protected
   
-  # part of sample host app's hand-rolled  authentication 'system' :)
   def login_required
-    redirect_to :controller => 'sessions', :action => 'index' unless logged_in? 
+    session[:redirect_to] = request.request_uri
+    valid_basic_auth_user = authenticate_with_http_basic do |username, password|
+      user = User.find_by_email_and_password(username, password)
+      if user
+        current_user = user
+      end
+      user
+    end
+    valid_basic_auth_user || login_required_with_form
+  end
+  
+  # part of sample host app's hand-rolled  authentication 'system' :)
+  def login_required_with_form
+    redirect_to :controller => 'sessions', :action => 'index' unless logged_in?
   end
   
   # part of sample host app's hand-rolled  authentication 'system' :)
