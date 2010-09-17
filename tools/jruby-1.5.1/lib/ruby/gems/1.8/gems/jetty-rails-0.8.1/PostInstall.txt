@@ -1,0 +1,2 @@
+
+For more information on jetty-rails, see http://jetty-rails.rubyforge.org

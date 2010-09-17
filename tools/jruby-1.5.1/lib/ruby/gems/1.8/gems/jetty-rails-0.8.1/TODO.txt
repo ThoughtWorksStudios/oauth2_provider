@@ -1,0 +1,11 @@
+== TODO never ends...
+
+* Improve RDocs
+* integration test for lib_dir jars loading
+* read configuration from warble.rb
+* install custom resources from warbler configuration
+* add custom classes from warble.rb to the context classpath
+* add custom jars from warble.rb to the context classpath
+* support config/web.xml.erb
+* read any custom jetty.xml
+* support jetty-plus features (i.e.: jndi)

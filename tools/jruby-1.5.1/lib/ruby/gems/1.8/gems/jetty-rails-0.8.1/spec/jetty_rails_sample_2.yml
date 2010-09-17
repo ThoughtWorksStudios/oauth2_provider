@@ -1,0 +1,28 @@
+--- 
+:servers: 
+- :context_path: /testA
+  :base: jetty_rails_proj_2
+  :adapter: :rails
+  :environment: development
+  :port: 2000
+- :context_path: /testB
+  :adapter: :rails
+  :base: jetty_rails_proj
+  :environment: production
+  :port: 3000
+- :port: 4000
+  :apps:
+  - :context_path: /testB
+    :adapter: :rails
+    :base: jetty_rails_proj
+    :environment: development
+  - :context_path: /testA
+    :adapter: :rails
+    :base: jetty_rails_proj_2
+    :environment: production
+:environment: production
+:jruby_min_runtimes: 1
+:jruby_max_runtimes: 2
+:thread_pool_max: 40
+:thread_pool_min: 1
+:acceptor_size: 20

@@ -1,0 +1,28 @@
+--- 
+:servers: 
+- :context_path: /testA
+  :base: /
+  :adapter: :rails
+  :environment: development
+  :port: 3000
+  :lib_dir: lib/**/*.jar
+  :jruby_min_runtimes: 2
+- :context_path: /testB
+  :base: /testing
+  :adapter: :merb
+  :port: 4000
+- :port: 8080
+  :apps:
+  - :context_path: /testC
+    :base: /testing
+    :adapter: :merb
+    :environment: test
+  - :context_path: /testD
+    :base: /something
+    :adapter: :rails
+:environment: production
+:jruby_min_runtimes: 1
+:jruby_max_runtimes: 2
+:thread_pool_max: 40
+:thread_pool_min: 1
+:acceptor_size: 20

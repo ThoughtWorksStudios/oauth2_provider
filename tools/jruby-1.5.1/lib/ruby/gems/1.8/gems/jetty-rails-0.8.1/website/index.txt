@@ -1,0 +1,194 @@
+h1. Jetty Rails
+
+h1. &rarr; 'jetty-rails'
+
+
+h2. What
+
+See the "what is included":rdoc/files/History_txt.html in the last version.
+
+Jetty Rails aims to run Ruby on Rails and Merb applications with the Jetty Container, leveraging the power of JRuby and jruby-rack.
+
+"Jetty":http://jetty.mortbay.com/jetty/ is an excellent Java Web Server, being and at the same time extremely lightweight. This makes jetty-rails a good alternative for JRuby on Rails or Merb development and deployment.
+
+The project has born from my own needs ("read more":http://fabiokung.com/2008/05/14/jetty-rails-gem-simple-jruby-on-rails-development-with-servlet-containers/). I needed to run "JForum":http://jforum.net on the same context of my jruby on rails application. I had also to integrate @HttpSessions@ (avoiding single sign on) and use @ServletContext@ in-memory cache store.
+
+h2. Installing
+
+<pre>jruby -S gem install jetty-rails</pre>
+
+h2. The basics
+
+Jetty Rails uses Jetty Handlers to dispatch requests to the "JRuby Rack adapter":http://wiki.jruby.org/wiki/JRuby_Rack. 
+
+All extra jars inside your application lib/ dir will be loaded. Things like Java @HttpSession@, @ServletContext@ and Runtime Pools are given by JRuby Rack Filter.
+
+Additionally, Jetty Rails automatically puts classes inside the classes/ dir 
+in the application classpath, so you can use them in your rails code.
+
+h2. Demonstration of usage
+
+Rails:
+<pre>
+cd myrailsapp
+jruby -S jetty_rails
+</pre>
+
+Merb:
+<pre>
+cd mymerbapp
+jruby -S jetty_merb
+</pre>
+  
+--help option shows usage details:
+  
+<pre>jruby -S jetty_rails --help</pre>
+<pre>jruby -S jetty_merb --help</pre>
+
+Please note that you may only use Merb with ActiveRecord, as DataMapper doesn't work in JRuby yet.
+
+h2. Multiple Servers
+
+You can specify a configuration yaml file rather than command line switches. 
+The file also allows specifying multiple servers and / or application contexts for single jetty container. "Jetty Documentation":http://docs.codehaus.org/display/JETTY/How+to+serve+webbapp+A+from+portA+and+webapp+B+from+portB
+
+For example, you could set a context_path of /testA on port 8888 which is rails, /testB also that port which is merb.
+Or, you could have /testA on port 8888 and /testB on port 9999. 
+
+<pre>jruby -S jetty_rails -c path/to/config.yml </pre>
+
+The configuration options are inherited, so if you specify the environment to be "production" at the top level, 
+then any servers and application context will be "production" unless the choose to override the value.
+
+- server settings:
+
+<pre>:port
+:jruby_min_runtimes
+:jruby_max_runtimes
+:thread_pool_max
+:thread_pool_min
+:acceptor_size</pre>
+
+- application context settings:
+
+<pre>:context_path
+:base
+:adapter
+:environment
+:lib_dir
+:gem_path</pre>
+
+
+As part of the configuration you have some control over jruby & jetty. Take a look at one complete config.yml from the examples bundled in jetty-rails:
+
+<pre>
+  --- 
+  :servers: 
+  - :context_path: /testA
+    :base: jetty_rails_proj_2
+    :adapter: :rails
+    :environment: development
+    :port: 2000
+  - :context_path: /testB
+    :adapter: :rails
+    :base: jetty_rails_proj
+    :environment: production
+    :port: 3000
+  - :port: 4000
+    :apps:
+    - :context_path: /testB
+      :adapter: :rails
+      :base: jetty_rails_proj
+      :environment: development
+    - :context_path: /testA
+      :adapter: :rails
+      :base: jetty_rails_proj_2
+      :environment: production
+  :environment: production
+  :jruby_min_runtimes: 1
+  :jruby_max_runtimes: 2
+  :thread_pool_max: 40
+  :thread_pool_min: 1
+  :acceptor_size: 20
+</pre>
+
+For more examples see:
+
+  * spec/config.yml
+  * spec/jetty_rails_sample_1.yml
+  * spec/jetty_rails_sample_2.yml
+
+
+h4. Rails:
+
+If -c is not specified, by default jetty_rails will look for a @config/jetty_rails.yml@ relative to where it is started.
+
+Don't forget to add this into your @config/environment.rb@
+<pre>
+ActionController::AbstractRequest.relative_url_root = "/testA"
+</pre>
+
+h3. JRuby Configuration
+
+You can tweak the JRuby runtimes per application context:
+
+<pre>
+:jruby_min_runtimes: 1
+:jruby_max_runtimes: 2
+</pre>
+
+h3. Jetty Configuration
+
+You can also modify the jetty per server configurations.
+
+Thread pool will define the thread pool available to the jetty server using a @QueuedThreadPool@.
+
+<pre>
+:thread_pool_max: 40
+:thread_pool_min: 1
+</pre>
+
+The acceptor size is the number of acceptor threads available for that server's channel connector.
+<pre>
+:acceptor_size: 20
+</pre>
+See the jetty documentation for more information.
+
+
+h2. More Documentation
+
+"See RDoc":rdoc/
+
+h2. Mailing list
+
+"http://groups.google.com/group/jetty-rails":http://groups.google.com/group/jetty-rails
+
+h2. Bug Tracking and New Features
+
+Using Lighthouse: "http://fabiokung.lighthouseapp.com/projects/12666-jetty-rails":http://fabiokung.lighthouseapp.com/projects/12666-jetty-rails
+
+h2. Getting the source
+
+github: "http://github.com/fabiokung/jetty-rails/tree/master":http://github.com/fabiokung/jetty-rails/tree/master
+
+<pre>git clone git://github.com/fabiokung/jetty-rails.git</pre>
+
+h3. Build and test instructions
+
+<pre>cd jetty-rails
+jruby -S rake # run specs
+jruby -S rake package
+jruby -S gem install pkg/*.gem</pre>
+
+
+h2. License
+
+Jetty Rails is distributed under the terms of The MIT License.
+
+Copyright (c) 2008 "Fabio Kung":mailto:fabio.kung@gmail.com
+  
+Read more details in the bundled +Licenses.txt+ file. There are other pieces of software bundled with jetty-rails. Before using jetty-rails, make sure you agree with all of them.
+
+h2. Contact
+
+Comments are welcome. Send an email to "Fabio Kung":mailto:fabio.kung@gmail.com via the "mailing list":http://groups.google.com/group/jetty-rails

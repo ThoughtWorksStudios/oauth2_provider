@@ -1,0 +1,49 @@
+== 0.8.1
+* updating jruby-rack to be compatible with Rails 2.3.x
+* better build system, upgrading to newer version of newgem
+
+== 0.8
+* reading config/web.xml file (not yet supporting config/web.xml.erb)
+* supporting /public/WEB-INF dir for custom web resources (config files and taglibs)
+
+== 0.7
+* Merb 1.0 support!
+* jruby-rack updated to the latest release (0.9.3)
+* jetty server update to 6.1.14
+* adding known issue with jruby-1.1.4 to the docs
+* JSP and JSP Expression Language support
+* some minor bugs
+
+== 0.6
+* load all java classes inside classes/ by default
+* command line args to customize lib/ and classes/ directories
+* -v showing jetty_rails version
+* each web application context has its own classloader (isolated classpaths)
+* upgraded to jruby-rack-0.9.2 (no more views being cached in development time)
+* minor changes and refactorings
+* improved docs for multi-server support
+
+== 0.5
+* load all jars inside lib/ by default
+* using GEM_PATH environment variable, if exists
+* fix signal handling (ctrl + c) for jetty_merb
+
+== 0.4
+* Merb support! jruby -S jetty_merb
+* Changed default ports to 3000 (rails) and 4000 (merb)
+* More specs
+
+== 0.3
+
+* Improved Documentation: rdoc and site.
+
+== 0.2
+
+* Running any rails applications with no extra classpath.
+* Command line options for jett_rails binary executable.
+  See: <tt>jruby -S jetty_rails --help</tt> for details.
+
+== 0.1
+
+* Initial release.
+* Running default rails applications inside Jetty.

@@ -1,0 +1,41 @@
+#!/usr/bin/env jruby
+
+# == Synopsis
+#
+# jetty_merb: jetty server for merb applications
+#
+# == Usage
+#
+# jetty_merb [OPTION] ... BASEDIR
+#
+# -h, --help::
+#    show help
+#
+# --context-path PATH, -u PATH::
+#    change the application context path (default: '/')
+#
+# --port PORT, -p PORT::
+#    change server port (default: 4000)
+#
+# --environment ENV, -e ENV::
+#    change rails environment (default: development)
+#
+# --classes CLASSES_DIR::
+#    directory containing java classes used by the application (default: 'classes/')
+#
+# --lib LIB_DIR, --jars LIB_DIR::
+#    directory containing jars used by the application (default: 'lib/')
+#
+# --config FILE, -c FILE:: (optional)
+#	config file to use instead of command line switches (allows for multiple servers)
+#
+# BASEDIR (optional): directory to be run (default: current).
+
+require "java"
+$LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
+$LOAD_PATH << "#{File.dirname(__FILE__)}/../jetty-libs"
+require "jetty_rails"
+
+options = CommandLineReader.new.read(:merb)
+runner = JettyRails::Runner.new(options)
+runner.start
