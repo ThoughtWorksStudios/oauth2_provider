@@ -6,3 +6,6 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 User.create!(:email => 'admin', :password => 'p')
+User.create!(:email => 'mingledev01@thoughtworks.com', :password => 'p')
+User.create!(:email => 'mingledev02@thoughtworks.com', :password => 'p')
+User.create!(:email => 'admin@thoughtworks.com', :password => 'p')
