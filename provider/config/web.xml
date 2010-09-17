@@ -1,0 +1,50 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+    <context-param>
+        <param-name>rails.env</param-name>
+        <param-value>production</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>rails.root</param-name>
+        <param-value>/</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>rack.multithreaded</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>public.root</param-name>
+        <param-value>/</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>jruby.min.runtimes</param-name>
+        <param-value>1</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>jruby.max.runtimes</param-name>
+        <param-value>1</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.jruby.rack.rails.RailsServletContextListener</listener-class>
+    </listener>
+
+    <servlet> 
+        <servlet-name>RackServlet</servlet-name> 
+        <servlet-class>org.jruby.rack.RackServlet</servlet-class> 
+    </servlet> 
+
+    <servlet-mapping> 
+        <servlet-name>RackServlet</servlet-name> 
+        <url-pattern>/*</url-pattern> 
+    </servlet-mapping>  
+</web-app>
+
