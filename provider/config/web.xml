@@ -3,10 +3,12 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
+    <!-- Use -e to specify Rails environment, e.g. script/jetty_rails -e mingle_production
     <context-param>
         <param-name>rails.env</param-name>
-        <param-value>production</param-value>
+        <param-value><SystemProperty name="rails.env" default="xyz"/></param-value>
     </context-param>
+    -->
 
     <context-param>
         <param-name>rails.root</param-name>
