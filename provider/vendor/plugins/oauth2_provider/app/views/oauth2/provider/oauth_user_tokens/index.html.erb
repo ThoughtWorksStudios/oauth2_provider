@@ -1,14 +1,22 @@
-<table id="oauth_user_token_table" class="list_table">
-  <tr>
-    <th>Client</th>
-    <th>Token</th>
-    <th>&nbsp;</th>
-  </tr>
-  <% @tokens.each do |token| -%>
+<%= render_help_link('OAuth 2.0 User Tokens', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
+
+<h1>OAuth Tokens</h1>
+
+<% if @tokens.empty? %>
+  <div class="info-box">There are no tokens.</div>
+<% else %>
+  <table id="oauth_user_token_table" class="list_table">
     <tr>
-      <td><%= token.oauth_client.name %></td>
-      <td><%= token.access_token %></td>
-      <td><%= link_to('Destroy', {:action => :revoke, :token_id => token.id, :controller => 'Oauth2::Provider::OauthUserTokens'}, {:confirm => 'Are you sure?', :method => :delete,  :class => 'delete_link'})%></td>
+      <th>Application</th>
+      <th>&nbsp;</th>
     </tr>
-  <% end -%>
-</table>
+    <% @tokens.each do |token| -%>
+      <tr id="<%= token.access_token %>">
+        <td><%= token.oauth_client.name %></td>
+        <td><%= link_to '',
+            {:action => :revoke, :token_id => token.id, :controller => 'oauth2/provider/oauth_user_tokens'},
+            {:confirm => 'Are you sure?', :method => :delete,  :class => 'delete_link', :title => 'Click to revoke this token'}%></td>
+      </tr>
+    <% end -%>
+  </table>
+<% end %>

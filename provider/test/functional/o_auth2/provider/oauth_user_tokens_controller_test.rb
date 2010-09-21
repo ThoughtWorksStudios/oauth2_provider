@@ -26,16 +26,14 @@ module Oauth2
         assert_select "table" do
           assert_select "tr", :count => 3
           
-          assert_select 'tr' do
+          assert_select "tr##{token1.access_token}" do
             assert_select "td", "some application"
-            assert_select "td", token1.access_token
-            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'Oauth2::Provider::OauthUserTokens')}']"
+            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'oauth2/provider/oauth_user_tokens')}']"
           end
           
-          assert_select 'tr' do
+          assert_select "tr##{token2.access_token}" do
             assert_select "td", "another application"
-            assert_select "td", token2.access_token
-            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'Oauth2::Provider::OauthUserTokens')}']"
+            assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'oauth2/provider/oauth_user_tokens')}']"
           end
         end
         
