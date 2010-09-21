@@ -14,20 +14,20 @@ class RouteTest < ActionController::TestCase
   end
 
   def test_uses_admin_scope_if_given
-    assert_routing '/oauth/clients', { :controller => "Oauth2::Provider::OauthClients", :action => "index"}
+    assert_routing '/oauth/clients', { :controller => "oauth2/provider/oauth_clients", :action => "index"}
     ENV['ADMIN_OAUTH_URL_PREFIX'] = 'admin/namespace/'
     load_route_file
-    assert_routing '/admin/namespace/oauth/clients', { :controller => "Oauth2::Provider::OauthClients", :action => "index"}
-    assert_routing '/oauth/user_tokens', { :controller => "Oauth2::Provider::OauthUserTokens", :action => "index"}
-    assert_routing '/oauth/authorize', { :controller => "Oauth2::Provider::OauthAuthorize", :action => "index"}
+    assert_routing '/admin/namespace/oauth/clients', { :controller => "oauth2/provider/oauth_clients", :action => "index"}
+    assert_routing '/oauth/user_tokens', { :controller => "oauth2/provider/oauth_user_tokens", :action => "index"}
+    assert_routing '/oauth/authorize', { :controller => "oauth2/provider/oauth_authorize", :action => "index"}
   end
 
   def test_uses_user_scope_if_given
-    assert_routing '/oauth/clients', { :controller => "Oauth2::Provider::OauthClients", :action => "index"}
+    assert_routing '/oauth/clients', { :controller => "oauth2/provider/oauth_clients", :action => "index"}
     ENV['USER_OAUTH_URL_PREFIX'] = '/user/namespace'
     load_route_file
-    assert_routing '/user/namespace/oauth/user_tokens', { :controller => "Oauth2::Provider::OauthUserTokens", :action => "index"}
-    assert_routing '/user/namespace/oauth/authorize', { :controller => "Oauth2::Provider::OauthAuthorize", :action => "index"}
-    assert_routing '/oauth/clients', { :controller => "Oauth2::Provider::OauthClients", :action => "index"}
+    assert_routing '/user/namespace/oauth/user_tokens', { :controller => "oauth2/provider/oauth_user_tokens", :action => "index"}
+    assert_routing '/user/namespace/oauth/authorize', { :controller => "oauth2/provider/oauth_authorize", :action => "index"}
+    assert_routing '/oauth/clients', { :controller => "oauth2/provider/oauth_clients", :action => "index"}
   end
 end

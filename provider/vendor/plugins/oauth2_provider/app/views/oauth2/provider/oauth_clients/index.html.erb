@@ -16,14 +16,14 @@
 
 <% @oauth_clients.each do |oauth_client| %>
   <tr>
-    <td><%= link_to oauth_client.name, edit_oauth_client_path(oauth_client),  :class => 'edit_link' %></td>
+    <td><%= link_to oauth_client.name, {:controller => 'oauth2/provider/oauth_clients', :action => :edit, :id => oauth_client.id}, {:class => 'edit_link'} %></td>
     <td>
       <p><b>Client ID</b>: <%=h oauth_client.client_id %></p>
       <p><b>Client Secret:</b> <%=h oauth_client.client_secret %></p>
     </td>
     <td><%=h oauth_client.redirect_uri %></td>
     <td>
-      <%= link_to '', {:controller => 'oauth2/provider/oauth_clients', :action => :destroy, :id => oauth_client.id}, :confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this application' %>
+      <%= link_to 'Delete', {:controller => 'oauth2/provider/oauth_clients', :action => :destroy, :id => oauth_client.id}, {:confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this application'} %>
     </td>
   </tr>
 <% end %>
@@ -31,7 +31,6 @@
 
 <% end %>
 
-
 <div class="table_actions">
-  <%= link_to 'New Application', new_oauth_client_path,  :class => 'link_as_button primary', :id => 'new_oauth_client_button' %>
+  <%= link_to 'Add Application', {:controller => 'oauth2/provider/oauth_clients', :action => :new}, {:class => 'link_as_button primary', :id => 'new_oauth_client_button'} %>
 </div>

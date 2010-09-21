@@ -5,15 +5,15 @@ ActionController::Routing::Routes.draw do |map|
 
   admin_prefix=ENV['ADMIN_OAUTH_URL_PREFIX']
 
-  map.resources :oauth_clients, :controller => 'Oauth2::Provider::OauthClients', :as => "#{admin_prefix}oauth/clients"
+  map.resources :oauth_clients, :controller => 'oauth2/provider/oauth_clients', :as => "#{admin_prefix}oauth/clients"
 
   user_prefix=ENV['USER_OAUTH_URL_PREFIX']
 
-  map.connect "#{user_prefix}/oauth/authorize", :controller => 'Oauth2::Provider::OauthAuthorize', :action => :authorize, :conditions => {:method => :post}
-  map.connect "#{user_prefix}/oauth/authorize", :controller => 'Oauth2::Provider::OauthAuthorize', :action => :index, :conditions => {:method => :get}
-  map.connect "#{user_prefix}/oauth/token", :controller => 'Oauth2::Provider::OauthToken', :action => :get_token, :conditions => {:method => :post}
+  map.connect "#{user_prefix}/oauth/authorize", :controller => 'oauth2/provider/oauth_authorize', :action => :authorize, :conditions => {:method => :post}
+  map.connect "#{user_prefix}/oauth/authorize", :controller => 'oauth2/provider/oauth_authorize', :action => :index, :conditions => {:method => :get}
+  map.connect "#{user_prefix}/oauth/token", :controller => 'oauth2/provider/oauth_token', :action => :get_token, :conditions => {:method => :post}
 
-  map.connect "#{user_prefix}/oauth/user_tokens/revoke/:token_id", :controller => 'Oauth2::Provider::OauthUserTokens', :action => :revoke, :conditions => {:method => :delete}
-  map.connect "#{user_prefix}/oauth/user_tokens", :controller => 'Oauth2::Provider::OauthUserTokens', :action => :index, :conditions => {:method => :get}
+  map.connect "#{user_prefix}/oauth/user_tokens/revoke/:token_id", :controller => 'oauth2/provider/oauth_user_tokens', :action => :revoke, :conditions => {:method => :delete}
+  map.connect "#{user_prefix}/oauth/user_tokens", :controller => 'oauth2/provider/oauth_user_tokens', :action => :index, :conditions => {:method => :get}
 
 end
