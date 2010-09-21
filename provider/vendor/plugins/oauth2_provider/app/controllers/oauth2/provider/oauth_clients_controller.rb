@@ -6,7 +6,7 @@ module Oauth2
     class OauthClientsController < ApplicationController
       
       def index
-        @oauth_clients = OauthClient.all
+        @oauth_clients = OauthClient.all.sort{|a, b| a.name.casecmp(b.name)}
         respond_to do |format|
           format.html
           format.xml  { render :xml => @oauth_clients.to_xml(:root => 'oauth_clients', :dasherize => false) }
