@@ -1,20 +1,5 @@
-<h1>Editing oauth_client</h1>
+<%= render_help_link('OAuth 2.0 Applications', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
-<% form_for(@oauth_client, :html => {:id => 'oauth_client_edit_form', :class => nil}) do |f| %>
-  <%= f.error_messages %>
+<h1>Edit OAuth 2.0 Application</h1>
 
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div>
-    <%= f.label :redirect_uri %>
-    <%= f.text_field :redirect_uri %>
-  </div>
-  <div>
-    <%= f.submit 'Update' %>
-  </div>
-<% end %>
-
-<%= link_to 'Show', @oauth_client, :class => 'show_link' %> |
-<%= link_to 'Back', oauth_clients_path, :class => 'back_link' %>
+<%= render :partial => "form", :locals => { :oauth_client => @oauth_client } %>

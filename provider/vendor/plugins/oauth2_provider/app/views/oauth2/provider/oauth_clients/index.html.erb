@@ -1,28 +1,37 @@
-<h1>Listing oauth_clients</h1>
+<%= render_help_link('OAuth 2.0 Applications', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
+
+<h1>OAuth 2.0 Applications</h1>
+
+<% if @oauth_clients.empty? %>
+  <div class="info-box">You have not configured any OAuth 2.0 Applications. Click the 'Add Application' button to add one.</div>
+<% else %>
 
 <table id="oauth_clients_table" class="list_table">
   <tr>
     <th>Name</th>
-    <th>Client id</th>
-    <th>Client secret</th>
+    <th>Client Credentials</th>
     <th>Redirect URI</th>
-    <th>Actions</th>
+    <th>&nbsp;</th>
   </tr>
 
 <% @oauth_clients.each do |oauth_client| %>
   <tr>
-    <td><%=h oauth_client.name %></td>
-    <td><%=h oauth_client.client_id %></td>
-    <td><%=h oauth_client.client_secret %></td>
+    <td><%= link_to oauth_client.name, edit_oauth_client_path(oauth_client),  :class => 'edit_link' %></td>
+    <td>
+      <p><b>Client ID</b>: <%=h oauth_client.client_id %></p>
+      <p><b>Client Secret:</b> <%=h oauth_client.client_secret %></p>
+    </td>
     <td><%=h oauth_client.redirect_uri %></td>
     <td>
-        <%= link_to 'Edit', edit_oauth_client_path(oauth_client),  :class => 'edit_link' %>
-        <%= link_to 'Destroy', oauth_client, :confirm => 'Are you sure?', :method => :delete, :class => 'delete_link' %>
+      <%= link_to '', {:controller => 'oauth2/provider/oauth_clients', :action => :destroy, :id => oauth_client.id}, :confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this application' %>
     </td>
   </tr>
 <% end %>
 </table>
 
-<br />
+<% end %>
 
-<%= link_to 'New oauth_client', new_oauth_client_path,  :class => 'link_as_button', :id => 'new_oauth_client_button' %>
+
+<div class="table_actions">
+  <%= link_to 'New Application', new_oauth_client_path,  :class => 'link_as_button primary', :id => 'new_oauth_client_button' %>
+</div>

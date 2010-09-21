@@ -34,10 +34,11 @@ module Oauth2
         
         respond_to do |format|
           if @oauth_client.save
-            flash[:notice] = 'OauthClient was successfully created.'
+            flash[:notice] = 'OAuth Client was successfully created.'
             format.html { redirect_to :action => 'index' }
             format.xml  { render :xml => @oauth_client, :status => :created, :location => @oauth_client }
           else
+            flash.now[:error] = @oauth_client.errors.full_messages
             format.html { render :action => "new" }
             format.xml  { render :xml => @oauth_client.errors, :status => :unprocessable_entity }
           end
@@ -49,10 +50,11 @@ module Oauth2
 
         respond_to do |format|
           if @oauth_client.update_attributes(params[:oauth_client])
-            flash[:notice] = 'OauthClient was successfully updated.'
+            flash[:notice] = 'OAuth Client was successfully updated.'
             format.html { redirect_to :action => 'index' }
             format.xml  { head :ok }
           else
+            flash.now[:error] = @oauth_client.errors.full_messages
             format.html { render :action => "edit" }
             format.xml  { render :xml => @oauth_client.errors, :status => :unprocessable_entity }
           end

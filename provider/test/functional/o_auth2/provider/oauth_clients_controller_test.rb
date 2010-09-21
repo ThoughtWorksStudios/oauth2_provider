@@ -20,13 +20,13 @@ module Oauth2
         assert_select "table" do
           assert_select "td", :text => 'name1'
           assert_select "td", :text => 'http://example1.com'
-          assert_select "td", :text => client1.client_id
-          assert_select "td", :text => client1.client_secret
+          assert_select "td", :text => Regexp.new(client1.client_id)
+          assert_select "td", :text => Regexp.new(client1.client_secret)
           
           assert_select "td", :text => 'name2'
           assert_select "td", :text => 'http://example2.com'
-          assert_select "td", :text => client2.client_id
-          assert_select "td", :text => client2.client_secret
+          assert_select "td", :text => Regexp.new(client2.client_id)
+          assert_select "td", :text => Regexp.new(client2.client_secret)
         end
       end
       
