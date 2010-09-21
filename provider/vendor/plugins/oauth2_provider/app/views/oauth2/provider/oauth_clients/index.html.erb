@@ -1,4 +1,4 @@
-<%= render_help_link('OAuth 2.0 Applications', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
+<%= render_help_link('OAuth 2.0 Application', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
 <h1>OAuth 2.0 Applications</h1>
 
@@ -11,7 +11,7 @@
     <th>Name</th>
     <th>Client Credentials</th>
     <th>Redirect URI</th>
-    <th>&nbsp;</th>
+    <th>Action</th>
   </tr>
 
 <% @oauth_clients.each do |oauth_client| %>
