@@ -12,7 +12,7 @@ module Oauth2
       def authorize
         return unless validate_params
     
-        unless params[:authorize] == '1'
+        unless params[:authorize] == 'Yes'
           redirect_to "#{params[:redirect_uri]}?error=access-denied"
           return
         end

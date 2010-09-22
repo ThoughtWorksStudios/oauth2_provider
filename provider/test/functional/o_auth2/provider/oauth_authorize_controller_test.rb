@@ -77,7 +77,7 @@ module Oauth2
       def test_index_returns_400_if_no_redirect_uri_is_supplied
         client = OauthClient.create!(:name => 'my application1', :redirect_uri => 'http://example.com/cba')
         session[:user_id] = @user.id
-        get :index, :client_id => @client.client_id, :authorize => '1',
+        get :index, :client_id => @client.client_id, :authorize => 'Yes',
           :response_type => 'code'
         assert_response :bad_request
       end
@@ -122,7 +122,7 @@ module Oauth2
       def test_authorize_should_return_authorization_code_with_expiry_if_user_authorizes_it_and_state_param_is_not_provided
         session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb',
-          :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
+          :client_id => @client.client_id, :authorize => 'Yes', :response_type => 'code'
 
         assert_response :redirect
         @client.reload
@@ -134,7 +134,7 @@ module Oauth2
       def test_authorize_should_return_authorization_code_with_expiry_and_state_if_user_authorizes_it_and_state_param_is_provided
         session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb',
-          :client_id => @client.client_id, :authorize => '1', :response_type => 'code', :state => 'foo&bar'
+          :client_id => @client.client_id, :authorize => 'Yes', :response_type => 'code', :state => 'foo&bar'
 
         assert_response :redirect
         @client.reload
@@ -145,7 +145,7 @@ module Oauth2
 
       def test_authorize_returns_400_if_no_redirect_uri_is_supplied
         session[:user_id] = @user.id
-        post :authorize, :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
+        post :authorize, :client_id => @client.client_id, :authorize => 'Yes', :response_type => 'code'
 
         assert_response 400
       end
@@ -168,13 +168,13 @@ module Oauth2
       def test_authorize_subsequent_requests_for_authorization_code_receive_unique_codes
         session[:user_id] = @user.id
         post :authorize, :redirect_uri => 'http://example.com/cb',
-          :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
+          :client_id => @client.client_id, :authorize => 'Yes', :response_type => 'code'
 
         auth_response_1 = @response.redirected_to
 
         @request = ActionController::TestRequest.new
         post :authorize, :redirect_uri => 'http://example.com/cb',
-          :client_id => @client.client_id, :authorize => '1', :response_type => 'code'
+          :client_id => @client.client_id, :authorize => 'Yes', :response_type => 'code'
 
         auth_response_2 = @response.redirected_to
 
