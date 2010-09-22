@@ -75,7 +75,7 @@ module Oauth2
       end
 
       def test_index_returns_400_if_no_redirect_uri_is_supplied
-        client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+        client = OauthClient.create!(:name => 'my application1', :redirect_uri => 'http://example.com/cba')
         session[:user_id] = @user.id
         get :index, :client_id => @client.client_id, :authorize => '1',
           :response_type => 'code'
@@ -83,7 +83,7 @@ module Oauth2
       end
 
       def test_index_redirects_with_error_code_when_mismatched_uri
-        client = OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
+        client = OauthClient.create!(:name => 'my application1', :redirect_uri => 'http://example.com/cba')
         session[:user_id] = @user.id
         get :index, :redirect_uri => 'bogus', :client_id => @client.client_id,
           :response_type => 'code'

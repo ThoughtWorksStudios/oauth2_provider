@@ -90,6 +90,8 @@ module Oauth2
         validates_presence_of :name
         validates_presence_of :age
         
+        validates_uniqueness_of :name
+        
         def before_create
           @before_create_called = true
         end
@@ -308,6 +310,26 @@ module Oauth2
         person.name = "bar"
         person.save!
         assert !person.before_create_called
+      end
+      
+      def test_should_not_allow_duplicate_column_values_when_creating_a_different_object
+        Person.create!(:name => 'foo', :age => 26)
+        foo = Person.new(:name => 'foo', :age => 28)
+        assert !foo.valid?
+      end
+      
+      def test_should_not_allow_duplicate_column_values_when_saving_an_existing_object_to_have_a_used_value
+        bob = Person.create!(:name => 'bob', :age => 26)
+
+        joe = Person.create!(:name => 'joe', :age => 28)
+        joe.name = 'bob'
+        assert !joe.valid?
+      end
+      
+      def test_should_allow_duplicate_column_values_when_saving_the_same_object
+        bob = Person.create!(:name => 'bob', :age => 26)
+        bob.age = bob.age+1
+        assert bob.valid?
       end
       
       def test_to_xml

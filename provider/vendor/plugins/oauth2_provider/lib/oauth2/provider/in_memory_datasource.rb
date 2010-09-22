@@ -36,6 +36,14 @@ module Oauth2
       def find_oauth_client_by_client_id(client_id)
         @@oauth_clients.find{|i| i.client_id.to_s == client_id.to_s}
       end
+      
+      def find_oauth_client_by_name(name)
+        @@oauth_clients.find{|i| i.name == name}
+      end
+
+      def find_oauth_client_by_redirect_uri(redirect_uri)
+        @@oauth_clients.find{|i| i.redirect_uri == redirect_uri}
+      end
 
       def find_all_oauth_client
         @@oauth_clients

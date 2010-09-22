@@ -18,7 +18,10 @@ module Oauth2
 
       class_inheritable_hash :db_columns
       self.db_columns = {}
-
+      
+      class_inheritable_array :unique_columns
+      self.unique_columns = []
+      
       def self.columns(*names)
         names.each do |name|
           column_name, convertor = (Hash === name) ?
@@ -49,7 +52,12 @@ module Oauth2
                           ds
                         end
       end
-
+      
+      def self.validates_uniqueness_of(*columns)
+        unique_columns << columns
+        unique_columns.flatten!.uniq!
+      end
+      
       def self.datasource
         @@datasource ||= default_datasource
       end
@@ -144,7 +152,16 @@ module Oauth2
         end
         false
       end
-
+      
+      def valid?
+        is_valid = unique_columns.find do |column_name|
+          dto = datasource.send("find_#{self.class.compact_name}_by_#{column_name}", read_attribute(column_name))
+          next if dto && dto.id == self.id
+          dto
+        end
+        !is_valid && super
+      end
+      
       def reload
         update_from_dto(self.class.find(id))
       end

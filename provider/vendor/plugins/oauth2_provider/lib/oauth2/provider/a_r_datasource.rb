@@ -30,6 +30,14 @@ if defined?(ActiveRecord)
         def find_oauth_client_by_client_id(client_id)
           OauthClientDto.find_by_client_id(client_id)
         end
+        
+        def find_oauth_client_by_name(name)
+          OauthClientDto.find_by_name(name)
+        end
+        
+        def find_oauth_client_by_redirect_uri(redirect_uri)
+          OauthClientDto.find_by_redirect_uri(redirect_uri)
+        end
 
         def find_all_oauth_client
           OauthClientDto.all
