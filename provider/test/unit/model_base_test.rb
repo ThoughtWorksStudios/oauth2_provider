@@ -347,6 +347,13 @@ module Oauth2
 </person>
 }, john.to_xml
       end
+      
+      def test_duplicate_validation_message_exists
+        Person.create!(:name => 'foo', :age => 26)
+        foo = Person.new(:name => 'foo', :age => 28)
+        foo.valid?
+        assert_equal ["Name is a duplicate."], foo.errors.full_messages
+      end
     end
   end
 end
