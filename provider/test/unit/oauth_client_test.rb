@@ -29,6 +29,16 @@ module Oauth2
         assert !client.save
       end
       
+      def test_can_create_duplicate_uri
+        client = OauthClient.create(:name => 'foobar', :redirect_uri => 'http://example.com/cb')
+        assert OauthClient.new(:name => 'foobar2', :redirect_uri => 'http://example.com/cb').save
+      end
+      
+      def test_cannot_create_duplicate_name
+        client = OauthClient.create(:name => 'foobar', :redirect_uri => 'http://example.com/cb')
+        assert !OauthClient.new(:name => 'foobar', :redirect_uri => 'http://example.com/cb').save
+      end
+      
       def test_can_create_token_for_user
         client = OauthClient.create(:name => 'foobar', :redirect_uri => 'http://example.com/cb')
         

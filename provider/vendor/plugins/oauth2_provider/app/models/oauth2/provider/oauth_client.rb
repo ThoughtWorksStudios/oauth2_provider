@@ -7,7 +7,7 @@ module Oauth2
       
       validates_presence_of :name, :redirect_uri
       validates_format_of :redirect_uri, :with => Regexp.new("^(https|http)://.+$")
-      validates_uniqueness_of :name, :redirect_uri
+      validates_uniqueness_of :name
       
       columns :name, :client_id, :client_secret, :redirect_uri
 
