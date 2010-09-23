@@ -67,7 +67,7 @@ module Oauth2
         private
         def next_id
           @id += 1
-          @id.to_s
+          @id
         end
       end
       
@@ -271,7 +271,6 @@ module Oauth2
       
       def test_auto_type_converting_for_destroy
         p = Person.create(:name => 123, :age => '29')
-        p.id = p.id.to_i
         p.destroy
         assert_equal 0, Person.size
       end
@@ -332,12 +331,18 @@ module Oauth2
         assert bob.valid?
       end
       
+      def test_should_be_able_to_save_same_object_twice
+        bob = Person.new(:name => 'bob', :age => 26)
+        assert bob.save
+        assert bob.save
+      end
+      
       def test_to_xml
         john = Person.create(:name => 'John Smith', :age => 29)
         assert_equal %{<?xml version="1.0" encoding="UTF-8"?>
 <person>
   <age type="integer">29</age>
-  <id>1</id>
+  <id type="integer">1</id>
   <name>John Smith</name>
 </person>
 }, john.to_xml

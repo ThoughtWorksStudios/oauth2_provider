@@ -32,7 +32,7 @@ module Oauth2
         end
       end
 
-      columns :id
+      columns :id => :integer
 
       def initialize(attributes={})
         assign_attributes(attributes)
@@ -154,12 +154,12 @@ module Oauth2
       end
       
       def valid?
-        is_valid = unique_columns.find do |column_name|
+        duplicate_exists = unique_columns.find do |column_name|
           dto = datasource.send("find_#{self.class.compact_name}_by_#{column_name}", read_attribute(column_name))
           next if dto && dto.id == self.id
           dto
         end
-        !is_valid && super
+        !duplicate_exists && super
       end
       
       def reload
