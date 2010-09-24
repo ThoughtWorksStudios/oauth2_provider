@@ -25,12 +25,12 @@ class OauthUserTokensControllerTest < ActionController::TestCase
       
       assert_select "tr##{token1.access_token}" do
         assert_select "td", "some application"
-        assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'oauth2/provider/oauth_user_tokens')}']"
+        assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'oauth_user_tokens')}']"
       end
       
       assert_select "tr##{token2.access_token}" do
         assert_select "td", "another application"
-        assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'oauth2/provider/oauth_user_tokens')}']"
+        assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'oauth_user_tokens')}']"
       end
     end
     

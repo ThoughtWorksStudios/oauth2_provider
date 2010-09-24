@@ -22,6 +22,6 @@
   
   <div class="action-bar">
     <%= link_to_function 'Submit', 'document.getElementById("oauth_client_edit_form").submit()', {:class => 'link_as_button primary', :href => 'javascript:void(0)'} %>
-    <%= link_to 'Cancel', {:controller => 'oauth2/provider/oauth_clients'}, {:class => 'link_as_button back_link'} %>
+    <%= link_to 'Cancel', {:controller => 'oauth_clients'}, {:class => 'link_as_button back_link'} %>
   </div>
 <% end %>
