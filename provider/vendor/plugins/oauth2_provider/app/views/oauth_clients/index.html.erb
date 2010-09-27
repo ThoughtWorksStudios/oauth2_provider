@@ -15,19 +15,19 @@
 <table id="oauth_clients_table" class="list_table">
   <tr>
     <th>Name</th>
-    <th>Client Credentials</th>
     <th>Redirect URI</th>
+    <th>Client Credentials</th>
     <th>Action</th>
   </tr>
 
 <% @oauth_clients.each do |oauth_client| %>
   <tr>
     <td><%= link_to h(oauth_client.name), {:controller => 'oauth_clients', :action => :edit, :id => oauth_client.id}, {:class => 'edit_link'} %></td>
+    <td><%=h oauth_client.redirect_uri %></td>
     <td>
       <p><b>Client ID</b>: <%=h oauth_client.client_id %></p>
       <p><b>Client Secret:</b> <%=h oauth_client.client_secret %></p>
     </td>
-    <td><%=h oauth_client.redirect_uri %></td>
     <td>
       <%= link_to '<span>Delete</span>', {:controller => 'oauth_clients', :action => :destroy, :id => oauth_client.id}, {:confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this client'} %>
     </td>
