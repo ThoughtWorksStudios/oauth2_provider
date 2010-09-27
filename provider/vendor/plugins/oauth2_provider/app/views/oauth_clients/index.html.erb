@@ -2,6 +2,12 @@
 
 <h1>OAuth clients</h1>
 
+<% if request.ssl? %>
+  <h2>OAuth 2.0 endpoints:</h2>
+  <p><strong>Authorization URL:</strong> <%= url_for :controller => :oauth_authorize, :action => :index, :only_path => false %></p>
+  <p><strong>Token URL:</strong> <%= url_for :controller => :oauth_token, :action => :get_token, :only_path => false %></p>
+<% end %>
+
 <% if @oauth_clients.empty? %>
   <div class="info-box">You have not configured any OAuth clients. Click the 'Add client' button to add one.</div>
 <% else %>
