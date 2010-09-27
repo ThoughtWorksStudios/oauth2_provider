@@ -6,10 +6,10 @@ module Oauth2
     module SslHelper
 
       def self.included(controller_class)
-        controller_class.before_filter(:mandatory_ssl) unless ENV['DISABLE_SSL']
+        controller_class.before_filter :mandatory_ssl
       end
 
-      private
+      protected
       def mandatory_ssl
         if !request.ssl?
           if !ssl_enabled?
@@ -26,6 +26,7 @@ module Oauth2
         true
       end
 
+      private
       def ssl_enabled?
         # this is set from within tests!
         unless @ssl_enabled.nil?

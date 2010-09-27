@@ -2,7 +2,9 @@
 # Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 class OauthUserTokensController < ApplicationController
-  
+
+  include Oauth2::Provider::SslHelper
+
   def index
     @tokens = Oauth2::Provider::OauthToken.find_all_with(:user_id, current_user_id_for_oauth)
   end
@@ -17,9 +19,9 @@ class OauthUserTokensController < ApplicationController
       render :text => "You are not authorized to perform this action!", :status => :bad_request
       return
     end
-    
+
     token.destroy
     redirect_to :action => :index
   end
-  
+
 end

@@ -2,7 +2,9 @@
 # Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 class OauthAuthorizeController < ::ApplicationController
-  
+
+  include Oauth2::Provider::SslHelper
+
   def index
     return unless validate_params
   end
@@ -21,7 +23,7 @@ class OauthAuthorizeController < ::ApplicationController
     else
       "&state=#{CGI.escape(params[:state])}"
     end
-    
+
     redirect_to "#{params[:redirect_uri]}?code=#{authorization.code}&expires_in=#{authorization.expires_in}#{state_param}"
   end
 

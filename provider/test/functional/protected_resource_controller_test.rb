@@ -11,16 +11,16 @@ class ProtectedResourceControllerTest < ActionController::TestCase
     get :index, :access_token => token.access_token
     assert_equal "current user is foo@example.com", @response.body
   end
-  
+
   def test_access_protected_resource_with_invalid_access_token
     @request.env["Authorization"] = %Q{Token token="bogus"}
     get :index
     assert_response :unauthorized
   end
-  
+
   def test_access_protected_resource_with_no_access_token
     get :index
     assert_redirected_to :controller => :sessions, :action => :index
   end
-  
+
 end

@@ -2,7 +2,9 @@
 # Licenced under the MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 class OauthClientsController < ApplicationController
-  
+
+  include Oauth2::Provider::SslHelper
+
   def index
     @oauth_clients = Oauth2::Provider::OauthClient.all.sort{|a, b| a.name.casecmp(b.name)}
     respond_to do |format|
@@ -29,7 +31,7 @@ class OauthClientsController < ApplicationController
 
   def create
     @oauth_client = Oauth2::Provider::OauthClient.new(params[:oauth_client])
-    
+
     respond_to do |format|
       if @oauth_client.save
         flash[:notice] = 'OAuth client was successfully created.'

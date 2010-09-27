@@ -16,7 +16,14 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
     Oauth2::Provider::Clock.reset
   end
 
+
+  def test_disallow_access_over_http
+    post :get_token
+    assert_response :forbidden
+  end
+
   def test_get_token_happy_path_request_of_access_token
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -33,26 +40,30 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code_when_first_attempt_succeeded
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
 
     @request = ActionController::TestRequest.new
 
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
 
     assert_get_token_error('invalid-grant')
   end
-  
+
   def test_does_not_hand_out_oauth_token_twice_using_same_authorization_code_when_first_attempt_failed
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => 'bogus secret to trigger failure',
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
 
     @request = ActionController::TestRequest.new
 
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -62,14 +73,16 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
 
   def test_does_not_hand_out_oauth_token_after_authorization_code_expires
     Oauth2::Provider::Clock.fake_now = Oauth2::Provider::Clock.now + 1.hour + 1.second
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
-  
+
     assert_get_token_error('invalid-grant')
   end
 
   def test_get_token_returns_error_when_passed_bogus_client_id
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => 'bogus', :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -78,6 +91,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_no_client_id
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_secret => @client.client_secret,
        :code => @authorization.code, :redirect_uri => "http://example.com/cb",
        :grant_type => 'authorization-code'
@@ -86,6 +100,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_bogus_client_secret
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => 'bogus',
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -94,6 +109,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_no_client_secret
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id,
       :code => @authorization.code, :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -102,6 +118,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_bogus_authorization_code
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => 'bogus', :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -110,6 +127,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_noauthorization_code
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :redirect_uri => "http://example.com/cb",
       :grant_type => 'authorization-code'
@@ -118,6 +136,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_bogus_redirect_uri
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code, :redirect_uri => "bogus",
       :grant_type => 'authorization-code'
@@ -126,6 +145,7 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_no_redirect_uri
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :code => @authorization.code,
       :grant_type => 'authorization-code'
@@ -134,20 +154,23 @@ class OauthTokenControllerAuthorizationCodeTest < ActionController::TestCase
   end
 
   def test_get_token_returns_error_when_passed_bogus_grant
-    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret, 
+    @request.env["HTTPS"] = 'on'
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :redirect_uri => "http://example.com/cb", :code => @authorization.code,
       :grant_type => 'bogus'
     assert_get_token_error('unsupported-grant-type')
   end
 
   def test_get_token_returns_error_when_passed_no_grant
-    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret, 
+    @request.env["HTTPS"] = 'on'
+    post :get_token, :client_id => @client.client_id, :client_secret => @client.client_secret,
       :redirect_uri => "http://example.com/cb", :code => @authorization.code
     assert_get_token_error('unsupported-grant-type')
   end
-  
+
   def test_get_token_returns_error_code_when_mismatch_between_client_and_code
     another_client = Oauth2::Provider::OauthClient.create!(:name => 'another client', :redirect_uri => 'http://example.com/another_cb')
+    @request.env["HTTPS"] = 'on'
     post :get_token, :client_id => another_client.client_id, :client_secret => another_client.client_secret,
       :code => @authorization.code, :redirect_uri => 'http://example.com/another_cb',
       :grant_type => 'authorization-code'

@@ -4,11 +4,13 @@
 class OauthTokenController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
+  include Oauth2::Provider::SslHelper
+
   def get_token
-    
+
     authorization = Oauth2::Provider::OauthAuthorization.find_one(:code, params[:code])
     authorization.destroy unless authorization.nil?
-    
+
     original_token = Oauth2::Provider::OauthToken.find_one(:refresh_token, params[:refresh_token])
     original_token.destroy unless original_token.nil?
 
