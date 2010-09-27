@@ -12,7 +12,7 @@
     </tr>
     <% @tokens.each do |token| -%>
       <tr id="<%= token.access_token %>">
-        <td><%= token.oauth_client.name %></td>
+        <td><%= h(token.oauth_client.name) %></td>
         <td><%= link_to '<span>Delete</span>',
             {:action => :revoke, :token_id => token.id, :controller => 'oauth_user_tokens'},
             {:confirm => 'Are you sure?', :method => :delete,  :class => 'delete_link', :title => 'Click to revoke this token'}%></td>

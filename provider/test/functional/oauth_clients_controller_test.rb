@@ -30,6 +30,17 @@ class OauthClientsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
+
+  def test_should_html_escape_the_name_and_uri
+    @request.env['HTTPS'] = "on"
+    client1 = Oauth2::Provider::OauthClient.create!(:name => '<h1>name</h1>', :redirect_uri => 'http://example1.com<h2>foo</h2>')
+
+    get :index
+
+    assert_select 'table tr td', :text => '&lt;h1&gt;name&lt;/h1&gt;'
+    assert_select 'table tr td', :text => 'http://example1.com&lt;h2&gt;foo&lt;/h2&gt;'
+  end
+
   def test_index_shows_all_clients
     @request.env['HTTPS'] = "on"
     client1 = Oauth2::Provider::OauthClient.create!(:name => 'name1', :redirect_uri => 'http://example1.com')

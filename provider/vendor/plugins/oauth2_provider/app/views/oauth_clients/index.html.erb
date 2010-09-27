@@ -22,7 +22,7 @@
 
 <% @oauth_clients.each do |oauth_client| %>
   <tr>
-    <td><%= link_to oauth_client.name, {:controller => 'oauth_clients', :action => :edit, :id => oauth_client.id}, {:class => 'edit_link'} %></td>
+    <td><%= link_to h(oauth_client.name), {:controller => 'oauth_clients', :action => :edit, :id => oauth_client.id}, {:class => 'edit_link'} %></td>
     <td>
       <p><b>Client ID</b>: <%=h oauth_client.client_id %></p>
       <p><b>Client Secret:</b> <%=h oauth_client.client_secret %></p>

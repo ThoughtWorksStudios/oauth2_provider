@@ -15,6 +15,18 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
+  def test_provider_name_is_html_escaped
+    client1 = Oauth2::Provider::OauthClient.create!(:name => '<h1>app</h1>', :redirect_uri => 'http://app1.com/bar')
+    user1 = User.create!(:email => 'u1', :password => 'p1')
+    token1 = client1.create_token_for_user_id(user1.id)
+    session[:user_id] = user1.id
+
+    @request.env["HTTPS"] = 'on'
+    get :index
+
+    assert_select 'table tr td', :text => '&lt;h1&gt;app&lt;/h1&gt;'
+  end
+
   def test_index_shows_tokens_only_for_logged_in_user
     client1 = Oauth2::Provider::OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
     client2 = Oauth2::Provider::OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
