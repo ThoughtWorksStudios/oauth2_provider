@@ -1,9 +1,9 @@
 <%= render_help_link('OAuth 2.0 Application', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
-<h1>OAuth 2.0 Applications</h1>
+<h1>OAuth clients</h1>
 
 <% if @oauth_clients.empty? %>
-  <div class="info-box">You have not configured any OAuth 2.0 Applications. Click the 'Add Application' button to add one.</div>
+  <div class="info-box">You have not configured any OAuth clients. Click the 'Add client' button to add one.</div>
 <% else %>
 
 <table id="oauth_clients_table" class="list_table">
@@ -23,7 +23,7 @@
     </td>
     <td><%=h oauth_client.redirect_uri %></td>
     <td>
-      <%= link_to 'Delete', {:controller => 'oauth_clients', :action => :destroy, :id => oauth_client.id}, {:confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this application'} %>
+      <%= link_to '<span>Delete</span>', {:controller => 'oauth_clients', :action => :destroy, :id => oauth_client.id}, {:confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this client'} %>
     </td>
   </tr>
 <% end %>
@@ -32,5 +32,5 @@
 <% end %>
 
 <div class="table_actions">
-  <%= link_to 'Add Application', {:controller => 'oauth_clients', :action => :new}, {:class => 'link_as_button primary', :id => 'new_oauth_client_button'} %>
+  <%= link_to 'Add client', {:controller => 'oauth_clients', :action => :new}, {:class => 'link_as_button primary', :id => 'new_oauth_client_button'} %>
 </div>

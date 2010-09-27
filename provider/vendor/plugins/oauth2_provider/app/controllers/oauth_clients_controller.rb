@@ -32,7 +32,7 @@ class OauthClientsController < ApplicationController
     
     respond_to do |format|
       if @oauth_client.save
-        flash[:notice] = 'OAuth Client was successfully created.'
+        flash[:notice] = 'OAuth client was successfully created.'
         format.html { redirect_to :action => 'index' }
         format.xml  { render :xml => @oauth_client, :status => :created, :location => @oauth_client }
       else
@@ -48,7 +48,7 @@ class OauthClientsController < ApplicationController
 
     respond_to do |format|
       if @oauth_client.update_attributes(params[:oauth_client])
-        flash[:notice] = 'OAuth Client was successfully updated.'
+        flash[:notice] = 'OAuth client was successfully updated.'
         format.html { redirect_to :action => 'index' }
         format.xml  { head :ok }
       else
@@ -65,6 +65,7 @@ class OauthClientsController < ApplicationController
     @oauth_client.destroy
 
     respond_to do |format|
+      flash[:notice] = 'The OAuth client was successfully deleted.'
       format.html { redirect_to(oauth_clients_url) }
       format.xml  { head :ok }
     end
