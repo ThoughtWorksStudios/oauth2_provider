@@ -67,7 +67,7 @@ class OauthClientsController < ApplicationController
     @oauth_client.destroy
 
     respond_to do |format|
-      flash[:notice] = 'The OAuth client was successfully deleted.'
+      flash[:notice] = 'OAuth client was successfully deleted.'
       format.html { redirect_to(oauth_clients_url) }
       format.xml  { head :ok }
     end
