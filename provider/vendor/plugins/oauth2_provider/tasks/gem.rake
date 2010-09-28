@@ -42,7 +42,7 @@ namespace :release do
         s.platform          = Gem::Platform::RUBY
         s.summary           = "A Rails plugin to OAuth v2.0 enable your rails application"
         s.description       = "A Rails plugin to OAuth v2.0 enable your rails application. This plugin implements v09 of the OAuth2 draft spec http://tools.ietf.org/html/draft-ietf-oauth-v2-09."
-        s.files             = Dir["**/*.*"] + ["#{s.name}.gemspec", "README.textile", "CHANGELOG"]
+        s.files             = Dir["**/*"] + ["#{s.name}.gemspec", "README.textile", "CHANGELOG"]
         s.has_rdoc          = false
         s.extra_rdoc_files  = ["README.textile", "MIT-LICENSE.txt"]
       end
