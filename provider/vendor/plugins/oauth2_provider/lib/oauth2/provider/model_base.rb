@@ -18,7 +18,7 @@ module Oauth2
 
       class_inheritable_hash :db_columns
       self.db_columns = {}
-      
+
       def self.columns(*names)
         names.each do |name|
           column_name, convertor = (Hash === name) ?
@@ -49,7 +49,7 @@ module Oauth2
                           ds
                         end
       end
-      
+
       def self.validates_uniqueness_of(*columns)
         columns.each do |column_name|
           self.validates_each column_name, :logic => lambda {
@@ -58,7 +58,7 @@ module Oauth2
           }
         end
       end
-      
+
       def self.datasource
         @@datasource ||= default_datasource
       end
@@ -141,6 +141,7 @@ module Oauth2
 
       def save
         before_create if new_record?
+        before_save
         attrs = db_columns.keys.inject({}) do |result, column_name|
           result[column_name] = read_attribute(column_name)
           result
@@ -153,7 +154,7 @@ module Oauth2
         end
         false
       end
-      
+
       def reload
         update_from_dto(self.class.find(id))
       end
@@ -164,6 +165,10 @@ module Oauth2
       end
 
       def before_create
+        # for subclasses to override to support hooks.
+      end
+
+      def before_save
         # for subclasses to override to support hooks.
       end
 
