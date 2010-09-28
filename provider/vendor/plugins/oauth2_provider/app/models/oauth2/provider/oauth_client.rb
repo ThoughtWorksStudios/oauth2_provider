@@ -39,7 +39,13 @@ module Oauth2
         oauth_tokens.each(&:destroy)
         oauth_authorizations.each(&:destroy)
       end
-    
+
+      def before_save
+        self.name.strip! if self.name
+        self.redirect_uri.strip! if self.redirect_uri
+      end
+
     end
   end
 end
+

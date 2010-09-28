@@ -78,7 +78,12 @@ module Oauth2
         assert_nil OauthAuthorization.find_by_id(client1_code.id)
         assert_not_nil OauthAuthorization.find_by_id(client2_code.id)
       end
-      
+
+      def test_should_strip_name_and_redirect_uri
+        client = OauthClient.create(:name => " some client \r\t", :redirect_uri => " \n http://example1.com/cb \r\n")
+        assert_equal 'some client', client.name
+        assert_equal 'http://example1.com/cb', client.redirect_uri
+      end
     end
   end
 end
