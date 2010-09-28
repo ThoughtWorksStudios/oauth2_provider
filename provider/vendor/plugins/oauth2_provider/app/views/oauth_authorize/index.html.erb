@@ -1,7 +1,9 @@
 <% form_for(url_for(:action => :authorize), :html => {:id => 'oauth_authorize_form'}) do |f| -%>
   Do you wish to allow the service named '<%= @client.name %>' to access this application on your behalf?
-  <input type="submit" value="Yes" name="authorize" />
-  <input type="submit" value="No" name="authorize" />
+  <p>
+    <input type="submit" value="Yes" name="authorize" class='primary' />
+    <input type="submit" value="No" name="authorize" />
+  </p>
   
   <input type="hidden" name="client_id" id="client_id" value="<%= params[:client_id] %>" />
   <input type="hidden" name="redirect_uri" id="redirect_uri" value="<%= params[:redirect_uri] %>" />
