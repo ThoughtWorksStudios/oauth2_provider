@@ -29,9 +29,12 @@ namespace :release do
   task :gem => :changelog do
     Rake::Task[:copyright].invoke
     cd File.join(File.expand_path(File.dirname(__FILE__)), '..') do
-
-      cp "#{RAILS_ROOT}/../README.textile", '.', :verbose => false
-      cp "#{RAILS_ROOT}/../MIT-LICENSE.txt", '.', :verbose => false
+      
+      files = ['README.textile', 'MIT-LICENSE.txt', 'NOTICE.textile', 'WHAT_IS_OAUTH.textile', 'HACKING.textile']
+      
+      files.each do |f|
+        cp "#{RAILS_ROOT}/../#{f}", '.', :verbose => false
+      end
 
       spec = Gem::Specification.new do |s|
         s.name = "oauth2_provider"
@@ -44,7 +47,7 @@ namespace :release do
         s.description       = "A Rails plugin to OAuth v2.0 enable your rails application. This plugin implements v09 of the OAuth2 draft spec http://tools.ietf.org/html/draft-ietf-oauth-v2-09."
         s.files             = Dir["**/*"] + ["#{s.name}.gemspec", "README.textile", "CHANGELOG"]
         s.has_rdoc          = false
-        s.extra_rdoc_files  = ["README.textile", "MIT-LICENSE.txt"]
+        s.extra_rdoc_files  = ["README.textile", "MIT-LICENSE.txt", "NOTICE.textile"]
       end
       
       File.open("#{spec.name}.gemspec", "w") { |f| f << spec.to_ruby }
@@ -57,8 +60,9 @@ namespace :release do
       mv "#{spec.name}-#{spec.version}.gem", "#{RAILS_ROOT}/pkg", :verbose => false
 
       #cleanup
-      rm "README.textile", :verbose => false
-      rm "MIT-LICENSE.txt", :verbose => false
+      files.each do |f|
+        rm f, :verbose => false
+      end
     end
   end
   
