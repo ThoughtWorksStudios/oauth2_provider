@@ -14,7 +14,6 @@ module Oauth2
         if !request.ssl?
           if !ssl_enabled?
             error = 'This page can only be accessed using HTTPS.'
-            error += render_help_link('Configure SSL', :class => '') if defined?(render_help_link)
             flash.now[:error] = error
             render(:text => '', :layout => true, :status => :forbidden)
             return false
