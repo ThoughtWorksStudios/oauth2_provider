@@ -1,11 +1,10 @@
 <%= render_help_link('OAuth 2.0 Application', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
-<h1>OAuth clients</h1>
+<h1>OAuth client configuration</h1>
 
 <% if request.ssl? %>
-  <div class='summary'>
-    
-    <p>OAuth 2.0 (v9) provider endpoints for this server.</p>
+  <div class='summary oauth_config_info'>
+    <h2>OAuth 2.0 (v9) provider endpoints for this server:</h2>
     <p><strong>Authorization URL:</strong> <%= url_for :controller => :oauth_authorize, :action => :index, :only_path => false %></p>
     <p><strong>Token URL:</strong> <%= url_for :controller => :oauth_token, :action => :get_token, :only_path => false %></p>
 </div>
@@ -15,11 +14,13 @@
   <div class="info-box">You have not configured any OAuth clients. Click the 'Add client' button to add one.</div>
 <% else %>
 
+<h2>OAuth clients configured for this server:</h2>
+
 <table id="oauth_clients_table" class="list_table">
   <tr>
     <th>Name</th>
-    <th>Redirect URI</th>
-    <th>Client Credentials</th>
+    <th>OAuth Redirect URI</th>
+    <th>OAuth Client Credentials</th>
     <th>Action</th>
   </tr>
 
@@ -29,7 +30,7 @@
     <td><%=h oauth_client.redirect_uri %></td>
     <td>
       <p><b>Client ID</b>: <%=h oauth_client.client_id %></p>
-      <p><b>Client Secret:</b> <%=h oauth_client.client_secret %></p>
+      <p><b>Client Secret</b>: <%=h oauth_client.client_secret %></p>
     </td>
     <td>
       <%= link_to '<span>Delete</span>', {:controller => 'oauth_clients', :action => :destroy, :id => oauth_client.id}, {:confirm => 'Are you sure?', :method => :delete, :class => 'delete_link', :title => 'Click to delete this client'} %>
