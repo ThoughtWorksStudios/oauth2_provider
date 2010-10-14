@@ -1,8 +1,8 @@
 <% form_for(url_for(:action => :authorize), :html => {:id => 'oauth_authorize_form'}) do |f| -%>
-  <p>Do you wish to allow the service named '<%= @client.name %>' to access this application on your behalf?</p>
+  <label for="authorize-yes" class="label">Do you wish to allow the service named '<%= @client.name %>' to access this application on your behalf?</label>
   <div>
-    <input type="submit" value="Yes" name="authorize" class='primary' />
-    <input type="submit" value="No" name="authorize" />
+    <button type="submit" value="Yes" name="authorize" class='primary' id="authorize-yes">Yes</button>
+    <button type="submit" value="No" name="authorize" id="authorize-no">No</button>
   </div>
 
   <input type="hidden" name="client_id" id="client_id" value="<%= params[:client_id] %>" />
