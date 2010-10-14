@@ -1,7 +1,10 @@
-<%= render_help_link('OAuth 2.0 User Token', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
+<div id="oauth_page">
+    <%= render_help_link('OAuth 2.0 User Token', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
-<h1>OAuth Tokens</h1>
+<div class="page_header"><h1 class="entity_title">OAuth Tokens</h1></div>
 
+<div class="content_wrapper_outer">
+    <div class="content_wrapper_inner">
 <% if @tokens.empty? %>
   <div class="info-box">There are no tokens.</div>
 <% else %>
@@ -20,3 +23,6 @@
     <% end -%>
   </table>
 <% end %>
+</div>
+</div>
+</div>
