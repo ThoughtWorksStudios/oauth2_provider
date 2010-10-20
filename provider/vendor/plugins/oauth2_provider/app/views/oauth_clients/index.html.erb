@@ -1,7 +1,7 @@
 <div id="oauth_page">
   <%= render_help_link('OAuth 2.0 Application', :class => 'page-help-at-action-bar') if defined?(render_help_link)  %>
 
-  <h1>OAuth client configuration</h1>
+  <h1>OAuth clients configuration</h1>
 
   <% if request.ssl? || ENV['DISABLE_OAUTH_SSL'] %>
     <h2>OAuth 2.0 (v9) provider endpoints for this server</h2>
