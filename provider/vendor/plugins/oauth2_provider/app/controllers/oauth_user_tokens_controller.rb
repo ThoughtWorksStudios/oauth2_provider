@@ -23,5 +23,21 @@ class OauthUserTokensController < ApplicationController
     token.destroy
     redirect_to :action => :index
   end
+  
+  def revoke_by_admin
+    token = Oauth2::Provider::OauthToken.find_by_id(params[:token_id])
+    if token.nil?
+      render :text => "You are not authorized to perform this action!", :status => :bad_request
+      return
+    end
 
+    token.destroy
+    
+    if request.xhr?
+      render :text => "Token deleted."
+    else
+      redirect_to :action => :index
+    end
+  end
+    
 end

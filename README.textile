@@ -44,8 +44,10 @@ h1. Supported Features
 * Endpoint for clients to request authorization 'code'
 * Endpoint to request an access token using the authorization 'code'
 * Admin screens for:
- * End users to manage/revoke access tokens given out to 3rd party OAuth2 clients
- * Admins to manage OAuth2 clients
+** End users to manage/revoke access tokens given out to 3rd party OAuth2 clients
+** Admins to manage OAuth2 clients
+* Admin controller actions for:
+** Delete a single token belonging to any user
 
 h1. Available Endpoint URLs
 
@@ -58,8 +60,11 @@ See config/routes.rb in the plugin for more details.
 *Accessed from the browser*
 * /oauth/user_tokens (Oauth2::Provider::OauthUserTokensController) - used by end users to view and revoke access to 3rd party OAuth2 clients.
 * /oauth/clients (Oauth2::Provider::OauthClientsController) - to manage oauth clients (should be available only to admins)
+* /oauth/user_tokens/revoke_by_admin (Oauth2::Provider::OauthUserTokensController) - used by users with admin privileges to revoke any token.
 
 It is the responsibility of the host application to avoid routing conflicts. The simplest thing to do is avoid defining any paths starting with /oauth
+
+It is also the responsibility to restrict access to admin-only features such as /oauth/user_tokens/revoke_by_admin
 
 h1. Installation
 
@@ -102,7 +107,7 @@ h3. Rails initializer
 Edit the file config/initializers/oauth2_provider.rb in which you
 * must call filter skipping methods on OauthTokenController, ensuring any authentication filters to not run for this controllers actions
 * must setup authorization for OauthClientsController, limiting access to only application administrators
-* must setup authorization for OauthUserTokensController, limiting access to logged in users  (this step might not actually require you to write code, we're just putting it here to make sure you consider this issue)
+* must setup authorization for OauthUserTokensController actions, limiting access to all actions to logged in users (this part might come for free), and access to revoke_by_admin to administrators.
 * might call filter skipping or similar methods on the other provided controllers should it be necessary for them to run
 
 A sample initializer:
@@ -116,6 +121,9 @@ module Oauth2
     
     # use host app's custom authorization filter to protect OauthClientsController
     OauthClientsController.before_filter(:ensure_admin_user)
+    
+    # use host app's custom authorization filter to protect admin actions on OauthUserTokensController
+    OauthClientsController.before_filter(:ensure_admin_user, :only => [:revoke_by_admin])
     
   end
 end
