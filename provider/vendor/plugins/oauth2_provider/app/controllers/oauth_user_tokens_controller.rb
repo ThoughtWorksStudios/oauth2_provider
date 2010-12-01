@@ -21,10 +21,11 @@ class OauthUserTokensController < ApplicationController
     end
 
     token.destroy
-    redirect_to :action => :index
+    redirect_after_revoke
   end
   
   def revoke_by_admin
+    
     if params[:token_id].blank? && params[:user_id].blank?
       render_not_authorized
       return
@@ -41,17 +42,17 @@ class OauthUserTokensController < ApplicationController
       Oauth2::Provider::OauthToken.find_all_with(:user_id, params[:user_id]).map(&:destroy)
     end
     
-    if request.xhr?
-      render :text => "Token(s) revoked."
-    else
-      redirect_to :action => :index
-    end
+    redirect_after_revoke
   end
   
   private 
   
   def render_not_authorized
     render :text => "You are not authorized to perform this action!", :status => :bad_request
+  end
+  
+  def redirect_after_revoke
+    redirect_to params[:redirect_url] || {:action => 'index'}
   end
     
 end

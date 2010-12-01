@@ -68,9 +68,14 @@ class OauthUserTokensControllerTest < ActionController::TestCase
 
     @request.env["HTTPS"] = 'on'
     post :revoke, :token_id => token1.id
+    
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
 
     assert_nil Oauth2::Provider::OauthToken.find_by_id(token1.id)
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token2.id)
+    
+    
   end
 
   def test_revoke_returns_bad_request_code_if_user_does_not_own_token
@@ -133,22 +138,7 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token2.id)
   end
   
-  def test_revoke_by_admin_does_not_redirect_if_xhr
-    client1 = Oauth2::Provider::OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
-    client2 = Oauth2::Provider::OauthClient.create!(:name => 'another application', :redirect_uri => 'http://app2.com/bar')
 
-    user1 = User.create!(:email => 'u1', :password => 'p1')
-    token1 = client1.create_token_for_user_id(user1.id)
-
-    session[:user_id] = user1.id
-
-    @request.env["HTTPS"] = 'on'
-    @request.env['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
-    
-    post :revoke_by_admin, :token_id => token1.id
-    assert_response :success
-  end
-    
   def test_revoke_by_admin_returns_bad_request_code_if_token_id_is_bogus
     user = User.create(:email => 'foo@example.com', :password => 'open!')
     session[:user_id] = user.id
@@ -228,5 +218,31 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token1.id)
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token2.id)
   end
+  
+  def test_reovke_should_redirect_to_specified_url_if_redirect_url_param_is_given
+    user1 = User.create!(:email => 'u1', :password => 'p1')
+    client1 = Oauth2::Provider::OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
+    token1 = client1.create_token_for_user_id(user1.id)
+    session[:user_id] = user1.id
+
+    @request.env["HTTPS"] = 'on'
+    post :revoke, :token_id => token1.id, :redirect_url => 'http://example.com'
+    assert_redirected_to 'http://example.com'
+  end
+  
+  def test_reovke_by_admin_should_redirect_to_specified_url_if_redirect_url_param_is_given
+    admin = User.create!(:email => 'admin', :password => 'p1')
+    user = User.create!(:email => 'u1', :password => 'p1')
+    client = Oauth2::Provider::OauthClient.create!(:name => 'some application', :redirect_uri => 'http://app1.com/bar')
+    token = client.create_token_for_user_id(user.id)
+    session[:user_id] = admin.id
+    @request.env["HTTPS"] = 'on'
+
+    post :revoke_by_admin, :token_id => token.id, :redirect_url => 'http://example.com'
+
+    assert_response :redirect
+    assert_redirected_to 'http://example.com'
+  end
+  
   
 end
