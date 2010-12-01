@@ -52,7 +52,7 @@ class OauthUserTokensController < ApplicationController
   end
   
   def redirect_after_revoke
-    flash[:notice] = "OAuth access token was successfully deleted"
+    flash[:notice] = "OAuth access token was successfully deleted."
     redirect_to params[:redirect_url] || {:action => 'index'}
   end
     
