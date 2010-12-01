@@ -41,7 +41,7 @@ class OauthUserTokensController < ApplicationController
     else
       Oauth2::Provider::OauthToken.find_all_with(:user_id, params[:user_id]).map(&:destroy)
     end
-    
+
     redirect_after_revoke
   end
   
@@ -52,6 +52,7 @@ class OauthUserTokensController < ApplicationController
   end
   
   def redirect_after_revoke
+    flash[:notice] = "OAuth access token was successfully deleted"
     redirect_to params[:redirect_url] || {:action => 'index'}
   end
     

@@ -71,10 +71,10 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to :action => 'index'
-
+    
+    assert_equal "OAuth access token was successfully deleted", flash[:notice]
     assert_nil Oauth2::Provider::OauthToken.find_by_id(token1.id)
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token2.id)
-    
     
   end
 
@@ -133,6 +133,7 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     post :revoke_by_admin, :token_id => token3.id
     
     assert_redirected_to :action => 'index'
+    assert_equal "OAuth access token was successfully deleted", flash[:notice]
     assert_nil Oauth2::Provider::OauthToken.find_by_id(token3.id)
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token1.id)
     assert_not_nil Oauth2::Provider::OauthToken.find_by_id(token2.id)
