@@ -12,11 +12,11 @@ class OauthUserTokensController < ApplicationController
   def revoke
     token = Oauth2::Provider::OauthToken.find_by_id(params[:token_id])
     if token.nil?
-      render :text => "You are not authorized to perform this action!", :status => :bad_request
+      render_not_authorized
       return
     end
     if token.user_id.to_s != current_user_id_for_oauth
-      render :text => "You are not authorized to perform this action!", :status => :bad_request
+      render_not_authorized
       return
     end
 
@@ -25,19 +25,33 @@ class OauthUserTokensController < ApplicationController
   end
   
   def revoke_by_admin
-    token = Oauth2::Provider::OauthToken.find_by_id(params[:token_id])
-    if token.nil?
-      render :text => "You are not authorized to perform this action!", :status => :bad_request
+    if params[:token_id].blank? && params[:user_id].blank?
+      render_not_authorized
       return
     end
-
-    token.destroy
+    
+    if !params[:token_id].blank?
+      token = Oauth2::Provider::OauthToken.find_by_id(params[:token_id])
+      if token.nil?
+        render_not_authorized
+        return
+      end
+      token.destroy
+    else
+      Oauth2::Provider::OauthToken.find_all_with(:user_id, params[:user_id]).map(&:destroy)
+    end
     
     if request.xhr?
-      render :text => "Token deleted."
+      render :text => "Token(s) revoked."
     else
       redirect_to :action => :index
     end
+  end
+  
+  private 
+  
+  def render_not_authorized
+    render :text => "You are not authorized to perform this action!", :status => :bad_request
   end
     
 end

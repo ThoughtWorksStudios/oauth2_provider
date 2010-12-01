@@ -60,7 +60,7 @@ See config/routes.rb in the plugin for more details.
 *Accessed from the browser*
 * /oauth/user_tokens (Oauth2::Provider::OauthUserTokensController) - used by end users to view and revoke access to 3rd party OAuth2 clients.
 * /oauth/clients (Oauth2::Provider::OauthClientsController) - to manage oauth clients (should be available only to admins)
-* /oauth/user_tokens/revoke_by_admin (Oauth2::Provider::OauthUserTokensController) - used by users with admin privileges to revoke any token.
+* /oauth/user_tokens/revoke_by_admin (Oauth2::Provider::OauthUserTokensController) - used by users with admin privileges to revoke any one token (pass token_id param), or all tokens belonging to a single user (pass user_id param).
 
 It is the responsibility of the host application to avoid routing conflicts. The simplest thing to do is avoid defining any paths starting with /oauth
 
