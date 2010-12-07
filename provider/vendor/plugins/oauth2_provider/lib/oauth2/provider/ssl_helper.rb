@@ -44,7 +44,7 @@ module Oauth2
       end
 
       def ssl_port
-        ENV['OAUTH_SSL_PORT']
+        Configuration.ssl_port
       end
 
     end
