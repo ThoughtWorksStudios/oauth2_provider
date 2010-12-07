@@ -42,16 +42,22 @@ module Oauth2
         ENV['OAUTH_SSL_PORT'] = nil
       end
 
-      def test_accessing_ssl_forced_actions_redirect_to_ssl_when_request_is_not_ssl
+      def test_accessing_ssl_forced_actions_redirect_to_ssl_with_non_443_port_when_request_is_not_ssl_for_action_a
         @controller.instance_variable_set('@ssl_enabled', true)
         ENV['OAUTH_SSL_PORT'] = '8443'
         assert_not_equal "on", @request.env["HTTPS"]
         get :a
         assert_response :redirect
-        assert_match %r{^https://}, @response.headers['Location']
+        assert_equal 'https://test.host:8443/oauth2/provider/ssl_helper/a', @response.headers['Location']
+      end
+
+      def test_accessing_ssl_forced_actions_redirect_to_ssl_with_non_443_port_when_request_is_not_ssl_for_action_b
+        @controller.instance_variable_set('@ssl_enabled', true)
+        ENV['OAUTH_SSL_PORT'] = '8443'
+
         get :b
         assert_response :redirect
-        assert_match %r{^https://}, @response.headers['Location']
+        assert_equal 'https://test.host:8443/oauth2/provider/ssl_helper/b', @response.headers['Location']
       end
 
       def test_accessing_ssl_forced_actions_do_not_redirect_when_request_is_ssl
@@ -60,6 +66,24 @@ module Oauth2
         assert_response :success
         get :b
         assert_response :success
+      end
+
+      def test_accessing_ssl_forced_actions_redirect_to_ssl_with_default_443_port_when_request_is_not_ssl_for_action_a
+        @controller.instance_variable_set('@ssl_enabled', true)
+        ENV['OAUTH_SSL_PORT'] = '443'
+        assert_not_equal "on", @request.env["HTTPS"]
+        get :a
+        assert_response :redirect
+        assert_equal 'https://test.host/oauth2/provider/ssl_helper/a', @response.headers['Location']
+      end
+
+      def test_accessing_ssl_forced_actions_redirect_to_ssl_with_default_443_port_when_request_is_not_ssl_for_action_b
+        @controller.instance_variable_set('@ssl_enabled', true)
+        ENV['OAUTH_SSL_PORT'] = '443'
+
+        get :b
+        assert_response :redirect
+        assert_equal 'https://test.host/oauth2/provider/ssl_helper/b', @response.headers['Location']
       end
 
       def test_non_ssl_actions_are_available_without_ssl

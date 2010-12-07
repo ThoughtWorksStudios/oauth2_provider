@@ -18,7 +18,7 @@ module Oauth2
             render(:text => '', :layout => true, :status => :forbidden)
             return false
           else
-            redirect_to 'https://' + request.host + ':' + ssl_port + request.request_uri
+            redirect_to 'https://' + request.host + ssl_port_suffix + request.request_uri
             return false
           end
         end
@@ -33,6 +33,14 @@ module Oauth2
         else
           !ssl_port.nil?
         end
+      end
+
+      def default_ssl_port?
+        ssl_port == '443'
+      end
+
+      def ssl_port_suffix
+        default_ssl_port? ? '' : ":#{ssl_port}"
       end
 
       def ssl_port
