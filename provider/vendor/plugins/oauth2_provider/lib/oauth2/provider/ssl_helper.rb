@@ -44,7 +44,7 @@ module Oauth2
       end
 
       def ssl_port
-        Configuration.ssl_port
+        Oauth2::Provider::Configuration.ssl_port
       end
 
     end
