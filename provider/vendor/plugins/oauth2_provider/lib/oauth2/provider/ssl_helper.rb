@@ -27,12 +27,7 @@ module Oauth2
 
       private
       def ssl_enabled?
-        # this is set from within tests!
-        unless @ssl_enabled.nil?
-          @ssl_enabled
-        else
-          !ssl_port.nil?
-        end
+        Oauth2::Provider::Configuration.ssl_enabled
       end
 
       def default_ssl_port?
@@ -50,4 +45,3 @@ module Oauth2
     end
   end
 end
-

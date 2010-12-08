@@ -39,12 +39,12 @@ module Oauth2
       end
 
       def teardown
-        ENV['OAUTH_SSL_PORT'] = nil
+        Oauth2::Provider::Configuration.ssl_port = nil
       end
 
       def test_accessing_ssl_forced_actions_redirect_to_ssl_with_non_443_port_when_request_is_not_ssl_for_action_a
-        @controller.instance_variable_set('@ssl_enabled', true)
-        ENV['OAUTH_SSL_PORT'] = '8443'
+        Oauth2::Provider::Configuration.ssl_enabled = true
+        Oauth2::Provider::Configuration.ssl_port = '8443'
         assert_not_equal "on", @request.env["HTTPS"]
         get :a
         assert_response :redirect
@@ -52,8 +52,8 @@ module Oauth2
       end
 
       def test_accessing_ssl_forced_actions_redirect_to_ssl_with_non_443_port_when_request_is_not_ssl_for_action_b
-        @controller.instance_variable_set('@ssl_enabled', true)
-        ENV['OAUTH_SSL_PORT'] = '8443'
+        Oauth2::Provider::Configuration.ssl_enabled = true
+        Oauth2::Provider::Configuration.ssl_port = '8443'
 
         get :b
         assert_response :redirect
@@ -69,8 +69,8 @@ module Oauth2
       end
 
       def test_accessing_ssl_forced_actions_redirect_to_ssl_with_default_443_port_when_request_is_not_ssl_for_action_a
-        @controller.instance_variable_set('@ssl_enabled', true)
-        ENV['OAUTH_SSL_PORT'] = '443'
+        Oauth2::Provider::Configuration.ssl_enabled = true
+        Oauth2::Provider::Configuration.ssl_port = '443'
         assert_not_equal "on", @request.env["HTTPS"]
         get :a
         assert_response :redirect
@@ -78,15 +78,15 @@ module Oauth2
       end
 
       def test_accessing_ssl_forced_actions_redirect_to_ssl_with_default_443_port_when_request_is_not_ssl_for_action_b
-        @controller.instance_variable_set('@ssl_enabled', true)
-        ENV['OAUTH_SSL_PORT'] = '443'
+        Oauth2::Provider::Configuration.ssl_enabled = true
+        Oauth2::Provider::Configuration.ssl_port = '443'
 
         get :b
         assert_response :redirect
         assert_equal 'https://test.host/oauth2/provider/ssl_helper/b', @response.headers['Location']
       end
 
-      def test_non_ssl_actions_are_available_without_ssl
+      def test_non_ssl_actions_are_available_without_ssl_enabled
         assert_not_equal "on", @request.env["HTTPS"]
         get :d
         assert_response :ok
@@ -100,8 +100,7 @@ module Oauth2
 
       def test_ssl_forced_actions_redirect_to_error_page_when_ssl_is_disabled
         assert_not_equal "on", @request.env["HTTPS"]
-        @controller.instance_variable_set('@ssl_enabled', false)
-        assert !@controller.send(:ssl_enabled?)
+        Oauth2::Provider::Configuration.ssl_enabled = false
         get :a
         assert_response :forbidden
       end

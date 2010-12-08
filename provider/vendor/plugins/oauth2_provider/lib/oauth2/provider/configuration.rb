@@ -4,15 +4,26 @@
 module Oauth2
   module Provider
     module Configuration
-      @@__ssl_port = nil
-      module_function
-      def ssl_port
-        (@@__ssl_port.respond_to?(:call) ? @@__ssl_port.call : @@__ssl_port) || ENV['OAUTH_SSL_PORT']
+      def self.def_properties(*names)
+        names.each do |name|
+          class_eval(<<-EOS, __FILE__, __LINE__)
+            @@__#{name} = nil
+            def #{name}
+              @@__#{name}.respond_to?(:call) ? @@__#{name}.call : @@__#{name}
+            end
+            
+            def #{name}=(value_or_proc)
+              @@__#{name} = value_or_proc
+            end
+            module_function :#{name}, :#{name}=
+          EOS
+
+          self.send(:module_function, name, "#{name}=")
+        end
       end
 
-      def ssl_port=(url_or_proc)
-        @@__ssl_port = url_or_proc
-      end
+      def_properties :ssl_port, :ssl_enabled
     end
+
   end
 end
