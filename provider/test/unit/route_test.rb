@@ -15,19 +15,41 @@ class RouteTest < ActionController::TestCase
 
   def test_uses_admin_scope_if_given
     assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
-    ENV['ADMIN_OAUTH_URL_PREFIX'] = 'admin/namespace/'
+    ENV['ADMIN_OAUTH_URL_PREFIX'] = '/admin/namespace/'
     load_route_file
     assert_routing '/admin/namespace/oauth/clients', { :controller => "oauth_clients", :action => "index"}
     assert_routing '/oauth/user_tokens', { :controller => "oauth_user_tokens", :action => "index"}
     assert_routing '/oauth/authorize', { :controller => "oauth_authorize", :action => "index"}
+    
+    assert_routing({:path => '/admin/namespace/oauth/user_tokens/revoke_by_admin', :method => :delete}, { :controller => "oauth_user_tokens", :action => "revoke_by_admin"})
+  end
+
+  def test_uses_admin_scope_if_not_given
+    assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
+    ENV['ADMIN_OAUTH_URL_PREFIX'] = ''
+    load_route_file
+    assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
+    assert_routing '/oauth/user_tokens', { :controller => "oauth_user_tokens", :action => "index"}
+    assert_routing '/oauth/authorize', { :controller => "oauth_authorize", :action => "index"}
+    
+    assert_routing({:path => '/oauth/user_tokens/revoke_by_admin', :method => :delete}, { :controller => "oauth_user_tokens", :action => "revoke_by_admin"})
   end
 
   def test_uses_user_scope_if_given
     assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
-    ENV['USER_OAUTH_URL_PREFIX'] = '/user/namespace'
+    ENV['USER_OAUTH_URL_PREFIX'] = '/user/namespace/'
     load_route_file
     assert_routing '/user/namespace/oauth/user_tokens', { :controller => "oauth_user_tokens", :action => "index"}
     assert_routing '/user/namespace/oauth/authorize', { :controller => "oauth_authorize", :action => "index"}
+    assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
+  end
+
+  def test_uses_user_scope_if_not_given
+    assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
+    ENV['USER_OAUTH_URL_PREFIX'] = ''
+    load_route_file
+    assert_routing '/oauth/user_tokens', { :controller => "oauth_user_tokens", :action => "index"}
+    assert_routing '/oauth/authorize', { :controller => "oauth_authorize", :action => "index"}
     assert_routing '/oauth/clients', { :controller => "oauth_clients", :action => "index"}
   end
 end
