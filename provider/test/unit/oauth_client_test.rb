@@ -84,6 +84,14 @@ module Oauth2
         assert_equal 'some client', client.name
         assert_equal 'http://example1.com/cb', client.redirect_uri
       end
+      
+      def test_should_not_create_multiple_authorization_codes_for_a_user_and_oauth_client
+        client = OauthClient.create(:name => " some client \r\t", :redirect_uri => " \n http://example1.com/cb \r\n")
+        authorization1 = client.create_authorization_for_user_id('foo')
+        authorization2 = client.create_authorization_for_user_id('foo')
+        
+        assert_equal [authorization2.id], client.oauth_authorizations.collect(&:id)
+      end
     end
   end
 end
