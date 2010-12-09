@@ -9,8 +9,8 @@ module Oauth2
       def setup
         Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
         
-        client = OauthClient.create!(:name => 'a client', :redirect_uri => 'http://example.com/cb')
-        @authorization = client.create_authorization_for_user_id(nil)
+        @client = OauthClient.create!(:name => 'a client', :redirect_uri => 'http://example.com/cb')
+        @authorization = @client.create_authorization_for_user_id(nil)
       end
   
       def teardown
@@ -35,6 +35,18 @@ module Oauth2
         Clock.fake_now = Clock.now + 1.hour
         assert_equal 0, @authorization.expires_in
         assert @authorization.expired?
+      end
+      
+      def test_should_delete_all_tokens_for_user_and_client_when_requesting_new_token
+        authorization1 = @client.create_authorization_for_user_id('foo')
+        authorization2 = @client.create_authorization_for_user_id('foo')
+        
+        token1 = authorization1.generate_access_token
+        token2 = authorization2.generate_access_token
+        
+        assert_nil OauthToken.find_by_id(token1.id)
+        assert_not_nil OauthToken.find_by_id(token2.id)
+        assert_equal 1, OauthToken.find_all_with(:user_id, 'foo').count
       end
     end
   end

@@ -13,6 +13,10 @@ module Oauth2
       end
 
       def generate_access_token
+        OauthToken.find_all_with(:user_id, user_id).each do |token|
+          token.destroy if token.oauth_client_id == oauth_client_id
+        end
+        
         token = oauth_client.create_token_for_user_id(user_id)
         self.destroy
         token
