@@ -26,6 +26,7 @@ module Oauth2
 
       def self.ssl_base_url_as_url_options
         result = {:only_path => false}
+        return result if ssl_base_url.blank?
         uri = URIParser.parse(ssl_base_url)
         raise "SSL base URL must be https" unless uri.scheme == 'https'
         result.merge!(:protocol => uri.scheme, :host => uri.host, :port => uri.port)
