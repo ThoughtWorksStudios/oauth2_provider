@@ -7,8 +7,8 @@
     <h2>OAuth 2.0 (v9) provider endpoints for this server</h2>
 
     <div class='summary info-box oauth_config_info'>
-      <p><span>Authorization URL:</span> <%= url_for :controller => :oauth_authorize, :action => :index, :only_path => false %></p>
-      <p><span>Token URL:</span> <%= url_for :controller => :oauth_token, :action => :get_token, :only_path => false %></p>
+      <p><span>Authorization URL:</span> <%= url_for Oauth2::Provider::Configuration.ssl_base_url_as_url_options.merge(:controller => :oauth_authorize, :action => :index) %></p>
+      <p><span>Token URL:</span> <%= url_for Oauth2::Provider::Configuration.ssl_base_url_as_url_options.merge(:controller => :oauth_token, :action => :get_token) %></p>
     </div>
   <% end %>
 

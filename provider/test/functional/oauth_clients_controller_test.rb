@@ -7,9 +7,16 @@ class OauthClientsControllerTest < ActionController::TestCase
   def setup
     @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
     session[:user_id] = @user.id
+    @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+    Oauth2::Provider::Configuration.ssl_base_url = 'https://secure.example.com:8443'
+  end
+  
+  def teardown
+    Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
   end
 
-  def test_should_error_on_accessing_over_http
+  def test_should_error_on_accessing_over_http_and_base_url_is_not_ssl
+    Oauth2::Provider::Configuration.ssl_base_url = ''
     @request.env["HTTPS"] = nil
     get :index
     assert_response :forbidden

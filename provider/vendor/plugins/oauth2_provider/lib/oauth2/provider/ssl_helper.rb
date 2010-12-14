@@ -26,18 +26,13 @@ module Oauth2
       end
 
       private
-      
-      def ssl_base_url
-        Oauth2::Provider::Configuration.ssl_base_url
-      end
 
       def ssl_base_url_as_url_options
-        result = {:only_path => false}
-        uri = URIParser.parse(ssl_base_url)
-        raise "SSL base URL must be https" unless uri.scheme == 'https'
-        result.merge!(:protocol => uri.scheme, :host => uri.host, :port => uri.port)
-        result.delete(:port) if (uri.port == uri.default_port || uri.port == -1)
-        result
+        Oauth2::Provider::Configuration.ssl_base_url_as_url_options
+      end
+
+      def ssl_base_url
+        Oauth2::Provider::Configuration.ssl_base_url
       end
 
       def ssl_enabled?
