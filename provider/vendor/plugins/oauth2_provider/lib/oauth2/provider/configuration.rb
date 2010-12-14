@@ -22,7 +22,8 @@ module Oauth2
         end
       end
 
-      def_properties :ssl_port, :ssl_enabled
+      def_properties :ssl_base_url
+      
     end
 
   end
