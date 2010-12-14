@@ -4,6 +4,15 @@ require File.join(File.dirname(__FILE__), '../test_helper')
 
 class OauthUserTokensControllerTest < ActionController::TestCase
 
+  def setup
+    @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+    Oauth2::Provider::Configuration.ssl_base_url = ''
+  end
+
+  def teardown
+    Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
+  end
+  
   def test_should_disallow_access_over_http
     user1 = User.create!(:email => 'u1', :password => 'p1')
     session[:user_id] = user1.id

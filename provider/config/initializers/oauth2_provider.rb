@@ -17,7 +17,8 @@ module Oauth2
     
     # make sure no authentication for OauthTokenController
     OauthTokenController.skip_before_filter(:login_required)
-    
+
+    ::Oauth2::Provider::Configuration.ssl_base_url = "https://#{Socket.gethostname}:3443"
     # use host app's custom authorization filter to protect OauthClientsController
     # OauthClientsController.before_filter(:ensure_admin_user)
     

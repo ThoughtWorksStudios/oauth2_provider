@@ -10,9 +10,12 @@ class OauthTokenControllerRefreshTokenTest < ActionController::TestCase
     session[:user_id] = '13'
     @original_token = @client.create_token_for_user_id('13')
     @controller = OauthTokenController.new
+    @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+    Oauth2::Provider::Configuration.ssl_base_url = ''
   end
 
   def teardown
+    Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
     Oauth2::Provider::Clock.reset
   end
 

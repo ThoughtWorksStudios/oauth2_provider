@@ -8,9 +8,12 @@ class OauthAuthorizeControllerTest < ActionController::TestCase
     @client = Oauth2::Provider::OauthClient.create!(:name => 'my application', :redirect_uri => 'http://example.com/cb')
     @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
     Oauth2::Provider::Clock.fake_now = Time.utc(2008, 1, 20, 0, 0, 1)
+    @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+    Oauth2::Provider::Configuration.ssl_base_url = ''
   end
 
   def teardown
+    Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
     OauthAuthorizeController.allow_forgery_protection = false
     OauthAuthorizeController.request_forgery_protection_token = nil
     Oauth2::Provider::Clock.reset

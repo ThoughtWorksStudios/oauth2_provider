@@ -36,10 +36,12 @@ module Oauth2
         @controller = SslHelperController.new
         @request    = ActionController::TestRequest.new
         @response   = ActionController::TestResponse.new
+        @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+        Oauth2::Provider::Configuration.ssl_base_url = ''
       end
 
       def teardown
-        Oauth2::Provider::Configuration.ssl_base_url = nil
+        Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
       end
 
       def test_accessing_ssl_forced_actions_redirect_to_ssl_with_non_443_port_when_request_is_not_ssl_for_action_a

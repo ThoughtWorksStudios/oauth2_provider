@@ -7,8 +7,14 @@ class OauthClientsControllerApiTest < ActionController::TestCase
     @user = User.create!(:email => 'foo@bar.com', :password => 'top-secret')
     session[:user_id] = @user.id
     @controller = OauthClientsController.new
+    @old_ssl_base_url = Oauth2::Provider::Configuration.ssl_base_url
+    Oauth2::Provider::Configuration.ssl_base_url = ''
   end
 
+  def teardown
+    Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
+  end
+  
   def test_should_error_on_accessing_over_http
     @request.env["HTTPS"] = nil
     get :index

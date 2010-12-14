@@ -6,6 +6,7 @@ require 'oauth2/provider/in_memory_datasource'
 require 'oauth2/provider/model_base'
 require 'oauth2/provider/clock'
 require 'oauth2/provider/url_parser'
+require 'oauth2/provider/configuration'
 
 Oauth2::Provider::ModelBase.datasource = ENV["OAUTH2_PROVIDER_DATASOURCE"]
 
