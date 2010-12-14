@@ -12,17 +12,6 @@ class OauthUserTokensControllerTest < ActionController::TestCase
   def teardown
     Oauth2::Provider::Configuration.ssl_base_url = @old_ssl_base_url
   end
-  
-  def test_should_disallow_access_over_http
-    user1 = User.create!(:email => 'u1', :password => 'p1')
-    session[:user_id] = user1.id
-
-    get :index
-    assert_response :forbidden
-
-    get :revoke
-    assert_response :forbidden
-  end
 
   def test_provider_name_is_html_escaped
     client1 = Oauth2::Provider::OauthClient.create!(:name => '<h1>app</h1>', :redirect_uri => 'http://app1.com/bar')
@@ -55,12 +44,12 @@ class OauthUserTokensControllerTest < ActionController::TestCase
     assert_select "table" do
       assert_select "tr", :count => 3
 
-      assert_select "tr##{token1.access_token}" do
+      assert_select "tr" do
         assert_select "td", "some application"
         assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token1.id, :controller => 'oauth_user_tokens')}']"
       end
 
-      assert_select "tr##{token2.access_token}" do
+      assert_select "tr" do
         assert_select "td", "another application"
         assert_select "a[href='#{@controller.url_for(:action=>:revoke, :only_path => true, :token_id => token2.id, :controller => 'oauth_user_tokens')}']"
       end

@@ -3,8 +3,6 @@
 
 class OauthUserTokensController < ApplicationController
 
-  include Oauth2::Provider::SslHelper
-
   def index
     @tokens = Oauth2::Provider::OauthToken.find_all_with(:user_id, current_user_id_for_oauth)
   end

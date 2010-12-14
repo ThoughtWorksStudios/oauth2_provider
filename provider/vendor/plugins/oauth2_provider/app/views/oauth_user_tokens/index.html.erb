@@ -14,7 +14,7 @@
       <th>Action</th>
     </tr>
     <% @tokens.each do |token| -%>
-      <tr id="<%= token.access_token %>">
+      <tr>
         <td><%= h(token.oauth_client.name) %></td>
         <td><%= link_to '<span>Delete</span>',
             {:action => :revoke, :token_id => token.id, :controller => 'oauth_user_tokens'},
