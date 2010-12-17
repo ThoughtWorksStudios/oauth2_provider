@@ -34,6 +34,24 @@ module Oauth2
         @fooControllerClass.oauth_allowed({})
         assert @controller.send(:oauth_allowed?)
       end
+      
+      def test_subclass_of_a_controller_inherit_oauth_settings
+        @fooControllerClass.oauth_allowed({})
+        barControllerClass = Class.new(@fooControllerClass)
+        assert @controller.send(:oauth_allowed?)
+        assert barControllerClass.new.send(:oauth_allowed?)
+      end
+      
+      def test_subclass_of_a_controller_can_override_oauth_settings
+        @fooControllerClass.oauth_allowed() { false }
+        barControllerClass = Class.new(@fooControllerClass)
+        barControllerClass.oauth_allowed() { true }
+        
+        assert !@fooControllerClass.new.send(:oauth_allowed?)
+        assert barControllerClass.new.send(:oauth_allowed?)
+      end
+      
+      
 
       def test_oauth_allowed_predicate_should_restrict_oauth_to_actions_specified_by_only_option
         @fooControllerClass.oauth_allowed :only => [:oauth_ok_action, :another_oauth_ok_action]
@@ -232,7 +250,6 @@ module Oauth2
           @controller.send(:user_id_for_oauth_access_token)
         end
       end
-
     end
   end
 end

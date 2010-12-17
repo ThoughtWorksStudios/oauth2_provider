@@ -10,22 +10,23 @@ module Oauth2
     module ApplicationControllerMethods
 
       def self.included(controller_class)
-        controller_class.cattr_accessor :oauth_options, :oauth_options_proc
-
-        def controller_class.oauth_allowed(options = {}, &block)
+        controller_class.extend(ClassMethods)
+      end
+      
+      module ClassMethods
+        def oauth_allowed(options = {}, &block)
           raise 'options cannot contain both :only and :except' if options[:only] && options[:except]
 
           [:only, :except].each do |k|
             if values = options[k]
               options[k] = Array(values).map(&:to_s).to_set
             end
-          end
-          self.oauth_options = options
-          self.oauth_options_proc = block
+          end          
+          write_inheritable_attribute(:oauth_options, options)
+          write_inheritable_attribute(:oauth_options_proc, block)
         end
-
       end
-
+      
       protected
 
       def user_id_for_oauth_access_token
@@ -49,7 +50,9 @@ module Oauth2
       end
 
       def oauth_allowed?
-        if (oauth_options_proc && !oauth_options_proc.call(self))
+        oauth_options_proc = self.class.read_inheritable_attribute(:oauth_options_proc)
+        oauth_options = self.class.read_inheritable_attribute(:oauth_options)
+        if oauth_options_proc && !oauth_options_proc.call(self)
           false
         else
           return false if oauth_options.nil?
