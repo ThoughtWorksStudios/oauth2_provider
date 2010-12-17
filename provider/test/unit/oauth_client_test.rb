@@ -18,7 +18,7 @@ module Oauth2
   
       def test_should_not_allow_creating_clients_without_a_redirct_uri
         client = OauthClient.create(:name => 'foobar')
-        assert_equal ["Redirect uri can't be empty", "Redirect uri is invalid"], client.errors.full_messages
+        assert_equal ["Redirect uri can't be empty"], client.errors.full_messages
       end
       
       def test_should_not_allow_invalid_redirect_uri
