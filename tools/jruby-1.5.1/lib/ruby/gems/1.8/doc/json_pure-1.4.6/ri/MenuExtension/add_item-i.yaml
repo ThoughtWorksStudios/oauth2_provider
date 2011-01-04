@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Adds a Gtk::MenuItem to this instance's #menu. <em>label</em> is the label string, <em>klass</em> is the item type, and <em>callback</em> is the procedure, that is called if the <em>item</em> is activated."
+full_name: MenuExtension#add_item
+is_singleton: false
+name: add_item
+params: (label, keyval = nil, klass = MenuItem, &callback)
+visibility: public

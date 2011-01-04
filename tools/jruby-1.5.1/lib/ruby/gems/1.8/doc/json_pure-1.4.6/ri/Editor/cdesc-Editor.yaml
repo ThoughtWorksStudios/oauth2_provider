@@ -1,0 +1,24 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: data2model
+  - !ruby/object:RI::MethodSummary 
+    name: error_dialog
+  - !ruby/object:RI::MethodSummary 
+    name: fetch_icon
+  - !ruby/object:RI::MethodSummary 
+    name: model2data
+  - !ruby/object:RI::MethodSummary 
+    name: question_dialog
+comment: 
+constants: []
+
+full_name: Editor
+includes: []
+
+instance_methods: []
+
+name: Editor
+superclass: 

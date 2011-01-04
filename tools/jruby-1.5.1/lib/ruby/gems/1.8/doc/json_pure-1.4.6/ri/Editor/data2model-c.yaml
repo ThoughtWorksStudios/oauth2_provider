@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: model
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Convert the Ruby data structure <em>data</em> into tree model data for Gtk and returns the whole model. If the parameter <em>model</em> wasn't given a new Gtk::TreeStore is created as the model. The <em>parent</em> parameter specifies the parent node (iter, Gtk:TreeIter instance) to which the data is appended, alternativeley the result of the yielded block is used as iter.
+full_name: Editor::data2model
+is_singleton: true
+name: data2model
+params: (data, model = nil, parent = nil) {|model| ...}
+visibility: public

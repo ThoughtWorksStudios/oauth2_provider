@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: MenuExtension#method_missing
+is_singleton: false
+name: method_missing
+params: (*a, &b)
+visibility: public

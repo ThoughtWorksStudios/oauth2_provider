@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "Adds a Gtk::SeparatorMenuItem to this instance's #menu."
+full_name: MenuExtension#add_separator
+is_singleton: false
+name: add_separator
+params: ()
+visibility: public

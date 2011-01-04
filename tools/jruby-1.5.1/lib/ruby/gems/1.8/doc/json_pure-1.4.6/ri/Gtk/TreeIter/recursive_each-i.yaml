@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: self
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Recursively traverse all nodes of this Gtk::TreeIter's subtree (including self) and yield to them.
+full_name: Gtk::TreeIter#recursive_each
+is_singleton: false
+name: recursive_each
+params: (&block) {|self| ...}
+visibility: public

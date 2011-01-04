@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Creates a Menu, that includes MenuExtension. <em>treeview</em> is the Gtk::TreeView, on which it operates.
+full_name: MenuExtension::new
+is_singleton: true
+name: new
+params: (treeview)
+visibility: public

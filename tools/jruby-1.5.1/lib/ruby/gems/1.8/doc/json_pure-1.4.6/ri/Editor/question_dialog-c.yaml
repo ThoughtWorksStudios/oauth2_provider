@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Opens a yes/no question dialog on top of <em>window</em> showing the error message <em>text</em>. If yes was answered <em>true</em> is returned, otherwise <em>false</em>.
+full_name: Editor::question_dialog
+is_singleton: true
+name: question_dialog
+params: (window, text)
+visibility: public

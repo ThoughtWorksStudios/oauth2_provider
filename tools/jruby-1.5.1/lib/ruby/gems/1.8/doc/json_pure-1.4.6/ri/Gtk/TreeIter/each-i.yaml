@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: nth_child(i) }
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Traverse each of this Gtk::TreeIter instance's children and yield to them.
+full_name: Gtk::TreeIter#each
+is_singleton: false
+name: each
+params: () {|nth_child(i) }| ...}
+visibility: public

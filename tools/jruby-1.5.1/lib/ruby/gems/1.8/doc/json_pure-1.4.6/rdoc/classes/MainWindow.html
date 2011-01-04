@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: MainWindow</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">MainWindow</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/json/editor_rb.html">
+                lib/json/editor.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Gtk::Window
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The editor main window
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000076">ask_for_location</a>&nbsp;&nbsp;
+      <a href="#M000062">ask_save</a>&nbsp;&nbsp;
+      <a href="#M000058">change</a>&nbsp;&nbsp;
+      <a href="#M000065">clear</a>&nbsp;&nbsp;
+      <a href="#M000057">create_menu_bar</a>&nbsp;&nbsp;
+      <a href="#M000061">display_status</a>&nbsp;&nbsp;
+      <a href="#M000064">display_title</a>&nbsp;&nbsp;
+      <a href="#M000068">edit</a>&nbsp;&nbsp;
+      <a href="#M000067">file_open</a>&nbsp;&nbsp;
+      <a href="#M000069">file_save</a>&nbsp;&nbsp;
+      <a href="#M000070">file_save_as</a>&nbsp;&nbsp;
+      <a href="#M000072">load_file</a>&nbsp;&nbsp;
+      <a href="#M000073">load_location</a>&nbsp;&nbsp;
+      <a href="#M000066">location_open</a>&nbsp;&nbsp;
+      <a href="#M000056">new</a>&nbsp;&nbsp;
+      <a href="#M000063">quit</a>&nbsp;&nbsp;
+      <a href="#M000074">read_data</a>&nbsp;&nbsp;
+      <a href="#M000075">select_file</a>&nbsp;&nbsp;
+      <a href="#M000071">store_file</a>&nbsp;&nbsp;
+      <a href="#M000059">unchange</a>&nbsp;&nbsp;
+      <a href="#M000060">view_new_model</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="Gtk.html">Gtk</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000056.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000056.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(encoding)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000076" class="method-detail">
+        <a name="M000076"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000076.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000076.html');return false;">
+          <span class="method-name">ask_for_location</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Ask for location URI a to load data from. Returns the URI as a string.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000062.html');return false;">
+          <span class="method-name">ask_save</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Opens a dialog, asking, if changes should be saved to a file.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000058.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000058.html');return false;">
+          <span class="method-name">change</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets editor status to changed, to indicate that the edited data containts
+unsaved changes.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000065" class="method-detail">
+        <a name="M000065"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000065.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000065.html');return false;">
+          <span class="method-name">clear</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Clear the current model, after asking to save all unsaved changes.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000057.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000057.html');return false;">
+          <span class="method-name">create_menu_bar</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates the menu bar with the pulldown menus and returns it.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000061.html');return false;">
+          <span class="method-name">display_status</span><span class="method-args">(text)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Displays <em>text</em> in the status bar.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000064" class="method-detail">
+        <a name="M000064"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000064.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000064.html');return false;">
+          <span class="method-name">display_title</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Display the <a href="MainWindow.html#M000056">new</a> title according to
+the editor&#8216;s current state.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000068" class="method-detail">
+        <a name="M000068"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000068.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000068.html');return false;">
+          <span class="method-name">edit</span><span class="method-args">(json)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Edit the string <em>json</em> in the editor.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000067" class="method-detail">
+        <a name="M000067"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000067.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000067.html');return false;">
+          <span class="method-name">file_open</span><span class="method-args">(filename = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Open the file <em>filename</em> or call the <a
+href="MainWindow.html#M000075">select_file</a> method to ask for a
+filename.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000069" class="method-detail">
+        <a name="M000069"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000069.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000069.html');return false;">
+          <span class="method-name">file_save</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Save the current file.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000070" class="method-detail">
+        <a name="M000070"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000070.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000070.html');return false;">
+          <span class="method-name">file_save_as</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Save the current file as the filename
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000072" class="method-detail">
+        <a name="M000072"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000072.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000072.html');return false;">
+          <span class="method-name">load_file</span><span class="method-args">(filename)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Load the file named <em>filename</em> into the editor as a <a
+href="JSON.html">JSON</a> document.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000073" class="method-detail">
+        <a name="M000073"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000073.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000073.html');return false;">
+          <span class="method-name">load_location</span><span class="method-args">(uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Load the data at location <em>uri</em> into the editor as a <a
+href="JSON.html">JSON</a> document.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000066" class="method-detail">
+        <a name="M000066"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000066.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000066.html');return false;">
+          <span class="method-name">location_open</span><span class="method-args">(uri = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Open the data at the location <em>uri</em>, if given. Otherwise open a
+dialog to ask for the <em>uri</em>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000063.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000063.html');return false;">
+          <span class="method-name">quit</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Quit this editor, that is, leave this editor&#8216;s main loop.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000074" class="method-detail">
+        <a name="M000074"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000074.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000074.html');return false;">
+          <span class="method-name">read_data</span><span class="method-args">(filename)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Read a <a href="JSON.html">JSON</a> document from the file named
+<em>filename</em>, parse it into a ruby data structure, and return the
+data.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000075" class="method-detail">
+        <a name="M000075"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000075.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000075.html');return false;">
+          <span class="method-name">select_file</span><span class="method-args">(message)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Open a file selecton dialog, displaying <em>message</em>, and return the
+selected filename or nil, if no file was selected.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000071" class="method-detail">
+        <a name="M000071"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000071.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000071.html');return false;">
+          <span class="method-name">store_file</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Store the current <a href="JSON.html">JSON</a> document to <em>path</em>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000059.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000059.html');return false;">
+          <span class="method-name">unchange</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets editor status to unchanged, to indicate that the edited data
+doesn&#8216;t containt unsaved changes.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="MainWindow.src/M000060.html" target="Code" class="method-signature"
+            onclick="popupCode('MainWindow.src/M000060.html');return false;">
+          <span class="method-name">view_new_model</span><span class="method-args">(model)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Puts a <a href="MainWindow.html#M000056">new</a> model <em>model</em> into
+the Gtk::TreeView to be edited.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

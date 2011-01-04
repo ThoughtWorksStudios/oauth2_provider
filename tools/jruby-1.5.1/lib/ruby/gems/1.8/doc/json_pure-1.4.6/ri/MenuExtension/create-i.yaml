@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "This method should be implemented in subclasses to create the #menu of this instance. It has to be called after an instance of this class is created, to build the menu."
+full_name: MenuExtension#create
+is_singleton: false
+name: create
+params: ()
+visibility: public

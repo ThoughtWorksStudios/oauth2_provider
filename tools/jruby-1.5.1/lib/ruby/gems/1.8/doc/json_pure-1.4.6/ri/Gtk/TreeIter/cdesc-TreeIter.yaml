@@ -1,0 +1,31 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The Gtk::TreeIter class is reopened and some auxiliary methods are added.
+constants: []
+
+full_name: Gtk::TreeIter
+includes: 
+  - !ruby/object:RI::IncludedModule 
+    name: Enumerable
+instance_methods: 
+  - !ruby/object:RI::MethodSummary 
+    name: content
+  - !ruby/object:RI::MethodSummary 
+    name: content=
+  - !ruby/object:RI::MethodSummary 
+    name: each
+  - !ruby/object:RI::MethodSummary 
+    name: recursive_each
+  - !ruby/object:RI::MethodSummary 
+    name: remove_subtree
+  - !ruby/object:RI::MethodSummary 
+    name: type
+  - !ruby/object:RI::MethodSummary 
+    name: type=
+name: TreeIter
+superclass: Object

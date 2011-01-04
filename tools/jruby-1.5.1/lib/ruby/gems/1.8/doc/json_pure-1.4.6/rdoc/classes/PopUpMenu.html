@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: PopUpMenu</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">PopUpMenu</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/lib/json/editor_rb.html">
+                lib/json/editor.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Object.html">
+                Object
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This class creates the popup menu, that opens when clicking onto the
+treeview.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000028">append_new_node</a>&nbsp;&nbsp;
+      <a href="#M000023">change_node</a>&nbsp;&nbsp;
+      <a href="#M000030">collapse_expand</a>&nbsp;&nbsp;
+      <a href="#M000025">copy_node</a>&nbsp;&nbsp;
+      <a href="#M000031">create</a>&nbsp;&nbsp;
+      <a href="#M000024">cut_node</a>&nbsp;&nbsp;
+      <a href="#M000029">insert_new_node</a>&nbsp;&nbsp;
+      <a href="#M000026">paste_node_appending</a>&nbsp;&nbsp;
+      <a href="#M000027">paste_node_inserting_before</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="MenuExtension.html">MenuExtension</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000028.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000028.html');return false;">
+          <span class="method-name">append_new_node</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Append a new node to the selected Hash or Array.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000023.html');return false;">
+          <span class="method-name">change_node</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Change the type or content of the selected node.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000030.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000030.html');return false;">
+          <span class="method-name">collapse_expand</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Recursively collapse/expand a subtree starting from the selected node.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000025.html');return false;">
+          <span class="method-name">copy_node</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Copy the selected node and its subtree, and save it into the clipboard.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000031.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000031.html');return false;">
+          <span class="method-name">create</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create the menu.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000024.html');return false;">
+          <span class="method-name">cut_node</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Cut the selected node and its subtree, and save it into the clipboard.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000029.html');return false;">
+          <span class="method-name">insert_new_node</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Insert a new node into an Array before the selected element.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000026.html');return false;">
+          <span class="method-name">paste_node_appending</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Paste the data in the clipboard into the selected Array or Hash by
+appending it.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="PopUpMenu.src/M000027.html" target="Code" class="method-signature"
+            onclick="popupCode('PopUpMenu.src/M000027.html');return false;">
+          <span class="method-name">paste_node_inserting_before</span><span class="method-args">(item)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Paste the data in the clipboard into the selected Array inserting it before
+the selected element.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
