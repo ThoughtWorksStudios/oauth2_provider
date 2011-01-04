@@ -4,6 +4,9 @@
 class OauthAuthorizeController < ::ApplicationController
 
   include Oauth2::Provider::SslHelper
+  include Oauth2::Provider::TransactionHelper
+
+  transaction_actions :authorize
 
   def index
     return unless validate_params

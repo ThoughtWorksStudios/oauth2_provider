@@ -5,6 +5,9 @@ class OauthTokenController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   include Oauth2::Provider::SslHelper
+  include Oauth2::Provider::TransactionHelper
+  
+  transaction_actions :get_token
 
   def get_token
 

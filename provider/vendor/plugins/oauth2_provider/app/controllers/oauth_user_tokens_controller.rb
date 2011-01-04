@@ -3,6 +3,10 @@
 
 class OauthUserTokensController < ApplicationController
 
+  include Oauth2::Provider::TransactionHelper
+
+  transaction_actions :revoke, :revoke_by_admin
+
   def index
     @tokens = Oauth2::Provider::OauthToken.find_all_with(:user_id, current_user_id_for_oauth)
   end

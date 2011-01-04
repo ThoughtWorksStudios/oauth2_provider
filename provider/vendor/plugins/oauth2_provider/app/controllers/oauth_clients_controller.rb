@@ -4,6 +4,10 @@
 class OauthClientsController < ApplicationController
 
   include Oauth2::Provider::SslHelper
+  include Oauth2::Provider::TransactionHelper
+
+  transaction_actions :create, :update, :destroy
+
 
   def index
     @oauth_clients = Oauth2::Provider::OauthClient.all.sort{|a, b| a.name.casecmp(b.name)}

@@ -22,6 +22,10 @@ if defined?(ActiveRecord)
         def reset
 
         end
+        
+        def transaction(&block)
+          ActiveRecord::Base.transaction(&block)
+        end
 
         def find_oauth_client_by_id(id)
           OauthClientDto.find_by_id(id)

@@ -80,6 +80,18 @@ module Oauth2
           InMemoryDatasource.new
         end
       end
+      
+      def self.transaction(&block)
+        if datasource.respond_to?(:transaction)
+          datasource.transaction(&block)
+        else
+          yield
+        end
+      end
+
+      def transaction(&block)
+        self.class.transaction(&block)
+      end
 
       def self.find(id)
         find_by_id(id) || raise(NotFoundException.new("Record not found!"))
@@ -162,7 +174,7 @@ module Oauth2
 
       def destroy
         before_destroy
-        datasource.send("delete_#{self.class.compact_name}", convert(:id, id) )
+        datasource.send("delete_#{self.class.compact_name}", convert(:id, id))
       end
 
       def before_create
