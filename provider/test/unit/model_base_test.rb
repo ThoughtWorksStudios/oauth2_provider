@@ -27,8 +27,16 @@ module Oauth2
           @people[id]
         end
 
+        def find_all_person_by_user_name(user_name)
+          @people.values.select {|p| p.user_name == user_name }
+        end
+
         def find_person_by_name(name)
           @people.values.find {|p| p.name == name }
+        end
+
+        def find_person_by_user_name(user_name)
+          @people.values.find {|p| p.user_name == user_name }
         end
 
         def find_all_person_by_name(name)
@@ -85,12 +93,14 @@ module Oauth2
 
         attr_accessor :before_create_called, :before_destroy_called, :before_save_called
 
-        columns :name, :age => :integer
+        columns :name, :user_name, :age => :integer, :account_id => :integer
 
         validates_presence_of :name
         validates_presence_of :age
 
         validates_uniqueness_of :name
+
+        validates_uniqueness_of :user_name, :scope => :account_id
 
         def before_create
           @before_create_called = true
@@ -109,6 +119,53 @@ module Oauth2
           @before_save_called = true
         end
 
+      end
+
+      def test_should_allow_duplicate_column_if_scope_does_not_match
+        Person.create(:name => 'bob', :age => 28, :user_name => 'bob@example.com', :account_id => 2)
+        Person.create(:name => 'alice', :age => 42, :user_name => 'bob@example.com', :account_id => 1)
+        Person.create(:name => 'joe', :age => 30, :user_name => 'bob@example.com', :account_id => 10)
+
+        assert_equal 3, Person.size
+      end
+
+      def test_should_not_allow_duplicate_column_if_scope_matches
+        bob = Person.create(:name => 'bob', :age => 28, :user_name => 'bob@example.com', :account_id => 1)
+        joe = Person.create(:name => 'joe', :age => 42, :user_name => 'bob@example.com', :account_id => 3)
+
+        Person.create(:name => 'alice', :age => 42, :user_name => 'bob@example.com', :account_id => 1)
+        assert_equal 2, Person.size
+        assert_equal bob.id, Person.all.first.id
+        assert_equal joe.id, Person.all.second.id
+      end
+
+      def test_should_not_allow_changing_column_value_of_scope_to_a_duplicate_value_if_scope_matches
+        bob = Person.create(:name => 'bob', :age => 28, :user_name => 'bob@example.com', :account_id => 1)
+        joe = Person.create(:name => 'joe', :age => 42, :user_name => 'bob@example.com', :account_id => 3)
+
+        assert_equal 2, Person.size
+        joe.account_id = 1
+        assert !joe.valid?
+        assert_equal ["User name is a duplicate."], joe.errors.full_messages
+      end
+
+      def test_should_not_allow_changing_column_value_of_column_to_a_duplicate_value_if_scope_matches
+        bob = Person.create(:name => 'bob', :age => 28, :user_name => 'bob@example.com', :account_id => 1)
+        joe = Person.create(:name => 'joe', :age => 42, :user_name => 'joe@example.com', :account_id => 1)
+
+        assert_equal 2, Person.size
+        joe.user_name = 'bob@example.com'
+        assert !joe.valid?
+        assert_equal ["User name is a duplicate."], joe.errors.full_messages
+      end
+
+      def test_should_allow_options_for_columns
+        klass = Class.new(ModelBase)
+        klass.columns :name, :age => :integer, :foo => :string
+        assert_equal 4, klass.db_columns.size
+        assert_equal ModelBase::CONVERTORS[:string], klass.db_columns['name']
+        assert_equal ModelBase::CONVERTORS[:integer], klass.db_columns['age']
+        assert_equal ModelBase::CONVERTORS[:foo], klass.db_columns['string']
       end
 
       def test_can_create_a_model_return_model_with_id
@@ -145,16 +202,16 @@ module Oauth2
       end
 
       def test_should_return_all_model_instances
-        john = Person.create(:name => 'John Smith', :age => 29)
-        joe = Person.create(:name => 'Joe', :age => 45)
+        john = Person.create(:name => 'John Smith', :age => 29, :user_name => 'john')
+        joe = Person.create(:name => 'Joe', :age => 45, :user_name => 'joe')
 
         assert_equal [john.id, joe.id].sort, Person.all.collect(&:id).sort
         assert_equal [Person], Person.all.collect(&:class).uniq
       end
 
       def test_should_count_all_model_instances
-        Person.create(:name => 'John Smith', :age => 29)
-        Person.create(:name => 'Joe', :age => 45)
+        Person.create(:name => 'John Smith', :age => 29, :user_name => 'john')
+        Person.create(:name => 'Joe', :age => 45, :user_name => 'joe')
 
         assert_equal 2, Person.size
         assert_equal 2, Person.count
@@ -237,18 +294,18 @@ module Oauth2
       end
 
       def test_find_one_by_attribute
-        john = Person.create(:name => 'John Smith', :age => 29)
-        jane = Person.create(:name => "Jane", :age => 26)
-        joe = Person.create(:name => "Joe", :age => 26)
+        john = Person.create(:name => 'John Smith', :age => 29, :user_name => 'john')
+        jane = Person.create(:name => "Jane", :age => 26, :user_name => 'jane')
+        joe = Person.create(:name => "Joe", :age => 26, :user_name => 'joe')
         assert_equal joe.id, Person.find_one(:name, "Joe").id
         assert_equal john.id, Person.find_one(:age, 29).id
         assert_nil Person.find_one(:age, 109)
       end
 
       def test_find_all_by_attribute
-        john = Person.create(:name => 'John Smith', :age => 29)
-        jane = Person.create(:name => "Jane", :age => 26)
-        joe = Person.create(:name => "Joe", :age => 26)
+        john = Person.create(:name => 'John Smith', :age => 29, :user_name => 'john')
+        jane = Person.create(:name => "Jane", :age => 26, :user_name => 'jane')
+        joe = Person.create(:name => "Joe", :age => 26, :user_name => 'joe')
 
         assert_equal [joe.id], Person.find_all_with(:name, "Joe").collect(&:id)
         assert_equal [jane.id, joe.id], Person.find_all_with(:age, 26).collect(&:id).sort
@@ -322,9 +379,9 @@ module Oauth2
       end
 
       def test_should_not_allow_duplicate_column_values_when_saving_an_existing_object_to_have_a_used_value
-        bob = Person.create!(:name => 'bob', :age => 26)
+        bob = Person.create!(:name => 'bob', :age => 26, :user_name => 'bob')
 
-        joe = Person.create!(:name => 'joe', :age => 28)
+        joe = Person.create!(:name => 'joe', :age => 28, :user_name => 'joe')
         joe.name = 'bob'
         assert !joe.valid?
       end
@@ -342,19 +399,21 @@ module Oauth2
       end
 
       def test_to_xml
-        john = Person.create(:name => 'John Smith', :age => 29)
+        john = Person.create(:name => 'John Smith', :age => 29, :account_id => 0)
         assert_equal %{<?xml version="1.0" encoding="UTF-8"?>
 <person>
+  <account-id type="integer">0</account-id>
   <age type="integer">29</age>
   <id type="integer">1</id>
   <name>John Smith</name>
+  <user-name></user-name>
 </person>
 }, john.to_xml
       end
 
       def test_duplicate_validation_message_exists
-        Person.create!(:name => 'foo', :age => 26)
-        foo = Person.new(:name => 'foo', :age => 28)
+        Person.create!(:name => 'foo', :age => 26, :user_name => 'foo')
+        foo = Person.new(:name => 'foo', :age => 28, :user_name => 'bar')
         foo.valid?
         assert_equal ["Name is a duplicate."], foo.errors.full_messages
       end

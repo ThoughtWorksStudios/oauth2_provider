@@ -13,20 +13,23 @@ module Oauth2
     class ModelBase
       include Validatable
       CONVERTORS =  {
-        :integer => Proc.new { |v| v.to_i },
-        :string  => Proc.new { |v| v.to_s }
+            :integer => Proc.new { |v| v ? v.to_i : nil },
+            :string  => Proc.new { |v| v.to_s }
       }.with_indifferent_access
 
       class_inheritable_hash :db_columns
       self.db_columns = {}
 
       def self.columns(*names)
-        names.each do |name|
-          column_name, convertor = (Hash === name) ?
-            [name.keys.first, CONVERTORS[name.values.first]] :
-            [name, CONVERTORS[:string]]
+        options = names.extract_options!
+        names.each do |column_name|
           attr_accessor column_name
-          self.db_columns[column_name.to_s] = convertor
+          self.db_columns[column_name.to_s] = CONVERTORS[:string]
+        end
+
+        options.each do |column_name, converter|
+          attr_accessor column_name
+          self.db_columns[column_name.to_s] = CONVERTORS[converter]
         end
       end
 
@@ -50,16 +53,23 @@ module Oauth2
                           ds
                         end
       end
-
+      
       def self.validates_uniqueness_of(*columns)
+        options = columns.extract_options!
         columns.each do |column_name|
           self.validates_each column_name, :logic => lambda {
-            dto = datasource.send("find_#{self.class.compact_name}_by_#{column_name}", read_attribute(column_name))
-            errors.add(column_name, 'is a duplicate.') if dto && dto.id != self.id
+            if scope = options[:scope]
+              dtos = self.class.find_all_with(column_name, self.send(column_name))
+              dtos = dtos.select{ |o| o.send(scope) == self.send(scope) }
+              errors.add(column_name, 'is a duplicate.', options[:humanized_name]) if dtos.size == 1 && dtos.first.id != self.id
+            else
+              dto = datasource.send("find_#{self.class.compact_name}_by_#{column_name}", read_attribute(column_name))
+              errors.add(column_name, 'is a duplicate.', options[:humanized_name]) if dto && dto.id != self.id
+            end
           }
         end
       end
-
+      
       def self.datasource
         @@datasource ||= default_datasource
       end
