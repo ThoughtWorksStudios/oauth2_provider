@@ -17,6 +17,11 @@ module Oauth2
             super(attrs)
           end
         end
+        
+        def transaction(&block)
+          yield
+          return nil
+        end
 
         def initialize
           @people = {}
@@ -425,6 +430,9 @@ module Oauth2
         assert person.before_save_called
       end
 
+      def test_transaction_should_return_the_block_result
+        assert_equal 42, Person.transaction { 42 }
+      end
     end
   end
 end

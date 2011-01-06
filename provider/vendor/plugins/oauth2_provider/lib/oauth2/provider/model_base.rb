@@ -93,12 +93,16 @@ module Oauth2
       
       def self.transaction(&block)
         if datasource.respond_to?(:transaction)
-          datasource.transaction(&block)
+          result = nil
+          datasource.transaction do
+            result = yield
+          end
+          result
         else
           yield
         end
       end
-
+      
       def transaction(&block)
         self.class.transaction(&block)
       end
