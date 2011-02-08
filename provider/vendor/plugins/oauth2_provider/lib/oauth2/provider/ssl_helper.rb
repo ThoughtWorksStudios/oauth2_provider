@@ -6,7 +6,7 @@ module Oauth2
     module SslHelper
 
       def self.included(controller_class)
-        controller_class.before_filter :mandatory_ssl unless ENV['DISABLE_OAUTH_SSL']
+        controller_class.before_filter :mandatory_ssl
       end
 
       protected

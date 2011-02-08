@@ -3,7 +3,7 @@
 
   <h1>OAuth clients configuration</h1>
 
-  <% if request.ssl? || ENV['DISABLE_OAUTH_SSL'] %>
+  <% if request.ssl? %>
     <h2>OAuth 2.0 (v9) provider endpoints for this server</h2>
 
     <% if Oauth2::Provider::Configuration.ssl_base_url_as_url_options[:protocol] == 'https' %>

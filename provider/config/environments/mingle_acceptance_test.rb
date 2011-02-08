@@ -24,5 +24,16 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+module ActionController
+  class Request < Rack::Request
+    
+    def ssl_with_test_mode_disable?
+      ENV['DISABLE_OAUTH_SSL'] || ssl_without_test_mode_disable?
+    end
+    
+    alias_method_chain :ssl?, :test_mode_disable
+  end
+end
+
 # Enable threaded mode
 config.threadsafe!
