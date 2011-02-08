@@ -1,0 +1,1 @@
+::Oauth2::Provider::Configuration.require_ssl_for_oauth = !ENV['DISABLE_OAUTH_SSL']

@@ -33,7 +33,7 @@ module Oauth2
         return nil unless oauth_allowed?
 
         if looks_like_oauth_request?
-          raise HttpsRequired.new("HTTPS is required for OAuth Authorizations") unless request.ssl?
+          raise HttpsRequired.new("HTTPS is required for OAuth Authorizations") unless (request.ssl? || !::Oauth2::Provider::Configuration.require_ssl_for_oauth)
           token = OauthToken.find_one(:access_token, oauth_token_from_request_header)
           token.user_id if (token && !token.expired?)
         end

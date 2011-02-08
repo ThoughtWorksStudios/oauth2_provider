@@ -23,7 +23,6 @@ module Oauth2
       end
 
       def_properties :ssl_base_url, :require_ssl_for_oauth
-      self.require_ssl_for_oauth = true
 
       def self.ssl_base_url_as_url_options
         result = {:only_path => false}
