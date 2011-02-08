@@ -11,18 +11,17 @@ module Oauth2
 
       protected
       def mandatory_ssl
-        if !request.ssl?
-          if !ssl_enabled?
-            error = 'This page can only be accessed using HTTPS.'
-            flash.now[:error] = error
-            render(:text => '', :layout => true, :status => :forbidden)
-            return false
-          else
-            redirect_to params.merge(ssl_base_url_as_url_options)
-            return false
-          end
+        return true if !Oauth2::Provider::Configuration.require_ssl_for_oauth
+        return true if request.ssl?
+
+        if ssl_enabled?
+          redirect_to params.merge(ssl_base_url_as_url_options)
+        else
+          error = 'This page can only be accessed using HTTPS.'
+          flash.now[:error] = error
+          render(:text => '', :layout => true, :status => :forbidden)
         end
-        true
+        false
       end
 
       private
