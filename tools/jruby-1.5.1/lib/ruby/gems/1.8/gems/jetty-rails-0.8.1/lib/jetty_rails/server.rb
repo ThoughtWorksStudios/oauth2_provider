@@ -21,6 +21,10 @@ module JettyRails
     }
   
     def initialize(config = {})
+
+      java.lang.System.setProperty('JETTY_HTTP_PORT', config[:port].to_s)
+      java.lang.System.setProperty('JETTY_HTTPS_PORT', config[:ssl_port].to_s)
+
       @config = config.symbolize_keys!.reverse_merge!(@@defaults)
     
       @server = Jetty::Server.new

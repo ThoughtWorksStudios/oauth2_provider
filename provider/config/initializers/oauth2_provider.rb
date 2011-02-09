@@ -18,7 +18,11 @@ module Oauth2
     # make sure no authentication for OauthTokenController
     OauthTokenController.skip_before_filter(:login_required)
 
-    ::Oauth2::Provider::Configuration.ssl_base_url = "https://#{Socket.gethostname}:3443"
+    if RUBY_PLATFORM =~ /java/
+      ::Oauth2::Provider::Configuration.ssl_base_url = "https://#{Socket.gethostname}:#{java.lang.System.getProperty('JETTY_HTTPS_PORT')}"
+    else
+      ::Oauth2::Provider::Configuration.ssl_base_url = "https://#{Socket.gethostname}:3443"
+    end
     # use host app's custom authorization filter to protect OauthClientsController
     # OauthClientsController.before_filter(:ensure_admin_user)
     
