@@ -8,7 +8,7 @@ namespace :release do
   
   desc 'Update the changelog'
   task :changelog do
-    File.open(File.join(File.dirname(__FILE__), '..', 'CHANGELOG'), 'w+') do |changelog|
+    File.open(File.join(RAILS_ROOT, '../CHANGELOG'), 'w+') do |changelog|
       `git log -z --abbrev-commit vendor/plugins/oauth2_provider`.split("\0").each do |commit|
         next if commit =~ /^Merge: \d*/
         ref, author, time, _, title, _, message = commit.split("\n", 7)
@@ -26,14 +26,13 @@ namespace :release do
   end
   
   desc 'Create the oauth2_provider gem'
-  task :gem => :changelog do
-    Rake::Task[:copyright].invoke
-    cd File.join(File.expand_path(File.dirname(__FILE__)), '..') do
+  task :gem => [:changelog, :copyright] do
+    cd File.join(RAILS_ROOT, 'vendor', 'plugins', 'oauth2_provider') do
       
-      files = ['README.textile', 'MIT-LICENSE.txt', 'NOTICE.textile', 'WHAT_IS_OAUTH.textile', 'HACKING.textile']
+      files = ['README.textile', 'MIT-LICENSE.txt', 'NOTICE.textile', 'WHAT_IS_OAUTH.textile', 'HACKING.textile', 'CHANGELOG']
       
       files.each do |f|
-        cp "#{RAILS_ROOT}/../#{f}", '.', :verbose => false
+        cp "#{RAILS_ROOT}/../#{f}", "#{RAILS_ROOT}/vendor/plugins/oauth2_provider", :verbose => false
       end
 
       spec = Gem::Specification.new do |s|
@@ -67,7 +66,7 @@ namespace :release do
 
       #cleanup
       files.each do |f|
-        rm f, :verbose => false
+        rm "#{RAILS_ROOT}/vendor/plugins/oauth2_provider/#{f}", :verbose => false
       end
     end
   end
