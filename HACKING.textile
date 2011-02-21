@@ -4,15 +4,18 @@ This plugin is tested with:
 * Rails v2.3.4
 * MRI 1.8.7 and JRuby 1.5.1
 
+Dependencies:
+* See the gemspec in "https://github.com/ThoughtWorksStudios/oauth2_provider/blob/master/provider/vendor/plugins/oauth2_provider/tasks/gem.rake":gem.rake a list of known dependencies
+
 h2. Getting up and running
 
  $ git clone git://github.com/ThoughtWorksStudios/oauth2_provider.git
 
 For MRI:
 
- $ [sudo] gem install rcov saikuro_treemap --no-rdoc --no-ri
+ $ [sudo] gem install rcov saikuro_treemap validatable --no-rdoc --no-ri
 
-For JRuby, nothing more is needed, JRuby 1.5.1 and all necessary gems 
+For JRuby, nothing more is needed, JRuby 1.5.1 and all necessary gems
 are bundled in the /tools directory
 
 h2. Structure of the code
