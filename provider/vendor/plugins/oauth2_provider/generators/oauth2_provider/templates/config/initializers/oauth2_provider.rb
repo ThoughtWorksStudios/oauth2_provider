@@ -25,5 +25,8 @@ module Oauth2
     # use host app's custom authorization filter to protect OauthClientsController
     OauthClientsController.before_filter(:ensure_admin_user)
     
+    # use host app's custom authorization filter to protect admin actions on OauthUserTokensController
+    OauthUserTokensController.before_filter(:ensure_admin_user, :only => [:revoke_by_admin])
+
   end
 end
