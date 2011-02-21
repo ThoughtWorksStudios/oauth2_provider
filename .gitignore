@@ -7,5 +7,6 @@ provider/tmtags
 provider/reports
 provider/.er
 provider/pkg
+/CHANGELOG
 provider/vendor/plugins/oauth2_provider/oauth2_provider.gemspec
 provider/vendor/plugins/oauth2_provider/CHANGELOG
