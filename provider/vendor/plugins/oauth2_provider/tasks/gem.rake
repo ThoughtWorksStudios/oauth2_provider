@@ -50,6 +50,9 @@ namespace :release do
 
         s.add_dependency      "validatable", "= 1.6.7"
 
+        s.add_development_dependency "saikuro_treemap"
+        s.add_development_dependency "rcov", "= 0.9.8"
+
         s.extra_rdoc_files  = ["README.textile", "MIT-LICENSE.txt", "NOTICE.textile"]
       end
       
