@@ -12,7 +12,7 @@
         <p><span>Token URL:</span> <%= url_for Oauth2::Provider::Configuration.ssl_base_url_as_url_options.merge(:controller => :oauth_token, :action => :get_token) %></p>
       </div>
     <% else %>
-      <div class="error-box">Please set mingle.secureSiteURL property in mingle.properties in order to see both the Authorization URL and Token URL in this box.</div>
+      <div class="error-box"><%= Oauth2::Provider::Configuration.ssl_not_configured_message %></div>
     <% end %>
   <% end %>
 

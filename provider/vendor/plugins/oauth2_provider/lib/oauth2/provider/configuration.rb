@@ -22,7 +22,8 @@ module Oauth2
         end
       end
 
-      def_properties :ssl_base_url, :require_ssl_for_oauth
+      def_properties :ssl_base_url, :require_ssl_for_oauth, :ssl_not_configured_message
+      self.ssl_not_configured_message = "Customize this message using Oauth2::Provider::Configuration::ssl_not_configured_message"
 
       def self.ssl_base_url_as_url_options
         result = {:only_path => false}
