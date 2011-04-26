@@ -3,15 +3,16 @@
 require 'rubygems'
 require 'webrick'
 require 'net/http'
+require 'net/https'
 require 'json'
 
 # provider config
-OAUTH_PROVIDER_BASE_URL = 'http://localhost:3000'
+OAUTH_PROVIDER_BASE_URL = 'https://sfstdluaupair02.thoughtworks.com:3443'
 OAUTH_CLIENT_REDIRECT_URL = 'http://localhost:9999/callback'
 
 # client config, get these by setting up a client on the provider (OAUTH_PROVIDER_BASE_URL/oauth/clients)
-OAUTH_CLIENT_ID = 'bc84efa1b217c6a954f06856e00fe18b6443aa3610a0d771c6784ba6d48513d3'
-OAUTH_CLIENT_SECRET = '3758d05b8521d2ce76f63efa3f4be01cc06a7584dbe3387f8cbaccc815cb8e51'
+OAUTH_CLIENT_ID = '9cec228d513ff474bccfe5d46a308cb95891d099fc783225297f3f0975d860f4'
+OAUTH_CLIENT_SECRET = '90cab6d5e04614245805456d975db3881c27843c323c44531a8556d6f03f4130'
 
 # start callback server
 server = WEBrick::HTTPServer.new(:Port => 9999)
@@ -28,15 +29,19 @@ server.mount_proc '/callback' do |req, rsp|
     rsp.body << "Attempting to fetch token...\n\n\n"
     
     # make a request to fetch the token.
-    res = Net::HTTP.post_form(
-      URI.parse("#{OAUTH_PROVIDER_BASE_URL}/oauth/token"),
-      { 
+    token_uri = URI.parse("#{OAUTH_PROVIDER_BASE_URL}/oauth/token")
+    http = Net::HTTP.new(token_uri.host, token_uri.port)
+    http.use_ssl = token_uri.scheme == 'https'
+    req = Net::HTTP::Post.new(token_uri.path)
+    req.set_form_data ({
         'redirect_uri' => OAUTH_CLIENT_REDIRECT_URL, 
         'client_id' => OAUTH_CLIENT_ID, 
         'client_secret' => OAUTH_CLIENT_SECRET, 
         'code' => authorization_code,
         'grant_type' => 'authorization-code'
-      })
+    })
+    
+    res = http.request(req)
     
     # get the json response back
     json_reponse = res.body
@@ -48,6 +53,9 @@ server.mount_proc '/callback' do |req, rsp|
       # fetch the protected resource using the access_token
       uri = URI.parse(OAUTH_PROVIDER_BASE_URL)
       http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == 'https'
+      puts "[DEBUG] http.use_ssl => #{http.use_ssl.inspect}"
+      
       req = Net::HTTP::Get.new('/protected_resource')
       req['Authorization'] = %{Token token="#{access_token}"}
       protected_respose = http.request(req)

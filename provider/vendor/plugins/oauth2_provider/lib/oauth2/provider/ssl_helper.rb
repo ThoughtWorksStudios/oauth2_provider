@@ -11,7 +11,6 @@ module Oauth2
 
       protected
       def mandatory_ssl
-        return true if !Oauth2::Provider::Configuration.require_ssl_for_oauth
         return true if request.ssl?
 
         if ssl_enabled?
